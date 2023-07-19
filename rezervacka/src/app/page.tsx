@@ -7,13 +7,24 @@ import { faChevronDown, faUsers } from '@fortawesome/free-solid-svg-icons'
 import FloorLayout from '@/components/FloorLayout'
 import { useState } from 'react'
 import NavBar from '@/components/NavBar'
+import GlobalContext from '../../GlobalContext'
 
 
 export default function Home() {
 
+  const [students, setStudents] = useState<Array<any>>([])
+  const [selectedRoom, setSelectedRoom] = useState<Object>({})
+
+  const contextValue = {
+    students: students,
+    setStudents: setStudents,
+    selectedRoom: selectedRoom,
+    setSelectedRoom: setSelectedRoom
+  }
 
   return (
     <main className=' bg-stone-200 h-screen flex flex-col justify-between'>
+      <GlobalContext.Provider value={contextValue}>
       <NavBar/>
       <article className=" flex flex-col h-[80%] bg-stone-200 w-full mx-auto ">
         
@@ -30,7 +41,7 @@ export default function Home() {
         <h6 className=" font-fira-sans font-medium text-stone-200">Samuel Dubík 2023</h6>
         <h6 className=" font-fira-sans font-medium text-stone-200">V prípade problémov s rezerváciou kontaktujte ???</h6>
       </footer>
-
+      </GlobalContext.Provider>
     </main>
   )
 }

@@ -14,7 +14,10 @@ module.exports = {
       },
 
       colors: {
-        
+        'form'    : '#1C5464',
+        'dark'    : '#272D2D',
+        'success' : '#6FD08C',
+         
       },
 
       fontFamily: {
