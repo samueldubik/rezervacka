@@ -1,15 +1,15 @@
 import { EnumDeclaration } from "typescript"
-import { roomType } from "../../Const"
+import { ROOMTYPE } from "../../Const"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons"
 
 type Props = {
-    roomType: roomType
+    ROOMTYPE: ROOMTYPE
 } 
 
-const Room = ({roomType}: Props) => {
+const Room = ({ROOMTYPE}: Props) => {
     
-    switch(roomType) {
+    switch(ROOMTYPE) {
         case 0 : return (
             <div className=" bg-[#6FD08C] w-[13%] h-[100%] border-collapse border-solid border-2 border-stone-600 flex justify-center items-center">
                 <h5 className=" font-tektur text-2xl">C000</h5>

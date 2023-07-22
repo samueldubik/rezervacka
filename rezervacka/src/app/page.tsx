@@ -8,18 +8,22 @@ import FloorLayout from '@/components/FloorLayout'
 import { useState } from 'react'
 import NavBar from '@/components/NavBar'
 import GlobalContext from '../../GlobalContext'
+import { GENDER } from '../../Const'
 
 
 export default function Home() {
 
   const [students, setStudents] = useState<Array<any>>([])
-  const [selectedRoom, setSelectedRoom] = useState<Object>({})
+  const [selectedRoom, setSelectedRoom] = useState<string>('')
+  const [gender, setGender] = useState<GENDER>(GENDER.NONE)
 
   const contextValue = {
     students: students,
     setStudents: setStudents,
     selectedRoom: selectedRoom,
-    setSelectedRoom: setSelectedRoom
+    setSelectedRoom: setSelectedRoom,
+    gender: gender,
+    setGender: setGender
   }
 
   return (

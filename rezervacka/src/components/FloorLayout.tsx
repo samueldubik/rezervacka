@@ -1,4 +1,4 @@
-import { roomType } from "../../Const"
+import { ROOMTYPE } from "../../Const"
 import Room from "./Room"
 
 
@@ -38,27 +38,27 @@ const FloorLayout = () => {
     return (
         <section className=" w-[50%] h-[50%] mt-5 mx-auto flex flex-col justify-between">
             <div className=" w-full h-[40%] flex flex-row">
-                <Room roomType={roomType.ROOM}/>
-                <Room roomType={roomType.ROOM}/>
-                <Room roomType={roomType.ROOM}/>
+                <Room ROOMTYPE={ROOMTYPE.ROOM}/>
+                <Room ROOMTYPE={ROOMTYPE.ROOM}/>
+                <Room ROOMTYPE={ROOMTYPE.ROOM}/>
 
-                <Room roomType={roomType.KITCHEN}/>
+                <Room ROOMTYPE={ROOMTYPE.KITCHEN}/>
 
-                <Room roomType={roomType.ROOM}/>
-                <Room roomType={roomType.ROOM}/>
-                <Room roomType={roomType.ROOM}/>
+                <Room ROOMTYPE={ROOMTYPE.ROOM}/>
+                <Room ROOMTYPE={ROOMTYPE.ROOM}/>
+                <Room ROOMTYPE={ROOMTYPE.ROOM}/>
             </div>
 
             <div className=" w-full h-[40%] flex flex-row">
-                <Room roomType={roomType.ROOM}/>
-                <Room roomType={roomType.ROOM}/>
-                <Room roomType={roomType.ROOM}/>
+                <Room ROOMTYPE={ROOMTYPE.ROOM}/>
+                <Room ROOMTYPE={ROOMTYPE.ROOM}/>
+                <Room ROOMTYPE={ROOMTYPE.ROOM}/>
 
-                <Room roomType={roomType.ELEVATOR}/>
+                <Room ROOMTYPE={ROOMTYPE.ELEVATOR}/>
 
-                <Room roomType={roomType.ROOM}/>
-                <Room roomType={roomType.ROOM}/>
-                <Room roomType={roomType.ROOM}/>
+                <Room ROOMTYPE={ROOMTYPE.ROOM}/>
+                <Room ROOMTYPE={ROOMTYPE.ROOM}/>
+                <Room ROOMTYPE={ROOMTYPE.ROOM}/>
             </div>
         </section>
     )
