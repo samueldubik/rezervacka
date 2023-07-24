@@ -22,7 +22,7 @@ module.exports = {
 
       fontFamily: {
         'nav-name' : ['Alfa Slab One'],
-        'fira-sans' : ['Fira Sans'],
+        'fira-sans' : ['Fira Code'],
         'tektur' : ['Tektur'] 
       }
     },

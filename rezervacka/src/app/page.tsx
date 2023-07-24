@@ -4,17 +4,18 @@ import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { icon } from '@fortawesome/fontawesome-svg-core'
 import { faChevronDown, faUsers } from '@fortawesome/free-solid-svg-icons'
-import FloorLayout from '@/components/FloorLayout'
+import FloorLayout, { IRoomData } from '@/components/FloorLayout'
 import { useState } from 'react'
 import NavBar from '@/components/NavBar'
 import GlobalContext from '../../GlobalContext'
 import { GENDER } from '../../Const'
+import RoomDetails from '@/components/RoomDetails'
 
 
 export default function Home() {
 
   const [students, setStudents] = useState<Array<any>>([])
-  const [selectedRoom, setSelectedRoom] = useState<string>('')
+  const [selectedRoom, setSelectedRoom] = useState<IRoomData | undefined>()
   const [gender, setGender] = useState<GENDER>(GENDER.NONE)
 
   const contextValue = {
@@ -32,11 +33,11 @@ export default function Home() {
       <NavBar/>
       <article className=" flex flex-col h-[80%] bg-stone-200 w-full mx-auto ">
         
-        <h2 className= " text-center font-tektur text-6xl mt-5 h-[10%]">BLOK C1</h2>
+        <h2 className= " text-center font-tektur font-semibold text-6xl mt-5 h-[10%]">BLOK C1</h2>
 
         <section className=" flex flex-row justify-start w-full h-[90%]">
           <FloorLayout/>
-
+          <RoomDetails/>
         </section>
 
       </article>

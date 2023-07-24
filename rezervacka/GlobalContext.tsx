@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction, createContext } from "react"
 import { GENDER } from "./Const";
+import { IRoomData } from "@/components/FloorLayout";
 
 export interface IStudent {
     name: string;
@@ -9,8 +10,8 @@ export interface IStudent {
 interface GlobalContextValue {
     students: IStudent[];
     setStudents: Dispatch<SetStateAction<IStudent[]>>;
-    selectedRoom: string;
-    setSelectedRoom: Dispatch<SetStateAction<string>>;
+    selectedRoom: IRoomData | undefined;
+    setSelectedRoom: Dispatch<SetStateAction<IRoomData | undefined>>;
     gender: GENDER
     setGender: Dispatch<SetStateAction<GENDER>>
 }
@@ -18,7 +19,7 @@ interface GlobalContextValue {
 const GlobalContext = createContext<GlobalContextValue>({
     students: [],
     setStudents: () => {},
-    selectedRoom: '',
+    selectedRoom: undefined,
     setSelectedRoom: () => {},
     gender: GENDER.NONE,
     setGender: () => {},
