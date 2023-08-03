@@ -8,32 +8,17 @@ export interface IRoomData {
     students: number
 }
 
+type Props = { 
+    floorData : IRoomData[] | undefined
+    setFloorData : Dispatch<SetStateAction<IRoomData[] | undefined>>
+    selectedFloor : number
+    setSelectedFloor : Dispatch<SetStateAction<number>>
+}
 
 
-
-const FloorLayout = () => {
-
-    const [floorData, setFloorData] =  useState<undefined | Array<IRoomData>>()
-    const [selectedFloor, setSelectedFloor] = useState<number>(1)
+const FloorLayout = ({floorData, setFloorData, selectedFloor, setSelectedFloor}: Props) => {
 
 
-    useEffect(() => {
-
-        console.log(selectedFloor)
-        fetch(`/api/fetch-floor-data?floorNumber=${selectedFloor}`)
-        .then((response) => response.json())
-        .then((data) => {
-            setFloorData(data.map((item: { room_name: any; gender: boolean; number_of_students: string }) => {
-                console.log(item)
-                return {
-                    room: item.room_name,
-                    gender: item.gender ? item.gender === true ? GENDER.MALE : GENDER.FEMALE : GENDER.NONE,
-                    students: parseInt(item.number_of_students)
-                }
-            }))
-            
-        })
-    },[selectedFloor])
 
 
 
@@ -41,29 +26,29 @@ const FloorLayout = () => {
         return (
             <section className=" w-[50%] h-[50%] mt-5 mx-auto flex flex-col justify-between">
                 
-                <div className=" w-full h-[40%] flex flex-row">
-                    <Room ROOMTYPE={ROOMTYPE.ROOM} data={floorData[8]} />
-                    <Room ROOMTYPE={ROOMTYPE.ROOM} balcony={true} data={floorData[7]}/>
-                    <Room ROOMTYPE={ROOMTYPE.ROOM} data={floorData[6]}/>
+                <div className=" w-full h-[40%] flex flex-row border-8 border-stone-800 border-r-0">
+                    <Room roomType={ROOMTYPE.ROOM} data={floorData[9]} />
+                    <Room roomType={ROOMTYPE.ROOM} balcony={true} data={floorData[8]}/>
+                    <Room roomType={ROOMTYPE.ROOM} data={floorData[7]}/>
 
-                    <Room ROOMTYPE={ROOMTYPE.KITCHEN}/>
+                    <Room roomType={ROOMTYPE.KITCHEN}/>
 
-                    <Room ROOMTYPE={ROOMTYPE.ROOM} data={floorData[5]}/>
-                    <Room ROOMTYPE={ROOMTYPE.ROOM} balcony={true} data={floorData[4]}/>
-                    <Room ROOMTYPE={ROOMTYPE.ROOM} data={floorData[3]}/>
+                    <Room roomType={ROOMTYPE.ROOM} data={floorData[4]}/>
+                    <Room roomType={ROOMTYPE.ROOM} balcony={true} data={floorData[3]}/>
+                    <Room roomType={ROOMTYPE.ROOM} data={floorData[2]}/>
                 </div>
                 
 
-                <div className=" w-full h-[40%] flex flex-row">
-                    <Room ROOMTYPE={ROOMTYPE.ROOM} data={floorData[9]}/>
-                    <Room ROOMTYPE={ROOMTYPE.ROOM} balcony={true} data={floorData[10]}/>
-                    <Room ROOMTYPE={ROOMTYPE.ROOM} data={floorData[11]}/>
+                <div className=" w-full h-[40%] flex flex-row border-8 border-stone-800 border-r-0">
+                    <Room roomType={ROOMTYPE.ROOM} data={floorData[10]}/>
+                    <Room roomType={ROOMTYPE.ROOM} balcony={true} data={floorData[11]}/>
+                    <Room roomType={ROOMTYPE.ROOM} data={floorData[12]}/>
 
-                    <Room ROOMTYPE={ROOMTYPE.ELEVATOR} selectedFloor={selectedFloor} setSelectedFloor={setSelectedFloor}/>
+                    <Room roomType={ROOMTYPE.ELEVATOR} selectedFloor={selectedFloor} setSelectedFloor={setSelectedFloor}/>
 
-                    <Room ROOMTYPE={ROOMTYPE.ROOM} data={floorData[0]}/>
-                    <Room ROOMTYPE={ROOMTYPE.ROOM} balcony={true} data={floorData[1]}/>
-                    <Room ROOMTYPE={ROOMTYPE.ROOM} data={floorData[2]}/>
+                    <Room roomType={ROOMTYPE.ROOM} data={floorData[0]}/>
+                    <Room roomType={ROOMTYPE.ROOM} balcony={true} data={floorData[1]}/>
+                    <Room roomType={ROOMTYPE.ROOM} data={floorData[2]}/>
                 </div>
             </section> 
         )

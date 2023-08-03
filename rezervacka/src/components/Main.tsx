@@ -15,7 +15,28 @@ const Main = () => {
     const [students, setStudents] = useState<Array<any>>([])
     const [selectedRoom, setSelectedRoom] = useState<IRoomData | undefined>()
     const [gender, setGender] = useState<GENDER>(GENDER.NONE)
-  
+    const [floorData, setFloorData] =  useState<undefined | Array<IRoomData>>()
+    const [selectedFloor, setSelectedFloor] = useState<number>(1)
+
+
+    useEffect(() => {
+
+        fetch(`/api/fetch-floor-data?floorNumber=${selectedFloor}`)
+        .then((response) => response.json())
+        .then((data) => {
+            setFloorData(data.map((item: { room_name: any; gender: boolean; number_of_students: string }) => {
+                console.log(item)
+                return {
+                    room: item.room_name,
+                    gender: item.gender ? item.gender === true ? GENDER.MALE : GENDER.FEMALE : GENDER.NONE,
+                    students: parseInt(item.number_of_students)
+                }
+            }))
+            
+        })
+    },[selectedFloor])
+    
+    console.log(floorData)
     const contextValue = {
       students: students,
       setStudents: setStudents,
@@ -34,8 +55,8 @@ const Main = () => {
           <h2 className= " text-center font-tektur font-semibold text-6xl mt-5 h-[10%]">BLOK C1</h2>
   
           <section className=" flex flex-row justify-start w-full h-[90%]">
-            <FloorLayout/>
-            <RoomDetails/>
+            <FloorLayout floorData={floorData} setFloorData={setFloorData} selectedFloor={selectedFloor} setSelectedFloor={setSelectedFloor}/>
+            <RoomDetails data={selectedRoom} />
           </section>
   
         </article>

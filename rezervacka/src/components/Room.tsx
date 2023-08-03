@@ -7,17 +7,34 @@ import { Dispatch, SetStateAction, useContext } from "react"
 import GlobalContext from "../../GlobalContext"
 
 type Props = {
-    ROOMTYPE: ROOMTYPE
+    roomType: ROOMTYPE
     balcony?: boolean
     data?: IRoomData
     selectedFloor?: number
     setSelectedFloor?: Dispatch<SetStateAction<number>>
 } 
 
-const Room = ({ROOMTYPE, balcony = false, data, selectedFloor, setSelectedFloor}: Props) => {
+const Room = ({roomType, balcony = false, data, selectedFloor, setSelectedFloor}: Props) => {
     
     const context = useContext(GlobalContext)
     const {setSelectedRoom} = context
+
+    
+    console.log(data)
+    const countPeople = () => {
+
+        const arr = []
+
+        if(!data?.students)
+            return []
+
+        for(let i = 0; i < data.students; i++)
+            arr.push(<div key={i} className=" h-[10px] w-[10px] bg-[#45c7db] border border-stone-800 mx-1 rounded-full"></div>)
+
+        return arr
+    }
+
+    const people = countPeople()
 
     const selectRoom = () => {
         if(data)
@@ -43,40 +60,47 @@ const Room = ({ROOMTYPE, balcony = false, data, selectedFloor, setSelectedFloor}
     }
 
 
-    switch(ROOMTYPE) {
-        case 0 : return (
+    //console.log(data)
+
+    switch(roomType) {
+        case ROOMTYPE.ROOM : return (
             
             <div
             onClick={selectRoom}
-            className=" cursor-pointer bg-[#6FD08C] w-[13%] h-[100%] border-collapse border-solid border-2 border-stone-600 flex justify-center items-center relative"
+            className=" cursor-pointer bg-[#6FD08C] w-[13%] h-[100%] border-r-8 border-collapse border-stone-800 flex justify-center items-center relative"
             >
-                <h5 className=" font-tektur text-2xl z-30">{data?.room}</h5>
+                <h5 className=" font-tektur font-bold text-2xl z-30">{data?.room}</h5>
 
                 {balcony && 
-                    <h6 className=' absolute bottom-[35%] opacity-40 text-red-600 left-0 font-nav-name text-2xl -rotate-45'>BALKÓN</h6>
+                    <h6 className=' absolute top-3 opacity-80 text-sm  font-tekur font-semibold'>BALKÓN</h6>
                 }
+                <div className=' w-full absolute bottom-5 flex flex-row justify-center'>
+                {people}
+                </div>
             </div>
         )
 
-        case 1 : return (
-            <div className=" cursor-pointer bg-stone-400 w-[22%] h-[100%] border-stone-600 border-solid border-collapse border-2 flex justify-center items-center">
+        case ROOMTYPE.KITCHEN : return (
+            <div className=" cursor-pointer bg-stone-400 w-[22%] h-[100%] border-stone-800 border-collapse border-r-8 flex justify-center items-center">
                 <h1>KUCHYNKA</h1>
             </div>
         )
 
-        case 2 : return (
-            <div className="bg-[#A2C3A4] w-[22%] h-[100%] border-stone-600 border-collapse border-solid border-2 flex flex-col items-center">
+        case ROOMTYPE.ELEVATOR : return (
+            <div className="bg-[#A2C3A4] w-[22%] h-[100%] border-stone-800 border-collapse border-r-8 flex flex-col relative">
 
                 <FontAwesomeIcon
                 onClick={floorUp}
                 icon={faCaretUp}
-                className=" cursor-pointer h-1/2 w-full border-b-2 border-stone-600"
+                className=" cursor-pointer h-1/2   border-stone-800 w-full"
                 />
+                
+                <div className=' absolute w-full bg-stone-800 top-[48%] h-[8px]'></div>
 
                 <FontAwesomeIcon 
                 onClick={floorDown}
                 icon={faCaretDown} 
-                className=" cursor-pointer h-1/2 w-full"
+                className=" cursor-pointer h-1/2 w-full border-stone-800"
                 />
             </div>
         )
