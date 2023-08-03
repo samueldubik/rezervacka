@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { GENDER, ROOMTYPE } from "../../Const"
 import Room from "./Room"
 
@@ -7,104 +8,65 @@ export interface IRoomData {
     students: number
 }
 
+
+
+
 const FloorLayout = () => {
 
+    const [floorData, setFloorData] =  useState<undefined | Array<IRoomData>>()
+    const [selectedFloor, setSelectedFloor] = useState<number>(1)
 
 
-    const mockJSON: IRoomData[] = [
-        {
-        room: 'C101',
-        gender: GENDER.NONE,
-        students: 0,
-        },
-        
-        {
-        room: 'C102',
-        gender: GENDER.MALE,
-        students: 2,
-        },
-        {
-        room: 'C103',
-        gender: GENDER.FEMALE,
-        students: 3,
-        },
-        {
-        room: 'C104',
-        gender: GENDER.NONE,
-        students: 0,
-        },
-        {
-        room: 'C105',
-        gender: GENDER.NONE,
-        students: 0,
-        },
-        {
-        room: 'C106',
-        gender: GENDER.FEMALE,
-        students: 3,
-        },
-        {
-        room: 'C108',
-        gender: GENDER.NONE,
-        students: 0,
-        },
-        {
-        room: 'C109',
-        gender: GENDER.NONE,
-        students: 0,
-        },
-        {
-        room: 'C110',
-        gender: GENDER.FEMALE,
-        students: 3,
-        },
-        {
-        room: 'C111',
-        gender: GENDER.NONE,
-        students: 0,
-        },
-        {
-        room: 'C112',
-        gender: GENDER.NONE,
-        students: 0,
-        },
-        {
-        room: 'C113',
-        gender: GENDER.NONE,
-        students: 0,
-        },
+    useEffect(() => {
 
-        
+        console.log(selectedFloor)
+        fetch(`/api/fetch-floor-data?floorNumber=${selectedFloor}`)
+        .then((response) => response.json())
+        .then((data) => {
+            setFloorData(data.map((item: { room_name: any; gender: boolean; number_of_students: string }) => {
+                console.log(item)
+                return {
+                    room: item.room_name,
+                    gender: item.gender ? item.gender === true ? GENDER.MALE : GENDER.FEMALE : GENDER.NONE,
+                    students: parseInt(item.number_of_students)
+                }
+            }))
+            
+        })
+    },[selectedFloor])
 
-    ]
 
-    return (
-        <section className=" w-[50%] h-[50%] mt-5 mx-auto flex flex-col justify-between">
-            <div className=" w-full h-[40%] flex flex-row">
-                <Room ROOMTYPE={ROOMTYPE.ROOM} data={mockJSON[8]} />
-                <Room ROOMTYPE={ROOMTYPE.ROOM} balcony={true} data={mockJSON[7]}/>
-                <Room ROOMTYPE={ROOMTYPE.ROOM} data={mockJSON[6]}/>
 
-                <Room ROOMTYPE={ROOMTYPE.KITCHEN}/>
+    if(floorData)
+        return (
+            <section className=" w-[50%] h-[50%] mt-5 mx-auto flex flex-col justify-between">
+                
+                <div className=" w-full h-[40%] flex flex-row">
+                    <Room ROOMTYPE={ROOMTYPE.ROOM} data={floorData[8]} />
+                    <Room ROOMTYPE={ROOMTYPE.ROOM} balcony={true} data={floorData[7]}/>
+                    <Room ROOMTYPE={ROOMTYPE.ROOM} data={floorData[6]}/>
 
-                <Room ROOMTYPE={ROOMTYPE.ROOM} data={mockJSON[5]}/>
-                <Room ROOMTYPE={ROOMTYPE.ROOM} balcony={true} data={mockJSON[4]}/>
-                <Room ROOMTYPE={ROOMTYPE.ROOM} data={mockJSON[3]}/>
-            </div>
+                    <Room ROOMTYPE={ROOMTYPE.KITCHEN}/>
 
-            <div className=" w-full h-[40%] flex flex-row">
-                <Room ROOMTYPE={ROOMTYPE.ROOM} data={mockJSON[9]}/>
-                <Room ROOMTYPE={ROOMTYPE.ROOM} balcony={true} data={mockJSON[10]}/>
-                <Room ROOMTYPE={ROOMTYPE.ROOM} data={mockJSON[11]}/>
+                    <Room ROOMTYPE={ROOMTYPE.ROOM} data={floorData[5]}/>
+                    <Room ROOMTYPE={ROOMTYPE.ROOM} balcony={true} data={floorData[4]}/>
+                    <Room ROOMTYPE={ROOMTYPE.ROOM} data={floorData[3]}/>
+                </div>
+                
 
-                <Room ROOMTYPE={ROOMTYPE.ELEVATOR}/>
+                <div className=" w-full h-[40%] flex flex-row">
+                    <Room ROOMTYPE={ROOMTYPE.ROOM} data={floorData[9]}/>
+                    <Room ROOMTYPE={ROOMTYPE.ROOM} balcony={true} data={floorData[10]}/>
+                    <Room ROOMTYPE={ROOMTYPE.ROOM} data={floorData[11]}/>
 
-                <Room ROOMTYPE={ROOMTYPE.ROOM} data={mockJSON[0]}/>
-                <Room ROOMTYPE={ROOMTYPE.ROOM} balcony={true} data={mockJSON[1]}/>
-                <Room ROOMTYPE={ROOMTYPE.ROOM} data={mockJSON[2]}/>
-            </div>
-        </section>
-    )
+                    <Room ROOMTYPE={ROOMTYPE.ELEVATOR} selectedFloor={selectedFloor} setSelectedFloor={setSelectedFloor}/>
+
+                    <Room ROOMTYPE={ROOMTYPE.ROOM} data={floorData[0]}/>
+                    <Room ROOMTYPE={ROOMTYPE.ROOM} balcony={true} data={floorData[1]}/>
+                    <Room ROOMTYPE={ROOMTYPE.ROOM} data={floorData[2]}/>
+                </div>
+            </section> 
+        )
 }
 
 export default FloorLayout

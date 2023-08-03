@@ -1,52 +1,33 @@
-'use client'
+import { db } from '@vercel/postgres'
+import  Main  from '../components/Main'
 
-import Image from 'next/image'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { icon } from '@fortawesome/fontawesome-svg-core'
-import { faChevronDown, faUsers } from '@fortawesome/free-solid-svg-icons'
-import FloorLayout, { IRoomData } from '@/components/FloorLayout'
-import { useState } from 'react'
-import NavBar from '@/components/NavBar'
-import GlobalContext from '../../GlobalContext'
-import { GENDER } from '../../Const'
-import RoomDetails from '@/components/RoomDetails'
+
 
 
 export default function Home() {
+  const _fetchFloorData = async (floor: number) => {
+    console.log('CONNECTING...')
+  
+    const client = await db.connect()
+    
+    console.log('FETCHING...')
+  
+    const { rows } = await client.sql`SELECT r.name AS room_name,
+                                      r.gender,
+                                      COUNT(s.name) AS number_of_students
+                                      FROM rooms r
+                                      LEFT JOIN students s ON r.name = s.room_name
+                                      WHERE r.name LIKE 'A${floor}%'
+                                      GROUP BY r.name, r.gender
+                                      ORDER BY r.name;`
+    console.log(rows)
 
-  const [students, setStudents] = useState<Array<any>>([])
-  const [selectedRoom, setSelectedRoom] = useState<IRoomData | undefined>()
-  const [gender, setGender] = useState<GENDER>(GENDER.NONE)
-
-  const contextValue = {
-    students: students,
-    setStudents: setStudents,
-    selectedRoom: selectedRoom,
-    setSelectedRoom: setSelectedRoom,
-    gender: gender,
-    setGender: setGender
+    return [...rows]
+  
   }
 
+  
   return (
-    <main className=' bg-stone-200 h-screen flex flex-col justify-between'>
-      <GlobalContext.Provider value={contextValue}>
-      <NavBar/>
-      <article className=" flex flex-col h-[80%] bg-stone-200 w-full mx-auto ">
-        
-        <h2 className= " text-center font-tektur font-semibold text-6xl mt-5 h-[10%]">BLOK C1</h2>
-
-        <section className=" flex flex-row justify-start w-full h-[90%]">
-          <FloorLayout/>
-          <RoomDetails/>
-        </section>
-
-      </article>
-
-      <footer className=" bg-[#272D2D] h-[10%] flex flex-row justify-between px-10 items-center">
-        <h6 className=" font-fira-sans font-medium text-stone-200">Samuel Dubík 2023</h6>
-        <h6 className=" font-fira-sans font-medium text-stone-200">V prípade problémov s rezerváciou kontaktujte ???</h6>
-      </footer>
-      </GlobalContext.Provider>
-    </main>
+  <Main/>
   )
 }
