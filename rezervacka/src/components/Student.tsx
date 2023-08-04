@@ -34,14 +34,14 @@ const Student = ({index, studentsForm, setStudentsForm, destroyForm}: Props) => 
             <input 
             value={studentsForm[index].name}
             onChange={(event) => HandleChangeName(event.target.value)}
-            className=" font-fira-sans font-normal px-1 rounded-md bg-stone-200 " type="text" 
+            className=" font-fira-sans font-normal px-1 border-8 border-stone-800 bg-stone-200 " type="text" 
             />
 
             <label className=" font-fira-sans text-stone-200 text-lg mt-2">Študentský email</label>
             <input 
             value={studentsForm[index].email}
             onChange={(event) => HandleChangeEmail(event.target.value)}
-            className=" font-fira-sans font-normal px-1 rounded-md bg-stone-200" type="text" 
+            className=" font-fira-sans font-normal px-1 border-8 border-stone-800 bg-stone-200" type="text" 
             />
 
             <h2 

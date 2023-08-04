@@ -19,16 +19,33 @@ const Main = () => {
     const [selectedFloor, setSelectedFloor] = useState<number>(1)
 
 
+
     useEffect(() => {
 
         fetch(`/api/fetch-floor-data?floorNumber=${selectedFloor}`)
         .then((response) => response.json())
         .then((data) => {
             setFloorData(data.map((item: { room_name: any; gender: boolean; number_of_students: string }) => {
-                console.log(item)
+
+                let tmp : GENDER
+
+                if(item.gender === null){
+                  //console.log('NONE')
+                  tmp = GENDER.NONE
+                
+                } else if(item.gender === true){
+                  //console.log('MALE')
+                  tmp = GENDER.MALE
+
+                } else{
+                  //console.log('FEMALE')
+                  tmp = GENDER.FEMALE
+                }
+
+                //console.log(item, tmp)
                 return {
                     room: item.room_name,
-                    gender: item.gender ? item.gender === true ? GENDER.MALE : GENDER.FEMALE : GENDER.NONE,
+                    gender: tmp,
                     students: parseInt(item.number_of_students)
                 }
             }))
@@ -36,7 +53,6 @@ const Main = () => {
         })
     },[selectedFloor])
     
-    console.log(floorData)
     const contextValue = {
       students: students,
       setStudents: setStudents,
@@ -46,6 +62,10 @@ const Main = () => {
       setGender: setGender
     }
     
+
+
+    //console.log(floorData)
+
     return (
       <main className=' select-none bg-stone-200 h-screen flex flex-col justify-between'>
         <GlobalContext.Provider value={contextValue}>

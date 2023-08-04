@@ -11,6 +11,11 @@ type Props = {
 }
 
 const RoomDetails = ({data}: Props) => {
+
+  const line = 'flex flex-row mx-auto w-[85%] shadow-lg border-4 border-stone-800 h-[6vh] mt-2'
+  const label = "  font-fira-sans font-semibold text-form w-1/2 text-center pt-[1vh] "
+  const value = "  font-fira-sans font-semibold text-form w-1/2 text-center pt-[1vh]"
+  
     const context = useContext(GlobalContext)
 
     const {gender, selectedRoom, students} = context
@@ -18,7 +23,7 @@ const RoomDetails = ({data}: Props) => {
 
     //console.log(`gender: ${gender}, selectedRoom: ${selectedRoom}, students: ${students}`)
     //console.log(data)
-    //console.log(selectedRoom)
+    console.log(selectedRoom)
 
     
 
@@ -32,16 +37,15 @@ const RoomDetails = ({data}: Props) => {
     }
 
     const getGenderCaption = () => {
-      console.log(gender)
-      switch(gender) {
-        case GENDER.MALE : return "MUŽSKÁ IZBA"
-        case GENDER.FEMALE : return "ŽENSKÁ IZBA"
+      switch(data?.gender) {
+        case GENDER.MALE : return "MUŽSKÁ"
+        case GENDER.FEMALE : return "ŽENSKÁ"
         default : return ''
       }
     }
 
     const balcony = hasBalcony()
-    const genderCaption = getGenderCaption()
+    
 
     const reserveRoom = async () => {
         try {
@@ -53,7 +57,7 @@ const RoomDetails = ({data}: Props) => {
               students: [...students],
             };
             
-            console.log(requestData)
+            console.log('reservation:',requestData)
 
             
 
@@ -81,25 +85,25 @@ const RoomDetails = ({data}: Props) => {
 
     if(selectedRoom && students.length > 0)
         return(
-            <div className= " absolute top-[21vh] right-[2vw] border-8 border-stone-800 w-[20vw] h-[40vh]">
-                <h2 className=" text-center mt-5 text-3xl font-tektur font-bold mb-10">IZBA {selectedRoom?.room}</h2>
+            <div className= " absolute top-[18vh] right-[2vw] border-8 shadow-lg border-stone-800 w-[20vw] h-[45vh]">
+                <h2 className=" text-center mt-5 text-3xl font-tektur font-bold mb-5">IZBA {selectedRoom?.room}</h2>
                 
-                <div className=" flex flex-row ml-2 mt-2">
-                    <h3 className="  font-fira-sans font-medium text-form  w-1/2 ">BALKÓN:</h3>
-                    <h3 className="  font-fira-sans font-medium text-form">{balcony ? 'ÁNO' : 'NIE'}</h3>
+                <div className={line}>
+                    <h3 className={label}>BALKÓN:</h3>
+                    <h3 className={value}>{balcony ? 'ÁNO' : 'NIE'}</h3>
                 </div>
 
-                <div className=" flex flex-row ml-2 mt-2">
-                    <h3 className="  font-fira-sans font-medium text-form  w-1/2 ">POHLAVIE:</h3>
-                    <h3 className="  font-fira-sans font-medium text-form">{genderCaption}</h3>
+                <div className={line}>
+                    <h3 className={label}>IZBA:</h3>
+                    <h3 className={value}>{getGenderCaption()}</h3>
                 </div>  
 
-                <div className=" flex flex-row ml-2 mt-2">
-                    <h3 className="  font-fira-sans font-medium text-form w-1/2 ">VOĽNÉ MIESTA:</h3>
-                    <h3 className="  font-fira-sans font-medium text-form">2</h3>
+                <div className={line}>
+                    <h3 className={label}>MIESTA:</h3>
+                    <h3 className={value}>{4 - selectedRoom?.students}</h3>
                 </div> 
 
-                <div className=" absolute w-full bottom-[2vh]">
+                <div className=" w-full mb-10">
                     <Button label="Rezervovať" icon={faBook} action={reserveRoom} black/>
                 </div>
 
@@ -112,3 +116,4 @@ const RoomDetails = ({data}: Props) => {
 }
 
 export default RoomDetails
+

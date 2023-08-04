@@ -5,8 +5,10 @@ import { db } from "@vercel/postgres";
 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+    
     const client = await db.connect();
-  
+
+
     try {
       if (req.method !== "POST") {
         res.status(405).json({ error: "Method Not Allowed" });
@@ -22,17 +24,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
   
       const { gender, roomName, students }: RequestData = req.body;
-  
-      if (!gender || !roomName || !students) {
+
+
+
+      if (!roomName || !students) {
         res.status(400).json({ error: "gender, roomName, and students are required fields in the request body." });
         return;
       }
-  
+
+
       await client.query("BEGIN;");
   
       const placeholders = students.map((_, index) => `($${index * 3 + 1}, $${index * 3 + 2}, $${index * 3 + 3})`).join(", ");
       const studentValues = students.flatMap(({ name, email }) => [name, roomName, email]);
-  
+      
       const queryInsert = `
         INSERT INTO students (name, room_name, email)
         VALUES ${placeholders};

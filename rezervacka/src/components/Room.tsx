@@ -1,5 +1,5 @@
 import { EnumDeclaration } from "typescript"
-import { ROOMTYPE } from "../../Const"
+import { GENDER, ROOMTYPE } from "../../Const"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons"
 import { IRoomData } from "./FloorLayout"
@@ -20,7 +20,7 @@ const Room = ({roomType, balcony = false, data, selectedFloor, setSelectedFloor}
     const {setSelectedRoom} = context
 
     
-    console.log(data)
+    //console.log(data)
     const countPeople = () => {
 
         const arr = []
@@ -29,7 +29,7 @@ const Room = ({roomType, balcony = false, data, selectedFloor, setSelectedFloor}
             return []
 
         for(let i = 0; i < data.students; i++)
-            arr.push(<div key={i} className=" h-[10px] w-[10px] bg-[#45c7db] border border-stone-800 mx-1 rounded-full"></div>)
+            arr.push(<div key={i} className={data?.gender === GENDER.FEMALE ? " h-[13px] w-[13px] bg-[#ff6b6b] border-2 border-stone-800 mx-1 " : " h-[13px] w-[13px] bg-[#45c7db] border-2 border-stone-800 mx-1 " }></div>)
 
         return arr
     }
@@ -67,14 +67,14 @@ const Room = ({roomType, balcony = false, data, selectedFloor, setSelectedFloor}
             
             <div
             onClick={selectRoom}
-            className=" cursor-pointer bg-[#6FD08C] w-[13%] h-[100%] border-r-8 border-collapse border-stone-800 flex justify-center items-center relative"
+            className=" cursor-pointer bg-[#37ba5e] w-[13%] h-[100%] border-r-8 border-collapse border-stone-800 flex justify-center items-center relative"
             >
                 <h5 className=" font-tektur font-bold text-2xl z-30">{data?.room}</h5>
 
                 {balcony && 
                     <h6 className=' absolute top-3 opacity-80 text-sm  font-tekur font-semibold'>BALKÓN</h6>
                 }
-                <div className=' w-full absolute bottom-5 flex flex-row justify-center'>
+                <div className=' w-full absolute bottom-4 flex flex-row justify-center'>
                 {people}
                 </div>
             </div>
@@ -82,7 +82,7 @@ const Room = ({roomType, balcony = false, data, selectedFloor, setSelectedFloor}
 
         case ROOMTYPE.KITCHEN : return (
             <div className=" cursor-pointer bg-stone-400 w-[22%] h-[100%] border-stone-800 border-collapse border-r-8 flex justify-center items-center">
-                <h1>KUCHYNKA</h1>
+                <h1 className=" font-tektur font-semibold text-xl">KUCHYNKA</h1>
             </div>
         )
 
