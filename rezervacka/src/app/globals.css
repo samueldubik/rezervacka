@@ -5,4 +5,8 @@
 @tailwind utilities;
 
 
-
+@layout components {
+    .room-item {
+        @apply flex flex-row mx-auto w-[85%] shadow-lg border-4 border-stone-800 h-[6vh] mt-2;
+    }
+}

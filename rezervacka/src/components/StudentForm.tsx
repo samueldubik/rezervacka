@@ -68,8 +68,9 @@ const StudentForm = () => {
 
 
     return (
-        <div className=" bg-[#1C5464] absolute top-[10vh] h-[80vh] w-[20%] overflow-auto pb-10">
+        <div className=" bg-[#1C5464] absolute top-[10vh] h-[80vh] w-[20%] pb-10">
 
+            <section className=" overflow-auto snap-y snap-proximity h-[35vh]">
             {studentsForm.map((item, index) => {
                 return <Student 
                         key={index} 
@@ -79,12 +80,16 @@ const StudentForm = () => {
                         destroyForm={destroyForm}
                         />
             })}
+            </section>
 
-            <GenderSelector/>
+            
 
-            <Button label="Pridať" icon={faUserPlus} action={addStudent}/>
-            <Button label="Potvrdiť" icon={faCheck} action={confirmForms}/>
-            <Button label="Zrušiť" icon={faBan} action={cancelAll}/>
+            <section className=" absolute h-[50vh] flex flex-col justify-center bottom-0 w-full">
+                <GenderSelector/>
+                <Button label="Pridať" icon={faUserPlus} action={addStudent}/>
+                <Button label="Potvrdiť" icon={faCheck} action={confirmForms}/>
+                <Button label="Zrušiť" icon={faBan} action={cancelAll}/>
+            </section>
         </div>
     )
 }

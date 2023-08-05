@@ -19,8 +19,16 @@ type Props = {
 const FloorLayout = ({floorData, setFloorData, selectedFloor, setSelectedFloor}: Props) => {
 
 
-
-
+    // Idea
+    const rooms = [
+        {
+            roomType: ROOMTYPE.ROOM,
+            data: {}, //floorData[9],
+            balcony: false
+        },
+        // ...
+    ];
+    // Idea 2 - use grid template cols
 
     if(floorData)
         return (

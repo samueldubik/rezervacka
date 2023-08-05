@@ -20,3 +20,11 @@ export enum GENDER {
     MALE,
     FEMALE,
 }
+
+export enum BUTTON {
+    WHITE,
+    BLACK,
+    ADD,
+    SUCCESS,
+    ERROR
+}
