@@ -3,7 +3,7 @@ import Student from "./Student";
 import Button from "./Button";
 import { faBan, faCheck, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import GlobalContext, { IStudent } from "../../GlobalContext";
-import { GENDER, VALIDATION } from "../../Const";
+import { BUTTONTYPE, GENDER, VALIDATION } from "../../Const";
 import GenderSelector from "./GenderSelector";
 
 
@@ -86,9 +86,9 @@ const StudentForm = () => {
 
             <section className=" absolute h-[50vh] flex flex-col justify-center bottom-0 w-full">
                 <GenderSelector/>
-                <Button label="Pridať" icon={faUserPlus} action={addStudent}/>
-                <Button label="Potvrdiť" icon={faCheck} action={confirmForms}/>
-                <Button label="Zrušiť" icon={faBan} action={cancelAll}/>
+                <Button type={BUTTONTYPE.ADD} label="Pridať" icon={faUserPlus} action={addStudent}/>
+                <Button type={BUTTONTYPE.SUCCESS} label="Potvrdiť" icon={faCheck} action={confirmForms}/>
+                <Button type={BUTTONTYPE.ERROR} label="Zrušiť" icon={faBan} action={cancelAll}/>
             </section>
         </div>
     )

@@ -17,7 +17,7 @@ type Props = {
 const Room = ({roomType, balcony = false, data, selectedFloor, setSelectedFloor}: Props) => {
     
     const context = useContext(GlobalContext)
-    const {setSelectedRoom} = context
+    const {selectedRoom, setSelectedRoom} = context
 
     
     //console.log(data)
@@ -39,6 +39,7 @@ const Room = ({roomType, balcony = false, data, selectedFloor, setSelectedFloor}
     const selectRoom = () => {
         if(data)
             setSelectedRoom(data)
+
     }
 
     const floorUp = () => {
@@ -60,14 +61,13 @@ const Room = ({roomType, balcony = false, data, selectedFloor, setSelectedFloor}
     }
 
 
-    //console.log(data)
 
     switch(roomType) {
         case ROOMTYPE.ROOM : return (
             
             <div
             onClick={selectRoom}
-            className=" cursor-pointer bg-[#37ba5e] w-[13%] h-[100%] border-r-8 border-collapse border-stone-800 flex justify-center items-center relative"
+            className= {data === selectedRoom ? ' brightness-150 bg-[#37ba5e] w-[13%] h-[100%] border-r-8 border-collapse border-stone-800 flex justify-center items-center relative' : 'cursor-pointer bg-[#37ba5e] w-[13%] h-[100%] border-r-8 border-collapse border-stone-800 flex justify-center items-center relative hover:brightness-150'}
             >
                 <h5 className=" font-tektur font-bold text-2xl z-30">{data?.room}</h5>
 
@@ -87,20 +87,20 @@ const Room = ({roomType, balcony = false, data, selectedFloor, setSelectedFloor}
         )
 
         case ROOMTYPE.ELEVATOR : return (
-            <div className="bg-[#A2C3A4] w-[22%] h-[100%] border-stone-800 border-collapse border-r-8 flex flex-col relative">
+            <div className=" w-[22%] h-[100%] border-stone-800 border-collapse border-r-8 flex flex-col relative">
 
                 <FontAwesomeIcon
                 onClick={floorUp}
                 icon={faCaretUp}
-                className=" cursor-pointer h-1/2   border-stone-800 w-full"
+                className=" cursor-pointer h-1/2 bg-[#A2C3A4]   border-stone-800 w-full hover:brightness-125 "
                 />
                 
-                <div className=' absolute w-full bg-stone-800 top-[48%] h-[8px]'></div>
+                <div className=' absolute w-full bg-stone-800 top-[48%] h-[8px] z-20 '></div>
 
                 <FontAwesomeIcon 
                 onClick={floorDown}
                 icon={faCaretDown} 
-                className=" cursor-pointer h-1/2 w-full border-stone-800"
+                className=" cursor-pointer bg-[#A2C3A4] h-1/2 w-full border-stone-800 hover:brightness-125"
                 />
             </div>
         )

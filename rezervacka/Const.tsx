@@ -21,9 +21,8 @@ export enum GENDER {
     FEMALE,
 }
 
-export enum BUTTON {
-    WHITE,
-    BLACK,
+export enum BUTTONTYPE {
+    DEFAULT,
     ADD,
     SUCCESS,
     ERROR
