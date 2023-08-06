@@ -2,7 +2,7 @@ import { useContext, useState } from "react"
 import GlobalContext from "../../GlobalContext"
 import Button from "./Button"
 import { faBook, faCheck } from "@fortawesome/free-solid-svg-icons"
-import { GENDER } from "../../Const"
+import { BUTTONBORDER, GENDER } from "../../Const"
 import { IRoomData } from "./FloorLayout"
 
 
@@ -23,7 +23,7 @@ const RoomDetails = ({data}: Props) => {
 
     //console.log(`gender: ${gender}, selectedRoom: ${selectedRoom}, students: ${students}`)
     //console.log(data)
-    console.log(selectedRoom)
+    //console.log(selectedRoom)
 
     
 
@@ -104,7 +104,7 @@ const RoomDetails = ({data}: Props) => {
                 </div> 
 
                 <div className=" w-full mb-10">
-                    <Button label="Rezervovať" icon={faBook} action={reserveRoom} black/>
+                    <Button label="Rezervovať" icon={faBook} action={reserveRoom} border={BUTTONBORDER.BLACK}/>
                 </div>
 
             </div>

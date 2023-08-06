@@ -10,7 +10,6 @@ export enum VALIDATION {
     NONAME,
     NOEMAIL,
     NAMEWRONG,
-    EMAILWRONG,
     EMAILNOTUKE,
     NOGENDER,
 }
@@ -26,4 +25,10 @@ export enum BUTTONTYPE {
     ADD,
     SUCCESS,
     ERROR
+}
+
+export enum BUTTONBORDER {
+    BLACK,
+    WHITE,
+    ERROR,
 }

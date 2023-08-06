@@ -2,17 +2,20 @@ import { faCircleXmark, faRectangleXmark, faUser } from "@fortawesome/free-solid
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { IStudent } from "../../GlobalContext"
 import { Dispatch, SetStateAction } from "react"
+import { VALIDATION } from "../../Const"
 
 type Props = {
     index: number,
     studentsForm: IStudent[],
     setStudentsForm: Dispatch<SetStateAction<IStudent[]>>,
     destroyForm: (index: number) => void
+    error?: VALIDATION[]
 }
 
 
-const Student = ({index, studentsForm, setStudentsForm, destroyForm}: Props) => {
+const Student = ({index, studentsForm, setStudentsForm, destroyForm, error = [VALIDATION.SUCCESS]}: Props) => {
 
+    //console.log(error)
 
     const HandleChangeName = (input: string) => {
         setStudentsForm(prev => {
@@ -29,38 +32,47 @@ const Student = ({index, studentsForm, setStudentsForm, destroyForm}: Props) => 
     }
 
     return (
-        <form className=" h-[35vh] snap-center border-b-8 border-stone-200 pt-4 flex flex-col pl-5 pr-5 relative">
+        <form className=" h-[35vh] w-full snap-center border-b-8 border-stone-200 flex flex-col relative">
 
-            <div className=" h-[5vh] w-full flex flex-row items-center">
-                <FontAwesomeIcon icon={faUser} className=" h-7 w-8 text-stone-200"/>
-                <h2 className=" text-xl ml-4 font-fira-sans mt-1 font-bold text-stone-200">Študent {index + 1}</h2>
-            </div>
+            <header className=" h-[6vh] w-full bg-[#174450] flex flex-row justify-between items-center">
+                
+                <section className=" h-full w-[25%] flex flex-row justify-center items-center">
+                    <FontAwesomeIcon icon={faUser} className= " text-stone-200 h-[75%]"/>
+                </section>
 
-            <label className=" font-fira-sans font-medium text-stone-200 text-lg mt-4">Meno a Priezvisko</label>
-            <input 
-            spellCheck={false}
-            value={studentsForm[index].name}
-            onChange={(event) => HandleChangeName(event.target.value)}
-            className=" font-fira-sans h-12  px-1 border-8 border-stone-200 bg-form text-stone-200 font-semibold " type="text" 
-            />
-
-            <label className=" font-fira-sans font-medium text-stone-200 text-lg mt-4">Študentský email</label>
-            <input
-            spellCheck={false} 
-            value={studentsForm[index].email}
-            onChange={(event) => HandleChangeEmail(event.target.value)}
-            className=" font-fira-sans h-12 px-1 border-8 border-stone-200 bg-form text-stone-200 font-semibold" type="text" 
-            />
-
-            <div 
-            className=" absolute top-1 right-1 w-12 h-8 bg-gray-400 border-t-4 border-t-stone-200
-                        border-l-4 border-l-stone-100 border-b-4 border-b-stone-600 border-r-4 border-r-stone-600 
-                        text-xl text-center font-tektur font-extrabold text-stone-800
-                        hover:cursor-pointer hover:bg-red-600"
-            onClick={() => destroyForm(index)}  
+                <section className=" w-[50%] h-full flex flex-col justify-center ">
+                    <h2 className=" text-center mt-1 text-xl font-fira-sans font-bold text-stone-200">Študent {index + 1}</h2>
+                </section>
+                
+                <section 
+                className=" w-[25%] h-full flex flex-row justify-center items-center"
+                onClick={() => destroyForm(index)}  
                 >
-            <h2>X</h2>
-            </div>
+                    <div className=" bg-gray-400 h-[75%] w-[75%] flex flex-col justify-center border-4 border-t-stone-200 border-l-stone-200 border-b-stone-600 border-r-stone-600 cursor-pointer hover:bg-red-600 ">
+                        <h2 className=" w-full mt-0.5 text-center text-xl text-stone-800 font-fira-sans font-extrabold ">X</h2>
+                    </div>
+                </section>
+            </header>
+
+            <article className=" w-full h-full flex flex-col mt-1 ">
+                <label className=" font-fira-sans font-medium text-stone-200 text-lg w-[90%] mx-[5%]">Meno a Priezvisko</label>
+                <input 
+                spellCheck={false}
+                value={studentsForm[index].name}
+                onChange={(event) => HandleChangeName(event.target.value)}
+                className=" font-fira-sans h-12  px-1 border-8 border-stone-200 bg-form text-stone-200 font-semibold w-[90%] mx-[5%]" type="text" 
+                />
+
+                <label className=" font-fira-sans font-medium text-stone-200 text-lg mt-4 w-[90%] mx-[5%]">Študentský email</label>
+                <input
+                spellCheck={false} 
+                value={studentsForm[index].email}
+                onChange={(event) => HandleChangeEmail(event.target.value)}
+                className=" font-fira-sans h-12 px-1 border-8 border-stone-200 bg-form text-stone-200 font-semibold w-[90%] mx-[5%]" type="text" 
+                />
+            </article>
+
+
         </form>
     )
 }
