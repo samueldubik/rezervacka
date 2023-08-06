@@ -23,7 +23,7 @@ const StudentForm = () => {
     const [noGenderError, setNoGenderError] = useState<boolean>(false)
     const [lessThan2Error, setLessThan2Error] = useState<boolean>(false)
     const [success, setSuccess] = useState<boolean>(true)
-    const [validation, setValidation] = useState<IValidation[]>([])
+    const [validation, setValidation] = useState<IValidation[][]>([])
 
 
     
@@ -64,22 +64,19 @@ const StudentForm = () => {
         }))
     }
 
-    const getErrorsAtIndex = (index : number) => {
-        const arr = validation.filter((obj) => {
-            return obj.index === index
-        })
+    const assignStudentErrors = (result: IValidation[]) => {
+        const arr = []
+        for(let i = 0; i < studentsForm.length; i++){
+            arr.push(result.filter((obj) => {
+                return obj.index === i
+            }))
+        }
 
-        console.log(arr)
-    }
-
-    const getStudentErrors = (index : number) => {
-        const arr : Array<VALIDATION> = []
-        
-        getErrorsAtIndex(index)
-
-        arr.push(VALIDATION.SUCCESS)
+        //console.log(arr)
         return arr
     }
+
+
 
     const validateForms = () => {
 
@@ -115,7 +112,7 @@ const StudentForm = () => {
 
     const confirmForms = () => {
         const result = validateForms()
-        setValidation(result)
+        setValidation(assignStudentErrors(result))
 
         //console.log(result)
 
@@ -139,6 +136,8 @@ const StudentForm = () => {
         else
             setSuccess(false)
 
+        
+
         setStudents(studentsForm)
     }
 
@@ -158,8 +157,8 @@ const StudentForm = () => {
                         index={index} 
                         studentsForm={studentsForm} 
                         setStudentsForm={setStudentsForm} 
-                        destroyForm={destroyForm}
-                        error={getStudentErrors(index)} 
+                        destroyForm={destroyForm} 
+                        error={validation[index]}
                         />
             })}
             </section>

@@ -1,21 +1,46 @@
 import { faCircleXmark, faRectangleXmark, faUser } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { IStudent } from "../../GlobalContext"
-import { Dispatch, SetStateAction } from "react"
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { VALIDATION } from "../../Const"
+import { IValidation } from "./StudentForm"
 
 type Props = {
     index: number,
     studentsForm: IStudent[],
     setStudentsForm: Dispatch<SetStateAction<IStudent[]>>,
     destroyForm: (index: number) => void
-    error?: VALIDATION[]
+    error?: IValidation[]
 }
 
 
-const Student = ({index, studentsForm, setStudentsForm, destroyForm, error = [VALIDATION.SUCCESS]}: Props) => {
+const Student = ({index, studentsForm, setStudentsForm, destroyForm, error}: Props) => {
 
-    //console.log(error)
+    const [noNameError, setNoNameError] = useState<boolean>(false)
+    const [noEmailError, setNoEmailError] = useState<boolean>(false)
+    const [nameWrongError, setNameWrongError] = useState<boolean>(false)
+    const [emailWrongError, setEmailWrongError] = useState<boolean>(false)
+
+    useEffect(() => {
+        setErrors()
+    })
+
+    const isError = (status: VALIDATION) => {
+        if(error)
+            return (error.some((obj) => {
+                return obj.status === status
+            }))
+        
+        return false
+    }
+
+    const setErrors = () => {
+        setNoNameError(isError(VALIDATION.NONAME))
+        setNoEmailError(isError(VALIDATION.NOEMAIL))
+        setNameWrongError(isError(VALIDATION.NAMEWRONG))
+        setEmailWrongError(isError(VALIDATION.EMAILNOTUKE))
+    }
+
 
     const HandleChangeName = (input: string) => {
         setStudentsForm(prev => {
@@ -55,21 +80,45 @@ const Student = ({index, studentsForm, setStudentsForm, destroyForm, error = [VA
             </header>
 
             <article className=" w-full h-full flex flex-col mt-1 ">
-                <label className=" font-fira-sans font-medium text-stone-200 text-lg w-[90%] mx-[5%]">Meno a Priezvisko</label>
+                <label className={`font-fira-sans font-medium ${(noNameError || nameWrongError) ?'text-red-600' :'text-stone-200'} w-[90%] mx-[5%] text-lg `}>Meno a Priezvisko</label>
                 <input 
                 spellCheck={false}
                 value={studentsForm[index].name}
                 onChange={(event) => HandleChangeName(event.target.value)}
-                className=" font-fira-sans h-12  px-1 border-8 border-stone-200 bg-form text-stone-200 font-semibold w-[90%] mx-[5%]" type="text" 
+                className={` font-fira-sans h-12  px-1 border-8  ${(noNameError || nameWrongError) ?'border-red-600' :'border-stone-200'} bg-form text-stone-200 font-semibold w-[90%] mx-[5%]`} type="text" 
                 />
 
-                <label className=" font-fira-sans font-medium text-stone-200 text-lg mt-4 w-[90%] mx-[5%]">Študentský email</label>
+                {noNameError && 
+                <h3 className=" w-full text-center -mb-5 text-[#ff3535] font-fira-sans font-medium">
+                    Zadajte meno
+                </h3>
+                }
+
+                {nameWrongError && 
+                <h3 className=" w-full text-center -mb-5 text-[#ff3535] font-fira-sans font-medium">
+                    Nesprávny formát
+                </h3>
+                }
+
+                <label className={` font-fira-sans font-medium ${(noEmailError || emailWrongError) ? 'text-red-600' : 'text-stone-200'} text-lg mt-4 w-[90%] mx-[5%]`}>Študentský email</label>
                 <input
                 spellCheck={false} 
                 value={studentsForm[index].email}
                 onChange={(event) => HandleChangeEmail(event.target.value)}
-                className=" font-fira-sans h-12 px-1 border-8 border-stone-200 bg-form text-stone-200 font-semibold w-[90%] mx-[5%]" type="text" 
+                className={` font-fira-sans h-12 px-1 border-8 ${(noEmailError || emailWrongError) ? 'border-red-600' : 'border-stone-200'} bg-form text-stone-200 font-semibold w-[90%] mx-[5%]`} type="text" 
                 />
+                
+                {noEmailError && 
+                <h3 className=" w-full text-center -mb-5 text-[#ff3535] font-fira-sans font-medium">
+                    Zadajte email
+                </h3>
+                }
+
+                {emailWrongError && 
+                <h3 className=" w-full text-center -mb-5 text-[#ff3535] font-fira-sans font-medium">
+                    Nesprávny formát
+                </h3>
+                }
             </article>
 
 
