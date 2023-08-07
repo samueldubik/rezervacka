@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import GlobalContext from "../../GlobalContext"
 import Button from "./Button"
 import { faBook, faCheck } from "@fortawesome/free-solid-svg-icons"
-import { BUTTONBORDER, GENDER } from "../../Const"
+import { BUTTONBORDER, DATABASERESPONSE, GENDER } from "../../Const"
 import { IRoomData } from "./FloorLayout"
 
 
@@ -11,6 +11,8 @@ type Props = {
 }
 
 const RoomDetails = ({data}: Props) => {
+
+  
 
   const line = 'flex flex-row mx-auto w-[85%] shadow-lg border-4 border-stone-800 h-[6vh] mt-2'
   const label = "  font-fira-sans font-semibold text-form w-1/2 text-center pt-[1vh] "
@@ -21,6 +23,8 @@ const RoomDetails = ({data}: Props) => {
     const {gender, selectedRoom, students, correctForm} = context
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [available, setAvailable] = useState<boolean>(false)
+    const [feedBack, setFeedBack] = useState<DATABASERESPONSE>(DATABASERESPONSE.NONE)
+    
 
     //console.log(`gender: ${gender}, selectedRoom: ${selectedRoom}, students: ${students}`)
     //console.log(data)
@@ -92,8 +96,15 @@ const RoomDetails = ({data}: Props) => {
             // Handle the API response status code
             if (response.ok) {
               console.log("Reservation and gender update successful.");
+              setFeedBack(DATABASERESPONSE.SUCCESS)
             } else {
-              console.log("Reservation and gender update failed. HERE?");
+
+              const errorData = await response.json()
+
+              if(errorData.error === DATABASERESPONSE.ALREADYUSED)
+                setFeedBack(DATABASERESPONSE.ALREADYUSED)
+              else
+                setFeedBack(DATABASERESPONSE.ERROR)
             }
       
             setIsLoading(false);
@@ -105,7 +116,7 @@ const RoomDetails = ({data}: Props) => {
 
     if(selectedRoom && students.length > 0)
         return(
-            <div className= " absolute top-[18vh] right-[2vw] border-8 shadow-lg border-stone-800 w-[20vw] h-[45vh]">
+            <div className= " absolute top-[18vh] right-[2vw] border-8 shadow-lg border-stone-800 w-[20vw] h-[50vh]">
                 <h2 className=" text-center mt-5 text-3xl font-tektur font-bold mb-5">IZBA {selectedRoom?.room}</h2>
                 
                 <div className={line}>
@@ -124,7 +135,31 @@ const RoomDetails = ({data}: Props) => {
                 </div> 
 
                 <div className=" w-full mb-10">
-                    <Button label={correctForm ? available ? "Rezervovať" : "Obsadené" : "Chyba"} icon={faBook} action={correctForm && available? reserveRoom : () => console.log('Form Error')} border={correctForm && available ? BUTTONBORDER.BLACK : BUTTONBORDER.ERROR} black/>
+                    <Button 
+                    label={correctForm ? available ? "Rezervovať" : "Obsadené" : "Chyba"} 
+                    icon={faBook} 
+                    loading={isLoading}
+                    action={correctForm && available? reserveRoom : () => console.log('Form Error')} 
+                    border={correctForm && available ? BUTTONBORDER.BLACK : BUTTONBORDER.ERROR} 
+                    black
+                    />
+                    {feedBack === DATABASERESPONSE.SUCCESS && 
+                      <h2 className=" mt-2 font-fira-sans text-center text-green-500 font-semibold text-sm">
+                        REZERVÁCIA ÚSPEŠNÁ
+                      </h2>
+                    }
+                    {feedBack === DATABASERESPONSE.ERROR &&
+                      <h2 className=" mt-2 font-fira-sans text-center text-red-500 font-semibold text-sm">
+                        REZERVÁCIA NEÚSPEŠNÁ
+                      </h2>
+                    }
+                    {feedBack === DATABASERESPONSE.ALREADYUSED &&
+                      <h2 className=" mt-2 font-fira-sans text-center text-red-500 font-semibold text-sm">
+                        ŠTUDENT UŽ JE REGISTROVANÝ
+                      </h2>
+                    }
+
+
                 </div>
 
             </div>

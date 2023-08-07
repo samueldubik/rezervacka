@@ -32,3 +32,10 @@ export enum BUTTONBORDER {
     WHITE,
     ERROR,
 }
+
+export enum DATABASERESPONSE {
+    NONE,
+    SUCCESS,
+    ERROR,
+    ALREADYUSED,
+}

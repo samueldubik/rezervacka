@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { IStudent } from "../../../GlobalContext";
 import { db } from "@vercel/postgres";
+import { DATABASERESPONSE } from "../../../Const";
 
 
 
@@ -55,10 +56,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       await client.query("COMMIT;");
   
       res.status(200).json({ message: "Reservation and gender update successful." });
-    } catch (error) {
+    } catch (error : any) {
       await client.query("ROLLBACK;");
+
       console.error("Error fetching data:", error);
-      res.status(500).json({ error: "Internal Server Error" });
+
+      if(error.code === '23505'){
+        res.status(400).json({error: DATABASERESPONSE.ALREADYUSED})
+      } else {
+      res.status(500).json({ error: DATABASERESPONSE.ERROR});
+      }
+
     } finally {
       client.release();
     }

@@ -13,9 +13,9 @@ import { QueryResultRow } from "@vercel/postgres"
 const Main = () => {
 
     const [students, setStudents] = useState<Array<any>>([])
-    const [selectedRoom, setSelectedRoom] = useState<IRoomData | undefined>()
+    const [selectedRoom, setSelectedRoom] = useState<IRoomData>()
     const [gender, setGender] = useState<GENDER>(GENDER.NONE)
-    const [floorData, setFloorData] =  useState<undefined | Array<IRoomData>>()
+    const [floorData, setFloorData] =  useState<IRoomData[]>([])
     const [selectedFloor, setSelectedFloor] = useState<number>(1)
     const [correctForm, setCorrectForm] = useState<boolean>(false)
 
@@ -63,7 +63,9 @@ const Main = () => {
       gender: gender,
       setGender: setGender,
       correctForm: correctForm,
-      setCorrectForm: setCorrectForm
+      setCorrectForm: setCorrectForm,
+      floorData: floorData,
+      setFloorData: setFloorData
     }
     
 
@@ -79,7 +81,7 @@ const Main = () => {
           <h2 className= " text-center font-tektur font-semibold text-6xl mt-5 h-[10%]">BLOK C1</h2>
   
           <section className=" flex flex-row justify-start w-full h-[90%]">
-            <FloorLayout floorData={floorData} setFloorData={setFloorData} selectedFloor={selectedFloor} setSelectedFloor={setSelectedFloor}/>
+            <FloorLayout selectedFloor={selectedFloor} setSelectedFloor={setSelectedFloor}/>
             <RoomDetails data={selectedRoom} />
           </section>
   

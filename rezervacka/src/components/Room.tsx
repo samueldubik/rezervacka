@@ -9,23 +9,23 @@ import GlobalContext from "../../GlobalContext"
 type Props = {
     roomType: ROOMTYPE
     balcony?: boolean
-    data?: IRoomData
+    index?: number,
     selectedFloor?: number
     setSelectedFloor?: Dispatch<SetStateAction<number>>
 } 
 
-const Room = ({roomType, balcony = false, data, selectedFloor, setSelectedFloor}: Props) => {
+const Room = ({roomType, balcony = false, index=-1, selectedFloor, setSelectedFloor}: Props) => {
     
     const context = useContext(GlobalContext)
-    const {selectedRoom, setSelectedRoom, students, gender} = context
+    const { selectedRoom, setSelectedRoom, students, gender, floorData } = context
 
     const [available, setAvailable] = useState<boolean>(false)
 
+    const data = floorData[index]
     const roomColorFalse = 'bg-[#ce4341]'
     const roomColorTrue = 'bg-[#37ba5e]'
 
-    //console.log('Students:',students.length)
-    //console.log('Data',data?.gender)
+    
     
 
     useEffect(() => {
@@ -67,6 +67,7 @@ const Room = ({roomType, balcony = false, data, selectedFloor, setSelectedFloor}
             setSelectedRoom(data)
 
     }
+
 
     const floorUp = () => {
         
