@@ -14,6 +14,8 @@ interface GlobalContextValue {
     setSelectedRoom: Dispatch<SetStateAction<IRoomData | undefined>>;
     gender: GENDER
     setGender: Dispatch<SetStateAction<GENDER>>
+    correctForm: boolean
+    setCorrectForm: Dispatch<SetStateAction<boolean>>
 }
 
 const GlobalContext = createContext<GlobalContextValue>({
@@ -23,6 +25,8 @@ const GlobalContext = createContext<GlobalContextValue>({
     setSelectedRoom: () => {},
     gender: GENDER.NONE,
     setGender: () => {},
+    correctForm: false,
+    setCorrectForm: () => {},
 })
 
 export default GlobalContext

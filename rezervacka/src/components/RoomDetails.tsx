@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import GlobalContext from "../../GlobalContext"
 import Button from "./Button"
 import { faBook, faCheck } from "@fortawesome/free-solid-svg-icons"
@@ -18,14 +18,34 @@ const RoomDetails = ({data}: Props) => {
   
     const context = useContext(GlobalContext)
 
-    const {gender, selectedRoom, students} = context
+    const {gender, selectedRoom, students, correctForm} = context
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [available, setAvailable] = useState<boolean>(false)
 
     //console.log(`gender: ${gender}, selectedRoom: ${selectedRoom}, students: ${students}`)
     //console.log(data)
     //console.log(selectedRoom)
 
     
+
+    const isAvailable = () => {
+      if(!data)
+          return false
+
+      if(data?.students + students.length > 4)
+          return false
+
+      if((gender && data?.gender) && (data?.gender !== gender))
+          return false
+
+      
+      return true        
+  }
+
+
+    useEffect(() => {
+      setAvailable(isAvailable())
+    })
 
 
     const hasBalcony = () => {
@@ -104,7 +124,7 @@ const RoomDetails = ({data}: Props) => {
                 </div> 
 
                 <div className=" w-full mb-10">
-                    <Button label="Rezervovať" icon={faBook} action={reserveRoom} border={BUTTONBORDER.BLACK}/>
+                    <Button label={correctForm ? available ? "Rezervovať" : "Obsadené" : "Chyba"} icon={faBook} action={correctForm && available? reserveRoom : () => console.log('Form Error')} border={correctForm && available ? BUTTONBORDER.BLACK : BUTTONBORDER.ERROR} black/>
                 </div>
 
             </div>

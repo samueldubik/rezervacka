@@ -17,6 +17,7 @@ const Main = () => {
     const [gender, setGender] = useState<GENDER>(GENDER.NONE)
     const [floorData, setFloorData] =  useState<undefined | Array<IRoomData>>()
     const [selectedFloor, setSelectedFloor] = useState<number>(1)
+    const [correctForm, setCorrectForm] = useState<boolean>(false)
 
 
 
@@ -59,7 +60,9 @@ const Main = () => {
       selectedRoom: selectedRoom,
       setSelectedRoom: setSelectedRoom,
       gender: gender,
-      setGender: setGender
+      setGender: setGender,
+      correctForm: correctForm,
+      setCorrectForm: setCorrectForm
     }
     
 

@@ -3,7 +3,7 @@ import { GENDER, ROOMTYPE } from "../../Const"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons"
 import { IRoomData } from "./FloorLayout"
-import { Dispatch, SetStateAction, useContext } from "react"
+import { Dispatch, SetStateAction, useContext, useEffect, useState } from "react"
 import GlobalContext from "../../GlobalContext"
 
 type Props = {
@@ -17,10 +17,36 @@ type Props = {
 const Room = ({roomType, balcony = false, data, selectedFloor, setSelectedFloor}: Props) => {
     
     const context = useContext(GlobalContext)
-    const {selectedRoom, setSelectedRoom} = context
+    const {selectedRoom, setSelectedRoom, students, gender} = context
 
-    
-    //console.log(data)
+    const [available, setAvailable] = useState<boolean>(false)
+
+    const roomColorFalse = 'bg-[#ce4341]'
+    const roomColorTrue = 'bg-[#37ba5e]'
+
+    console.log('Students:',students.length)
+    console.log('Data',data?.gender)
+
+
+    useEffect(() => {
+        setAvailable(isAvailable())
+    })
+
+    const isAvailable = () => {
+        if(!data)
+            return false
+
+        if(data?.students + students.length > 4)
+            return false
+
+        if((gender && data?.gender) && (data?.gender !== gender))
+            return false
+
+        
+        return true        
+    }
+
+
     const countPeople = () => {
 
         const arr = []
@@ -67,7 +93,7 @@ const Room = ({roomType, balcony = false, data, selectedFloor, setSelectedFloor}
             
             <div
             onClick={selectRoom}
-            className= {data === selectedRoom ? ' brightness-150 bg-[#37ba5e] w-[13%] h-[100%] border-r-8 border-collapse border-stone-800 flex justify-center items-center relative' : 'cursor-pointer bg-[#37ba5e] w-[13%] h-[100%] border-r-8 border-collapse border-stone-800 flex justify-center items-center relative hover:brightness-150'}
+            className= {data === selectedRoom ? ` brightness-150 ${available ? roomColorTrue : roomColorFalse} w-[13%] h-[100%] border-r-8 border-collapse border-stone-800 flex justify-center items-center relative` : `cursor-pointer ${available ? roomColorTrue : roomColorFalse} w-[13%] h-[100%] border-r-8 border-collapse border-stone-800 flex justify-center items-center relative hover:brightness-150`}
             >
                 <h5 className=" font-tektur font-bold text-2xl z-30">{data?.room}</h5>
 
@@ -78,6 +104,7 @@ const Room = ({roomType, balcony = false, data, selectedFloor, setSelectedFloor}
                 {people}
                 </div>
             </div>
+            
         )
 
         case ROOMTYPE.KITCHEN : return (

@@ -8,10 +8,11 @@ type Props = {
     icon: IconDefinition,
     action: () => void,
     type?: BUTTONTYPE,
-    border: BUTTONBORDER
+    border: BUTTONBORDER,
+    black?: boolean
 }
 
-const Button = ({label, icon, action, border, type=BUTTONTYPE.DEFAULT} : Props) => {
+const Button = ({label, icon, action, border, type=BUTTONTYPE.DEFAULT, black=false} : Props) => {
 
     const textColorsBlack = ['text-stone-800', 'text-[#edc949]', 'text-[#80ff4a]', 'text-[#e13941]']
     const textColorsWhite = ['text-stone-200', 'text-[#edc949]', 'text-[#80ff4a]', 'text-[#e13941]']
@@ -23,8 +24,8 @@ const Button = ({label, icon, action, border, type=BUTTONTYPE.DEFAULT} : Props) 
         onClick={action}
         className= {` mt-5 h-[7vh] mx-5 flex flex-row justify-start items-center cursor-pointer shadow-lg border-8 ${borderColor[border]} hover:brightness-150`}
         >
-            <FontAwesomeIcon icon={icon} className={!border ? ` h-4/5 w-[20%] ${textColorsBlack[type]}` :` h-4/5 w-[20%] ${textColorsWhite[type]}`} />
-            <h2 className={!border ? ` w-[60%] text-center ${textColorsBlack[type]} font-fira-sans font-extrabold text-xl` : ` w-[60%] text-center ${textColorsWhite[type]} font-fira-sans font-extrabold text-xl`}>{label}</h2>
+            <FontAwesomeIcon icon={icon} className={black ? ` h-4/5 w-[20%] ${textColorsBlack[type]}` :` h-4/5 w-[20%] ${textColorsWhite[type]}`} />
+            <h2 className={black ? ` w-[60%] text-center ${textColorsBlack[type]} font-fira-sans font-extrabold text-xl` : ` w-[60%] text-center ${textColorsWhite[type]} font-fira-sans font-extrabold text-xl`}>{label}</h2>
         </div>
     )
 }

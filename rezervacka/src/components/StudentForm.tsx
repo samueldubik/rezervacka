@@ -27,7 +27,7 @@ const StudentForm = () => {
 
 
     
-    const { gender }  = context
+    const { gender, correctForm, setCorrectForm }  = context
 
     useEffect(() => {
         setStudentsForm(students)
@@ -132,9 +132,9 @@ const StudentForm = () => {
         
         //ALL GOOD
         if(isErrorFound(result, VALIDATION.SUCCESS))
-            setSuccess(true)
+            setCorrectForm(true)
         else
-            setSuccess(false)
+            setCorrectForm(false)
 
         
 
@@ -191,10 +191,10 @@ const StudentForm = () => {
                 label="Potvrdiť" 
                 icon={faCheck} 
                 action={confirmForms} 
-                border={success ? BUTTONBORDER.WHITE : BUTTONBORDER.ERROR}
+                border={correctForm ? BUTTONBORDER.WHITE : BUTTONBORDER.ERROR}
                 />
                 
-                {!(lessThan2Error || noGenderError) && !success && 
+                {!(lessThan2Error || noGenderError) && !correctForm && 
                 <h3 className=" w-full text-center -mb-5 text-[#ff3535] font-fira-sans font-medium">
                     Nesprávne vyplnený formulár
                 </h3>
