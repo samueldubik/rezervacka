@@ -24,9 +24,9 @@ const Room = ({roomType, balcony = false, data, selectedFloor, setSelectedFloor}
     const roomColorFalse = 'bg-[#ce4341]'
     const roomColorTrue = 'bg-[#37ba5e]'
 
-    console.log('Students:',students.length)
-    console.log('Data',data?.gender)
-
+    //console.log('Students:',students.length)
+    //console.log('Data',data?.gender)
+    
 
     useEffect(() => {
         setAvailable(isAvailable())

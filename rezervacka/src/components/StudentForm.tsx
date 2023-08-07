@@ -104,7 +104,7 @@ const StudentForm = () => {
             arr.push({status: VALIDATION.NOGENDER, index: -1})
 
         
-        if(arr.length > 1)
+        if(arr.length >= 1)
             return arr
 
         return [{status: VALIDATION.SUCCESS, index: -1}]
@@ -114,7 +114,7 @@ const StudentForm = () => {
         const result = validateForms()
         setValidation(assignStudentErrors(result))
 
-        //console.log(result)
+        console.log(result)
 
         //NOGENDER
         if(isErrorFound(result, VALIDATION.NOGENDER))

@@ -23,6 +23,7 @@ const Main = () => {
 
     useEffect(() => {
 
+        console.log('FIRE')
         fetch(`/api/fetch-floor-data?floorNumber=${selectedFloor}`)
         .then((response) => response.json())
         .then((data) => {
@@ -52,7 +53,7 @@ const Main = () => {
             }))
             
         })
-    },[selectedFloor])
+    },[selectedFloor, selectedRoom])
     
     const contextValue = {
       students: students,
@@ -86,7 +87,7 @@ const Main = () => {
   
         <footer className=" bg-[#272D2D] h-[10%] flex flex-row justify-between px-10 items-center">
           <h6 className=" font-fira-sans font-medium text-stone-200">Samuel Dubík 2023</h6>
-          <h6 className=" font-fira-sans font-medium text-stone-200">V prípade problémov s rezerváciou kontaktujte ???</h6>
+          <h6 className=" font-fira-sans font-medium text-stone-200">V prípade problémov s rezerváciou nás kontaktujte na rada.jedlikova9@gmail.com</h6>
         </footer>
         </GlobalContext.Provider>
       </main>

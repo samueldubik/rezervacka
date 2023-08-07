@@ -41,9 +41,9 @@ const FloorLayout = ({floorData, setFloorData, selectedFloor, setSelectedFloor}:
 
                     <Room roomType={ROOMTYPE.KITCHEN}/>
 
-                    <Room roomType={ROOMTYPE.ROOM} data={floorData[4]}/>
-                    <Room roomType={ROOMTYPE.ROOM} balcony={true} data={floorData[3]}/>
-                    <Room roomType={ROOMTYPE.ROOM} data={floorData[2]}/>
+                    <Room roomType={ROOMTYPE.ROOM} data={floorData[5]}/>
+                    <Room roomType={ROOMTYPE.ROOM} balcony={true} data={floorData[4]}/>
+                    <Room roomType={ROOMTYPE.ROOM} data={floorData[3]}/>
                 </div>
                 
 
