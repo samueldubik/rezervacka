@@ -1,9 +1,11 @@
+import Head from 'next/head'
 import './globals.css'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Rezervacka',
-  description: 'daco',
+  description: 'Rezervačný systém J9',
+  icons: '/favicon.png'
 }
 
 export default function RootLayout({

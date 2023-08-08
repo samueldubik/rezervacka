@@ -5,6 +5,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     const client = await db.connect();
     const floorNumber = req.query.floorNumber as string
+    const blockName = req.query.blockName as string
 
     // Use the correct syntax for executing the SQL query
     const { rows } = await client.query(`
@@ -13,7 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
              COUNT(s.name) AS number_of_students
       FROM rooms r
       LEFT JOIN students s ON r.name = s.room_name
-      WHERE r.name LIKE 'A${floorNumber}%'
+      WHERE r.name LIKE '${blockName}${floorNumber}%'
       GROUP BY r.name, r.gender
       ORDER BY r.name;
     `);

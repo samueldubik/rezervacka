@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Student from "./Student";
 import Button from "./Button";
 import { faBan, faCheck, faUserPlus } from "@fortawesome/free-solid-svg-icons";
@@ -13,7 +13,6 @@ export interface IValidation {
 
 
 const StudentForm = () => {
-
 
     
 
@@ -147,8 +146,13 @@ const StudentForm = () => {
     }
 
 
+
+
     return (
-        <div className=" bg-[#1C5464] absolute top-[10vh] h-[80vh] w-[20%] pb-10">
+        <div 
+        onMouseLeave={confirmForms}
+        className=" bg-[#1C5464] h-[79vh] mt-[1vh] w-[20vw]"
+        >
 
             <section className=" overflow-y-auto overflow-x-hidden snap-y snap-proximity h-[35vh]">
             {studentsForm.map((item, index) => {
@@ -165,7 +169,7 @@ const StudentForm = () => {
 
             
 
-            <section className=" absolute h-[50vh] flex flex-col justify-center bottom-0 w-full">
+            <section className=" h-[45vh] flex flex-col justify-center w-full">
                 <GenderSelector border={noGenderError ? BUTTONBORDER.ERROR : BUTTONBORDER.WHITE}/>
 
                 {noGenderError && 
@@ -188,7 +192,7 @@ const StudentForm = () => {
 
                 <Button 
                 type={BUTTONTYPE.SUCCESS} 
-                label="Potvrdiť" 
+                label="Skontrolovať" 
                 icon={faCheck} 
                 action={confirmForms} 
                 border={correctForm ? BUTTONBORDER.WHITE : BUTTONBORDER.ERROR}

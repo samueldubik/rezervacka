@@ -8,24 +8,30 @@ import NavBar from "./NavBar"
 import RoomDetails from "./RoomDetails"
 import { QueryResultRow } from "@vercel/postgres"
 import ActivityIndicator from "./ActivityIndicator"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons"
+import StudentForm from "./StudentForm"
 
 
 
 const Main = () => {
+
+    const blockNames = ['A', 'B', 'C', 'D']
 
     const [students, setStudents] = useState<Array<any>>([])
     const [selectedRoom, setSelectedRoom] = useState<IRoomData>()
     const [gender, setGender] = useState<GENDER>(GENDER.NONE)
     const [floorData, setFloorData] =  useState<IRoomData[]>([])
     const [selectedFloor, setSelectedFloor] = useState<number>(1)
-    const [correctForm, setCorrectForm] = useState<boolean>(false)
-
+    const [correctForm, setCorrectForm] = useState<boolean>(true)
+    const [block, setBlock] = useState<number>(0)
+    const [formsVisible, setFormsVisible] = useState<boolean>(true)
 
 
     useEffect(() => {
 
         console.log('FIRE')
-        fetch(`/api/fetch-floor-data?floorNumber=${selectedFloor}`)
+        fetch(`/api/fetch-floor-data?floorNumber=${selectedFloor}&blockName=${blockNames[block]}`)
         .then((response) => response.json())
         .then((data) => {
             setFloorData(data.map((item: { room_name: any; gender: boolean; number_of_students: string }) => {
@@ -54,7 +60,17 @@ const Main = () => {
             }))
             
         })
-    },[selectedFloor, selectedRoom])
+    },[selectedFloor, selectedRoom, block])
+
+    const blockLeft = () => {
+      if(block)
+        setBlock(prev => prev - 1)
+    }
+
+    const blockRight = () => {
+      if(block < 3)
+        setBlock(prev => prev + 1)
+    }
     
     const contextValue = {
       students: students,
@@ -66,7 +82,9 @@ const Main = () => {
       correctForm: correctForm,
       setCorrectForm: setCorrectForm,
       floorData: floorData,
-      setFloorData: setFloorData
+      setFloorData: setFloorData,
+      formsVisible: formsVisible,
+      setFormsVisible: setFormsVisible,
     }
     
 
@@ -74,22 +92,42 @@ const Main = () => {
     //console.log(floorData)
 
     return (
-      <main className=' select-none bg-stone-200 h-screen flex flex-col justify-between'>
+      <main className=' select-none bg-stone-200 h-screen w-screen flex flex-col justify-between'>
         <GlobalContext.Provider value={contextValue}>
         <NavBar/>
-        <article className=" flex flex-col h-[80%] bg-stone-200 w-full mx-auto ">
+        <article className=" flex flex-row h-[80vh] bg-stone-200 w-full ">
+
+          {formsVisible && <StudentForm/>}
           
-          <h2 className= " text-center font-tektur font-semibold text-6xl mt-5 h-[10%]">BLOK C{selectedFloor}</h2>
-  
-          <section className=" flex flex-row justify-start w-full h-[90%]">
-            {floorData.length > 0 ? 
-            <FloorLayout selectedFloor={selectedFloor} setSelectedFloor={setSelectedFloor}/>
-            :
-            <ActivityIndicator/>
-            }
-            <RoomDetails data={selectedRoom} />
+          <section className={` w-[60vw]  ${!formsVisible && 'ml-[20vw]'} `}>
+            <header className=" flex flex-row justify-center items-center h-[10%] mt-5 mx-auto w-[50%]">
+              <FontAwesomeIcon 
+              onClick={blockLeft}
+              icon={faChevronLeft}  
+              className=" h-[75%] w-[10%] cursor-pointer hover:text-green-600" 
+              />
+
+              <h2 className= " text-center font-tektur font-semibold text-6xl">BLOK {blockNames[block]}{selectedFloor}</h2>
+              
+              <FontAwesomeIcon 
+              onClick={blockRight}
+              icon={faChevronRight} 
+              className=" h-[75%] w-[10%] cursor-pointer hover:text-green-600" 
+              />
+            </header>
+
+            <div className=" flex flex-row justify-start w-full h-[90%]">
+              {floorData.length > 0 ? 
+              <FloorLayout selectedFloor={selectedFloor} setSelectedFloor={setSelectedFloor}/>
+              :
+              <ActivityIndicator/>
+              }
+              
+            </div>
+
+            
           </section>
-  
+          <RoomDetails data={selectedRoom} />
         </article>
   
         <footer className=" bg-[#272D2D] h-[10%] flex flex-row justify-between px-10 items-center">

@@ -5,8 +5,31 @@
 @tailwind utilities;
 
 
-@layout components {
-    .room-item {
-        @apply flex flex-row mx-auto w-[85%] shadow-lg border-4 border-stone-800 h-[6vh] mt-2;
+
+@layer components {
+    .nav-normal {
+        @apply bg-dark h-[10vh] flex flex-row justify-items-start w-screen relative
+    }
+
+    .form-button-normal {
+        @apply flex flex-row justify-between bg-form w-[20%] px-2 align-middle cursor-pointer hover:brightness-125
+    }
+
+    .icon-form-button-normal {
+        @apply w-[20%] h-full  text-stone-200
+    }
+
+    .form-text-container {
+        @apply flex flex-col justify-center w-[80%]  h-full text-center
+    }
+
+    .h4-normal {
+        @apply font-fira-sans font-medium text-stone-200 text-xl
+    }
+
+    .h4-small {
+        @apply font-fira-sans font-medium text-stone-200 text-xs
     }
 }
+
+

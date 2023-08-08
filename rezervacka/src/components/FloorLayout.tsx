@@ -24,7 +24,7 @@ const FloorLayout = ({selectedFloor, setSelectedFloor}: Props) => {
 
     if(floorData)
         return (
-            <section className=" w-[50%] h-[50%] mt-5 mx-auto flex flex-col justify-between">
+            <section className=" w-[80%] h-[55%] mt-5 mx-auto flex flex-col justify-between">
                 
                 <div className=" w-full h-[40%] flex flex-row border-8 border-stone-800 border-r-0">
                     <Room roomType={ROOMTYPE.ROOM} index={9}/>

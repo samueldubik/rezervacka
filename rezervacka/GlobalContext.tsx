@@ -17,7 +17,9 @@ interface GlobalContextValue {
     correctForm: boolean
     setCorrectForm: Dispatch<SetStateAction<boolean>>
     floorData: IRoomData[]
-    setFloorData: Dispatch<SetStateAction<IRoomData[]>>
+    setFloorData: Dispatch<SetStateAction<IRoomData[]>>,
+    formsVisible: boolean,
+    setFormsVisible: Dispatch<SetStateAction<boolean>>
 }
 
 const GlobalContext = createContext<GlobalContextValue>({
@@ -30,7 +32,9 @@ const GlobalContext = createContext<GlobalContextValue>({
     correctForm: false,
     setCorrectForm: () => {},
     floorData: [],
-    setFloorData: () => {}
+    setFloorData: () => {},
+    formsVisible: false,
+    setFormsVisible: () => {}
 })
 
 export default GlobalContext

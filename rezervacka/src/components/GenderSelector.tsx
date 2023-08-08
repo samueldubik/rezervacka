@@ -18,7 +18,7 @@ const GenderSelector = ({border} : Props) => {
 
 
     return (
-        <div className=" mt-5 h-[7vh] mx-5 flex flex-row justify-start items-center shadow-lg ">
+        <div className=" h-[7vh] mx-5 flex flex-row justify-start items-center shadow-lg ">
             <div 
             onClick={() => setGender(GENDER.MALE)}
 

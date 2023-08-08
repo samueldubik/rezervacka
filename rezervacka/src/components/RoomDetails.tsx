@@ -116,7 +116,7 @@ const RoomDetails = ({data}: Props) => {
 
     if(selectedRoom && students.length > 0)
         return(
-            <div className= " absolute top-[18vh] right-[2vw] border-8 shadow-lg border-stone-800 w-[20vw] h-[50vh]">
+            <div className= " border-8 shadow-lg border-stone-800 w-[20vw] h-[50vh] mt-[10vh]">
                 <h2 className=" text-center mt-5 text-3xl font-tektur font-bold mb-5">IZBA {selectedRoom?.room}</h2>
                 
                 <div className={line}>
