@@ -82,6 +82,7 @@ const Student = ({index, studentsForm, setStudentsForm, destroyForm, error}: Pro
             <article className=" w-full h-full flex flex-col mt-1 ">
                 <label className={`font-fira-sans font-medium ${(noNameError || nameWrongError) ?'text-red-600' :'text-stone-200'} w-[90%] mx-[5%] text-lg `}>Meno a Priezvisko</label>
                 <input 
+                placeholder="Ján Novák"
                 spellCheck={false}
                 value={studentsForm[index].name}
                 onChange={(event) => HandleChangeName(event.target.value)}
@@ -102,6 +103,7 @@ const Student = ({index, studentsForm, setStudentsForm, destroyForm, error}: Pro
 
                 <label className={` font-fira-sans font-medium ${(noEmailError || emailWrongError) ? 'text-red-600' : 'text-stone-200'} text-lg mt-4 w-[90%] mx-[5%]`}>Študentský email</label>
                 <input
+                placeholder="jan.novak@student.tuke.sk"
                 spellCheck={false} 
                 value={studentsForm[index].email}
                 onChange={(event) => HandleChangeEmail(event.target.value)}

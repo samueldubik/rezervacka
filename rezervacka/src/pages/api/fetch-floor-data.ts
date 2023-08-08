@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-const { Client } = require('pg');
+import { Pool } from 'pg';
 
-const db = new Client({
+const pool = new Pool({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
   database: process.env.DB_DATABASE,
@@ -11,21 +11,24 @@ const db = new Client({
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const client = await db.connect();
-    const floorNumber = req.query.floorNumber as string
-    const blockName = req.query.blockName as string
+    const client = await pool.connect();
+    const floorNumber = req.query.floorNumber as string;
+    const blockName = req.query.blockName as string;
 
-    // Use the correct syntax for executing the SQL query
-    const { rows } = await client.query(`
+    // Use parameterized query to prevent SQL injection
+    const query = `
       SELECT r.name AS room_name,
              r.gender,
              COUNT(s.name) AS number_of_students
       FROM rooms r
       LEFT JOIN students s ON r.name = s.room_name
-      WHERE r.name LIKE '${blockName}${floorNumber}%'
+      WHERE r.name LIKE $1
       GROUP BY r.name, r.gender
       ORDER BY r.name;
-    `);
+    `;
+
+    const values = [`${blockName}${floorNumber}%`];
+    const { rows } = await client.query(query, values);
 
     // Release the database connection
     client.release();
