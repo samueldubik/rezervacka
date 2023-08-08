@@ -7,6 +7,7 @@ import GlobalContext from "../../GlobalContext"
 import NavBar from "./NavBar"
 import RoomDetails from "./RoomDetails"
 import { QueryResultRow } from "@vercel/postgres"
+import ActivityIndicator from "./ActivityIndicator"
 
 
 
@@ -78,10 +79,14 @@ const Main = () => {
         <NavBar/>
         <article className=" flex flex-col h-[80%] bg-stone-200 w-full mx-auto ">
           
-          <h2 className= " text-center font-tektur font-semibold text-6xl mt-5 h-[10%]">BLOK C1</h2>
+          <h2 className= " text-center font-tektur font-semibold text-6xl mt-5 h-[10%]">BLOK C{selectedFloor}</h2>
   
           <section className=" flex flex-row justify-start w-full h-[90%]">
+            {floorData.length > 0 ? 
             <FloorLayout selectedFloor={selectedFloor} setSelectedFloor={setSelectedFloor}/>
+            :
+            <ActivityIndicator/>
+            }
             <RoomDetails data={selectedRoom} />
           </section>
   

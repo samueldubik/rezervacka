@@ -26,7 +26,6 @@ const Room = ({roomType, balcony = false, index=-1, selectedFloor, setSelectedFl
     const roomColorTrue = 'bg-[#37ba5e]'
 
     
-    
 
     useEffect(() => {
         setAvailable(isAvailable())
@@ -63,10 +62,14 @@ const Room = ({roomType, balcony = false, index=-1, selectedFloor, setSelectedFl
     const people = countPeople()
 
     const selectRoom = () => {
+        console.log(data)
+        
         if(data)
             setSelectedRoom(data)
 
+        
     }
+
 
 
     const floorUp = () => {
@@ -94,7 +97,7 @@ const Room = ({roomType, balcony = false, index=-1, selectedFloor, setSelectedFl
             
             <div
             onClick={selectRoom}
-            className= {data === selectedRoom ? ` brightness-150 ${available ? roomColorTrue : roomColorFalse} w-[13%] h-[100%] border-r-8 border-collapse border-stone-800 flex justify-center items-center relative` : `cursor-pointer ${available ? roomColorTrue : roomColorFalse} w-[13%] h-[100%] border-r-8 border-collapse border-stone-800 flex justify-center items-center relative hover:brightness-150`}
+            className= {data.room === selectedRoom?.room ? ` brightness-150 ${available ? roomColorTrue : roomColorFalse} w-[13%] h-[100%] border-r-8 border-collapse border-stone-800 flex justify-center items-center relative` : `cursor-pointer ${available ? roomColorTrue : roomColorFalse} w-[13%] h-[100%] border-r-8 border-collapse border-stone-800 flex justify-center items-center relative hover:brightness-150`}
             >
                 <h5 className=" font-tektur font-bold text-2xl z-30">{data?.room}</h5>
 

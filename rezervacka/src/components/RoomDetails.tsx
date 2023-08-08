@@ -56,7 +56,7 @@ const RoomDetails = ({data}: Props) => {
       if(!selectedRoom?.room)
         return false
 
-      const balconyRooms = ['2', '4', '9', '12']
+      const balconyRooms = ['2', '5', '9', '12']
       return balconyRooms.includes(selectedRoom.room.charAt(3))
     }
 
