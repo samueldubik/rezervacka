@@ -1,8 +1,15 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { IStudent } from "../../../GlobalContext";
-import { db } from "@vercel/postgres";
 import { DATABASERESPONSE } from "../../../Const";
+const { Client } = require('pg');
 
+const db = new Client({
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_DATABASE,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
+});
 
 
 async function getTotalStudentsCountForRoom(client: any, roomName: string): Promise<number> {
