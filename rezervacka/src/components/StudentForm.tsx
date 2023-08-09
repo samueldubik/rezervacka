@@ -53,7 +53,7 @@ const StudentForm = () => {
     }
 
     const isStudentEmailValid = (email: string) => {
-        const emailRegex = /^[^@]+(\.[^@]+)?@(student\.tuke\.sk|student\.uvlf\.sk|smail\.unipo\.sk|upjs\.sk)$/;
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@(student\.tuke\.sk|student\.uvlf\.sk|smail\.unipo\.sk|upjs\.sk|student\.upjs\.sk)$/;
         return emailRegex.test(email);
       }
 
