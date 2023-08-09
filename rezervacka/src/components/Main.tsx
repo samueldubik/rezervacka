@@ -15,7 +15,7 @@ import StudentForm from "./StudentForm"
 
 const Main = () => {
 
-    const blockNames = ['A', 'B', 'C', 'D']
+    const blockNames = ['A', 'C', 'D']
 
     const [students, setStudents] = useState<Array<any>>([])
     const [selectedRoom, setSelectedRoom] = useState<IRoomData>()
@@ -67,7 +67,7 @@ const Main = () => {
     }
 
     const blockRight = () => {
-      if(block < 3)
+      if(block < 2)
         setBlock(prev => prev + 1)
     }
     
