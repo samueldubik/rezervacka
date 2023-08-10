@@ -1,0 +1,34 @@
+version: "3.5"
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres_rezervacky_container
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: rezervacie
+      POSTGRES_USER: rezervacie
+      POSTGRES_PASSWORD: L1P;Q@m>W*4K7-]j
+    networks:
+      - internal_network_rezervacie
+    ports:
+      - "5432:5432"
+    volumes:
+      - /opt/rezervacie:/var/lib/postgresql/data
+
+  nextjs:
+    build:
+      context: ./rezervacka
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    container_name: rezervacky_container
+    ports:
+      - "3000:3000"
+    networks:
+      - internal_network_rezervacie
+    env_file: .env.prod
+
+networks:
+  internal_network_rezervacie:
+    name: oz-rezervacie
+    external: true
