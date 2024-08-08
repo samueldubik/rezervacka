@@ -20,7 +20,7 @@ const Main = () => {
     const [students, setStudents] = useState<Array<any>>([])
     const [selectedRoom, setSelectedRoom] = useState<IRoomData>()
     const [gender, setGender] = useState<GENDER>(GENDER.NONE)
-    const [floorData, setFloorData] =  useState<IRoomData[]>([])
+    const [floorData, setFloorData] =  useState<IRoomData[] | null>([])
     const [selectedFloor, setSelectedFloor] = useState<number>(1)
     const [correctForm, setCorrectForm] = useState<boolean>(true)
     const [block, setBlock] = useState<number>(0)
@@ -28,8 +28,6 @@ const Main = () => {
 
 
     useEffect(() => {
-
-        console.log('FIRE')
         fetch(`/api/fetch-floor-data?floorNumber=${selectedFloor}&blockName=${blockNames[block]}`)
         .then((response) => response.json())
         .then((data) => {
@@ -59,7 +57,13 @@ const Main = () => {
             }))
             
         })
-    },[selectedFloor, selectedRoom, block])
+      .catch(() => {
+
+        console.log('data not received');
+        setFloorData(null);
+      })
+    },[selectedFloor, selectedRoom, block, blockNames])
+
 
     const blockLeft = () => {
       if(block)
@@ -86,10 +90,6 @@ const Main = () => {
       setFormsVisible: setFormsVisible,
     }
     
-
-
-    //console.log(floorData)
-
     return (
       <main className=' select-none bg-stone-200 h-screen w-screen flex flex-col justify-between'>
         <GlobalContext.Provider value={contextValue}>
@@ -116,10 +116,13 @@ const Main = () => {
             </header>
 
             <div className=" flex flex-row justify-start w-full h-[90%]">
-              {floorData.length > 0 ? 
+              {floorData ? 
+              floorData.length > 0 ?
               <FloorLayout selectedFloor={selectedFloor} setSelectedFloor={setSelectedFloor}/>
               :
               <ActivityIndicator/>
+              :
+              <h1 className=" text-3xl font-nav-name text-[#252525] mt-24 border-[#6b7e6f] border-[12px] w-[50vw] h-[15vh] flex items-center justify-center">REGISTRÁCIA NIE JE SPRÍSTUPNENÁ</h1>
               }
               
             </div>

@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres_rezervacky_container
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: rezervacie
+      POSTGRES_USER: rezervacie
+      POSTGRES_PASSWORD: L1P;Q@m>W*4K7-]j
+    networks:
+      - internal_network_rezervacie
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+
+networks:
+  internal_network_rezervacie:
+    driver: bridge

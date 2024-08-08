@@ -34,8 +34,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     client.release();
 
     res.status(200).json(rows);
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+  } catch (error : unknown) {
+    console.log('Error fetching data:', error);
+
+    if(error instanceof Error && (error as any).code === '42P01') {
+      res.status(404).json({error: 'Reservation is not available yet.'});
+    } else {
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
   }
 }

@@ -16,8 +16,8 @@ interface GlobalContextValue {
     setGender: Dispatch<SetStateAction<GENDER>>
     correctForm: boolean
     setCorrectForm: Dispatch<SetStateAction<boolean>>
-    floorData: IRoomData[]
-    setFloorData: Dispatch<SetStateAction<IRoomData[]>>,
+    floorData: IRoomData[] | null
+    setFloorData: Dispatch<SetStateAction<IRoomData[] | null>>,
     formsVisible: boolean,
     setFormsVisible: Dispatch<SetStateAction<boolean>>
 }
