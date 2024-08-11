@@ -18,7 +18,7 @@ services:
 
   nextjs:
     build:
-      context: ./rezervacka
+      context: .
       dockerfile: Dockerfile
     restart: unless-stopped
     container_name: rezervacky_container

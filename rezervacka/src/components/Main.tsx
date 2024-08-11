@@ -62,7 +62,7 @@ const Main = () => {
         console.log('data not received');
         setFloorData(null);
       })
-    },[selectedFloor, selectedRoom, block, blockNames])
+    },[selectedFloor, block])
 
 
     const blockLeft = () => {

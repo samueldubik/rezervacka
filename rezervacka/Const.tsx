@@ -20,6 +20,11 @@ export enum GENDER {
     FEMALE,
 }
 
+export enum ROLE {
+    STUDENT,
+    ADMIN
+}
+
 export enum BUTTONTYPE {
     DEFAULT,
     ADD,

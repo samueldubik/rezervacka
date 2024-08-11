@@ -73,7 +73,7 @@ const Student = ({index, studentsForm, setStudentsForm, destroyForm, error}: Pro
                 className=" w-[25%] h-full flex flex-row justify-center items-center"
                 onClick={() => destroyForm(index)}  
                 >
-                    <div className=" bg-gray-400 h-[75%] w-[75%] flex flex-col justify-center border-4 border-t-stone-200 border-l-stone-200 border-b-stone-600 border-r-stone-600 cursor-pointer hover:bg-red-600 ">
+                    <div className=" button98">
                         <h2 className=" w-full mt-0.5 text-center text-xl text-stone-800 font-fira-sans font-extrabold ">X</h2>
                     </div>
                 </section>
