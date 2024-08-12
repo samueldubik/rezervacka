@@ -28,9 +28,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     `;
 
     const values = [`${blockName}${floorNumber}%`];
-    console.log('values:',)
     const { rows } = await client.query(query, values);
-    console.log(rows)
     // Release the database connection
     client.release();
     res.status(200).json(rows);

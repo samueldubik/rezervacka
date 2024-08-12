@@ -2,7 +2,10 @@ import { useEffect, useState } from 'react';
 import { GENDER } from '../../Const';
 import { IRoomData } from '@/components/FloorLayout';
 
-export const useFloorData = (selectedFloor: number, block: number, blockNames: string[]) => {
+const blockNames = ['A', 'C', 'D'];
+
+
+export const useFloorData = (selectedFloor: number, block: number) => {
   const [floorData, setFloorData] = useState<IRoomData[] | null>([]);
   
   useEffect(() => {

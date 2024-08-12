@@ -1,5 +1,4 @@
 'use client'
-import { db } from '@vercel/postgres'
 import  Main  from '../components/Main'
 import { useEffect, useState } from 'react';
 
@@ -17,7 +16,6 @@ export default function Home() {
     };
 
     handleResize();
-    console.log(window.innerWidth)
 
     // Add a resize event listener to update the state
     window.addEventListener('resize', handleResize);

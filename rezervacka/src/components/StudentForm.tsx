@@ -35,7 +35,6 @@ const StudentForm = () => {
     },[])
 
     const addStudent = () => {
-        //console.log('Add Student')
 
         if( studentsForm.length < 4)
             setStudentsForm(prev => {
@@ -71,7 +70,6 @@ const StudentForm = () => {
             }))
         }
 
-        //console.log(arr)
         return arr
     }
 
@@ -113,7 +111,6 @@ const StudentForm = () => {
         const result = validateForms()
         setValidation(assignStudentErrors(result))
 
-        console.log(result)
 
         //NOGENDER
         if(isErrorFound(result, VALIDATION.NOGENDER))

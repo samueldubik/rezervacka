@@ -1,8 +1,10 @@
+import ActivityIndicator from '@/components/ActivityIndicator';
 import FloorLayout from '@/components/FloorLayout';
 import NavBar from '@/components/NavBar';
+import { useFloorData } from '@/hooks/useFloorData';
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 
 const Admin = () => {
   const { data: session, status } = useSession();
@@ -10,6 +12,9 @@ const Admin = () => {
 
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
+  const [selectedFloor, setSelectedFloor] = useState(0);
+
+  const floorData = useFloorData(selectedFloor, block);
 
 
   useEffect(() => {

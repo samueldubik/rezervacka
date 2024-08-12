@@ -2,8 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import GlobalContext from "../../GlobalContext"
 import Button from "./Button"
 import { faBook, faCheck } from "@fortawesome/free-solid-svg-icons"
-import { BUTTONBORDER, DATABASERESPONSE, GENDER } from "../../Const"
-import { IRoomData } from "./FloorLayout"
+import { BUTTONBORDER, DATABASERESPONSE, GENDER, IRoomData } from "../../Const"
 
 
 type Props = {
@@ -24,11 +23,7 @@ const RoomDetails = ({data}: Props) => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [available, setAvailable] = useState<boolean>(false)
     const [feedBack, setFeedBack] = useState<DATABASERESPONSE>(DATABASERESPONSE.NONE)
-    
 
-    //console.log(`gender: ${gender}, selectedRoom: ${selectedRoom}, students: ${students}`)
-    //console.log(data)
-    //console.log(selectedRoom)
 
     
 
@@ -81,7 +76,6 @@ const RoomDetails = ({data}: Props) => {
               students: [...students],
             };
             
-            console.log('reservation:',requestData)
 
             
 

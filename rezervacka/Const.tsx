@@ -1,3 +1,9 @@
+export interface IRoomData {
+    room: string,
+    gender: GENDER,
+    students: number
+}
+
 export enum ROOMTYPE {
     ROOM,
     KITCHEN,
