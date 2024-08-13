@@ -24,7 +24,6 @@ const NavBar = () => {
 
     return (
         <nav className=' nav-normal'>
-          { pathname === '/' &&
           <div 
           onClick={() => setFormsVisible(prev => !prev)}
           className=' form-button-normal '
@@ -41,7 +40,7 @@ const NavBar = () => {
                 <FontAwesomeIcon icon={faChevronDown} className=" icon-form-button-normal" />
             }
           </div>
-          }
+        
 
           <h3 className=" text-4xl font-nav-name text-center w-[60%] my-auto text-stone-200 ">{headerLabel}</h3>
             

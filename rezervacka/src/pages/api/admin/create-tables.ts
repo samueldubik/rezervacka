@@ -16,6 +16,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const dropStudentsTableQuery = `DROP TABLE IF EXISTS students CASCADE;`;
   const dropRoomsTableQuery = `DROP TABLE IF EXISTS rooms CASCADE;`;
+  const dropWhitelistTableQuery = `DROP TABLE IF EXISTS whitelist CASCADE;`;
+  const dropScheduleTableQuery = `DROP TABLE IF EXISTS schedule CASCADE;`;
 
   const createRoomsTableQuery = `
     CREATE TABLE rooms (
@@ -31,6 +33,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       room_name VARCHAR(100),
       email VARCHAR(100) UNIQUE,
       FOREIGN KEY (room_name) REFERENCES rooms(name)
+    );
+  `;
+
+  const createWhitelistTableQuery = `
+    CREATE TABLE whitelist (
+      email VARCHAR(100) PRIMARY KEY
+    );
+  `;
+
+  const createScheduleTableQuery = `
+    CREATE TABLE schedule (
+      id SERIAL PRIMARY KEY,
+      start_date DATE NOT NULL,
+      end_date DATE NOT NULL
     );
   `;
 
@@ -50,10 +66,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // Drop existing tables
     await client.query(dropStudentsTableQuery);
     await client.query(dropRoomsTableQuery);
+    await client.query(dropWhitelistTableQuery);
+    await client.query(dropScheduleTableQuery);
 
     // Create new tables
     await client.query(createRoomsTableQuery);
     await client.query(createStudentsTableQuery);
+    await client.query(createWhitelistTableQuery);
+    await client.query(createScheduleTableQuery);
 
     // Populate the rooms table
     const blocks = ['A', 'B', 'C', 'D'];
@@ -67,8 +87,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     await client.query('COMMIT');
-    console.log('Table recreated');
-    res.status(200).json({ message: 'Tables created, and rooms populated successfully' });
+    console.log('Tables recreated');
+    res.status(200).json({ message: 'Tables created and populated successfully' });
   } catch (error) {
     console.error('Error creating tables or populating rooms:', error);
     if (client) {

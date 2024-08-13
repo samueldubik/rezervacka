@@ -1,10 +1,14 @@
 import ActivityIndicator from '@/components/ActivityIndicator';
-import FloorLayout from '@/components/FloorLayout';
+import FloorLayout, { IRoomData } from '@/components/FloorLayout';
 import NavBar from '@/components/NavBar';
 import { useFloorData } from '@/hooks/useFloorData';
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { SetStateAction, useEffect, useState } from 'react';
+import { GENDER } from '../../Const';
+import GlobalContext from '../../GlobalContext';
+import StudentForm from '@/components/StudentForm';
+import FileHandler from '@/components/FileHandler';
 
 const Admin = () => {
   const { data: session, status } = useSession();
@@ -12,10 +16,28 @@ const Admin = () => {
 
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
-  const [selectedFloor, setSelectedFloor] = useState(0);
 
-  const floorData = useFloorData(selectedFloor, block);
+  const [students, setStudents] = useState<Array<any>>([])
+  const [selectedRoom, setSelectedRoom] = useState<IRoomData>()
+  const [gender, setGender] = useState<GENDER>(GENDER.NONE)
+  const [floorData, setFloorData] =  useState<IRoomData[] | null>([])
+  const [correctForm, setCorrectForm] = useState<boolean>(true)
+  const [formsVisible, setFormsVisible] = useState<boolean>(true)
 
+  const contextValue = {
+    students: students,
+    setStudents: setStudents,
+    selectedRoom: selectedRoom,
+    setSelectedRoom: setSelectedRoom,
+    gender: gender,
+    setGender: setGender,
+    correctForm: correctForm,
+    setCorrectForm: setCorrectForm,
+    floorData: floorData,
+    setFloorData: setFloorData,
+    formsVisible: formsVisible,
+    setFormsVisible: setFormsVisible,
+  }
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -53,6 +75,8 @@ const Admin = () => {
   }
 
   return (
+    <GlobalContext.Provider value={contextValue} >
+
     <main className=' select-none bg-stone-200 h-screen w-screen flex flex-col items-center'>
       <NavBar/>
       
@@ -64,7 +88,18 @@ const Admin = () => {
       </button>
 
       <button onClick={() => signOut()}>Logout</button>
+
+      <FloorLayout/>
+      <FileHandler/>
+
+
+      <section>
+        <h3>Pridať termín</h3>
+        <form>
+        </form>
+      </section>
     </main>
+    </GlobalContext.Provider>
   );
 };
 

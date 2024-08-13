@@ -1,0 +1,32 @@
+import { NextApiRequest, NextApiResponse } from 'next';
+import { Pool } from 'pg';
+
+const pool = new Pool({
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_DATABASE,
+  password: process.env.DB_PASSWORD,
+  port: Number(process.env.DB_PORT),
+});
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== 'GET') {
+    return res.status(405).json({ message: 'Method Not Allowed' });
+  }
+
+  let client;
+  
+  try {
+    client = await pool.connect();
+    const result = await client.query('SELECT email FROM whitelist');
+
+    res.status(200).json(result.rows);
+  } catch (error) {
+    console.error('Error fetching whitelist data:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  } finally {
+    if (client) {
+      client.release();
+    }
+  }
+}
