@@ -118,20 +118,22 @@ const Room = ({roomType, balcony = false, index=-1, selectedFloor, setSelectedFl
 
         case ROOMTYPE.ELEVATOR : return (
             <div className=" w-[22%] h-[100%] border-stone-800 border-collapse border-r-8 flex flex-col relative">
-
-                <FontAwesomeIcon
+                
+                <div
                 onClick={floorUp}
-                icon={faCaretUp}
-                className=" cursor-pointer h-1/2 bg-[#A2C3A4]   border-stone-800 w-full hover:brightness-125 "
-                />
+                className=" flex flex-col justify-center items-center cursor-pointer bg-[#A2C3A4] h-1/2 border-stone-800 w-full hover:brightness-125 "
+                >
+                <FontAwesomeIcon icon={faCaretUp} size={'2xl'}/>
+                </div>
                 
                 <div className=' absolute w-full bg-stone-800 top-[48%] h-[8px] z-20 '></div>
 
-                <FontAwesomeIcon 
+                <div
                 onClick={floorDown}
-                icon={faCaretDown} 
-                className=" cursor-pointer bg-[#A2C3A4] h-1/2 w-full border-stone-800 hover:brightness-125"
-                />
+                className=" flex flex-col justify-center items-center cursor-pointer bg-[#A2C3A4] h-1/2 w-full border-stone-800 hover:brightness-125"
+                >
+                <FontAwesomeIcon icon={faCaretDown} size={'2xl'}/>
+                </div>
             </div>
         )
 

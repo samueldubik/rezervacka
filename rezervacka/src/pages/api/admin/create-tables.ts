@@ -18,6 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const dropRoomsTableQuery = `DROP TABLE IF EXISTS rooms CASCADE;`;
   const dropWhitelistTableQuery = `DROP TABLE IF EXISTS whitelist CASCADE;`;
   const dropScheduleTableQuery = `DROP TABLE IF EXISTS schedule CASCADE;`;
+  const dropSettingsTableQuery = `DROP TABLE IF EXISTS settings CASCADE;`;
 
   const createRoomsTableQuery = `
     CREATE TABLE rooms (
@@ -50,6 +51,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     );
   `;
 
+  const createSettingsTableQuery = `
+    CREATE TABLE settings (
+      id SERIAL PRIMARY KEY,
+      key VARCHAR(100) UNIQUE NOT NULL,
+      value BOOLEAN NOT NULL
+    );
+  `;
+
   const insertRoomsQuery = `
     INSERT INTO rooms (name, gender)
     VALUES ($1, NULL)
@@ -68,12 +77,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     await client.query(dropRoomsTableQuery);
     await client.query(dropWhitelistTableQuery);
     await client.query(dropScheduleTableQuery);
+    await client.query(dropSettingsTableQuery);
 
     // Create new tables
     await client.query(createRoomsTableQuery);
     await client.query(createStudentsTableQuery);
     await client.query(createWhitelistTableQuery);
     await client.query(createScheduleTableQuery);
+    await client.query(createSettingsTableQuery);
 
     // Populate the rooms table
     const blocks = ['A', 'B', 'C', 'D'];
@@ -85,6 +96,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
       }
     }
+
+    // Insert default setting for reservations (enabled)
+    await client.query(
+      `INSERT INTO settings (key, value) VALUES ('reservations_enabled', true) ON CONFLICT (key) DO NOTHING;`
+    );
 
     await client.query('COMMIT');
     console.log('Tables recreated');

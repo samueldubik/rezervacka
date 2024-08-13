@@ -21,22 +21,20 @@ const Button = ({label, icon, action, border, type=BUTTONTYPE.DEFAULT, black=fal
     const borderColor = ['border-stone-800', 'border-stone-200', 'border-red-600']
 
     return (
-        <div 
-        onClick={!loading ? action : () => console.log('LOADING...')}
-        className= {` mt-5 h-[7vh] mx-5 flex flex-row justify-start items-center cursor-pointer shadow-lg border-8 ${borderColor[border]} hover:brightness-150`}
-        >
-            {!loading && <FontAwesomeIcon icon={icon} className={black ? ` h-4/5 w-[20%] ${textColorsBlack[type]}` :` h-4/5 w-[20%] ${textColorsWhite[type]}`} />}
-            {!loading ? 
-            <h2 
-            className={black ? ` w-[60%] text-center ${textColorsBlack[type]} font-fira-sans font-extrabold text-xl` : ` w-[60%] text-center ${textColorsWhite[type]} font-fira-sans font-extrabold text-xl`}>
-                {label}
-            </h2>
-            :
-            <FontAwesomeIcon icon={faSpinner} spin className=" absolute left-[45%] h-5"/>
-        }
+<div 
+    onClick={!loading ? action : () => console.log('LOADING...')}
+    className={`mt-2 lg:mt-5 h-[5vh] lg:h-[7vh] mx-2 lg:mx-5 flex flex-row justify-start items-center cursor-pointer shadow-lg border-4 lg:border-8 ${borderColor[border]} hover:brightness-150`}
+>
+    {!loading && <FontAwesomeIcon icon={icon} className={black ? `h-[60%] lg:h-4/5 w-[20%] ${textColorsBlack[type]}` : `h-[60%] lg:h-4/5 w-[20%] ${textColorsWhite[type]}`} />}
+    {!loading ? 
+    <h2 className={black ? `w-[60%] text-center ${textColorsBlack[type]} font-fira-sans font-extrabold text-lg lg:text-xl` : `w-[60%] text-center ${textColorsWhite[type]} font-fira-sans font-extrabold text-lg lg:text-xl`}>
+        {label}
+    </h2>
+    :
+    <FontAwesomeIcon icon={faSpinner} spin className="absolute left-[45%] h-5" />
+    }
+</div>
 
-            
-        </div>
     )
 }
 
