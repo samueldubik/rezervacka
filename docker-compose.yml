@@ -5,7 +5,7 @@ services:
     container_name: dev-postgres-rezervacka
     env_file: .env.development
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - db_data_dev:/var/lib/postgresql/data
     networks:
@@ -17,7 +17,7 @@ services:
     container_name: prod-postgres-rezervacka
     env_file: .env.production
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - db_data_prod:/var/lib/postgresql/data
     networks:
@@ -31,7 +31,7 @@ services:
     container_name: nextjs-app-rezervacka
     env_file: .env.production
     ports:
-      - "3000:3000"
+      - '3000:3000'
     depends_on:
       - db_prod
     networks:

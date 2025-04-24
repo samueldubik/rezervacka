@@ -52,13 +52,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { gender, roomName, students }: RequestData = req.body;
 
     if (!roomName || !students) {
-      res.status(400).json({ error: 'gender, roomName, and students are required fields in the request body.' });
+      res
+        .status(400)
+        .json({ error: 'gender, roomName, and students are required fields in the request body.' });
       return;
     }
 
     await client.query('BEGIN;');
 
-    const totalStudentsCount = students.length + (await getTotalStudentsCountForRoom(client, roomName));
+    const totalStudentsCount =
+      students.length + (await getTotalStudentsCountForRoom(client, roomName));
 
     if (totalStudentsCount > 4) {
       res.status(400).json({ error: 'Room capacity exceeded. Maximum 4 students allowed.' });
@@ -71,7 +74,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return;
     }
 
-    const placeholders = students.map((_, index) => `($${index * 3 + 1}, $${index * 3 + 2}, $${index * 3 + 3})`).join(', ');
+    const placeholders = students
+      .map((_, index) => `($${index * 3 + 1}, $${index * 3 + 2}, $${index * 3 + 3})`)
+      .join(', ');
     const studentValues = students.flatMap(({ name, email }) => [name, roomName, email]);
 
     const queryInsert = `

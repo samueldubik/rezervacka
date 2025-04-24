@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Fira+Code:wght@300;400;500;600;700&family=Tektur:wght@400;500;600;700;800;900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Fira+Code:wght@300;400;500;600;700&family=Tektur:wght@400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,30 +6,30 @@
 
 @layer components {
   .nav-normal {
-    @apply bg-dark h-[10vh] flex flex-row justify-items-start w-screen relative;
+    @apply relative flex h-[10vh] w-screen flex-row justify-items-start bg-dark;
   }
 
   .form-button-normal {
-    @apply flex flex-row justify-between bg-form w-[20%] px-2 align-middle cursor-pointer hover:brightness-125;
+    @apply flex w-[20%] cursor-pointer flex-row justify-between bg-form px-2 align-middle hover:brightness-125;
   }
 
   .icon-form-button-normal {
-    @apply w-[20%] h-full  text-stone-200;
+    @apply h-full w-[20%] text-stone-200;
   }
 
   .form-text-container {
-    @apply flex flex-col justify-center w-[80%]  h-full text-center;
+    @apply flex h-full w-[80%] flex-col justify-center text-center;
   }
 
   .h4-normal {
-    @apply font-fira-sans font-medium text-stone-200 text-xl;
+    @apply font-fira-sans text-xl font-medium text-stone-200;
   }
 
   .h4-small {
-    @apply font-fira-sans font-medium text-stone-200 text-xs;
+    @apply font-fira-sans text-xs font-medium text-stone-200;
   }
 
   .button98 {
-    @apply bg-gray-400 h-[75%] w-[75%] flex flex-col justify-center border-4 border-t-stone-200 border-l-stone-200 border-b-stone-600 border-r-stone-600 cursor-pointer hover:bg-red-600;
+    @apply flex h-[75%] w-[75%] cursor-pointer flex-col justify-center border-4 border-b-stone-600 border-l-stone-200 border-r-stone-600 border-t-stone-200 bg-gray-400 hover:bg-red-600;
   }
 }

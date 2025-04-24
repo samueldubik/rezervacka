@@ -1,13 +1,5 @@
+import pool from '@/lib/db';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { Pool } from 'pg';
-
-const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_DATABASE,
-  password: process.env.DB_PASSWORD,
-  port: Number(process.env.DB_PORT),
-});
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'GET') {
@@ -15,7 +7,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   let client;
-  
+
   try {
     client = await pool.connect();
     const result = await client.query('SELECT email FROM whitelist');

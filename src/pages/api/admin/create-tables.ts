@@ -99,7 +99,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // Insert default setting for reservations (enabled)
     await client.query(
-      `INSERT INTO settings (key, value) VALUES ('reservations_enabled', true) ON CONFLICT (key) DO NOTHING;`
+      `INSERT INTO settings (key, value) VALUES ('reservations_enabled', true) ON CONFLICT (key) DO NOTHING;`,
     );
 
     await client.query('COMMIT');

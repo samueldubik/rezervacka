@@ -18,7 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     client = await pool.connect();
-    
+
     // Use SQL's NOT operator to toggle the boolean value
     const updateQuery = `
       UPDATE settings
@@ -26,12 +26,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       WHERE key = 'reservations_enabled'
       RETURNING value;
     `;
-    
+
     const { rows } = await client.query(updateQuery);
     const newStatus = rows[0]?.value;
 
     res.status(200).json({ message: 'Reservation status updated successfully.', newStatus });
-    
   } catch (error) {
     console.error('Error toggling reservation status:', error);
     res.status(500).json({ message: 'Internal Server Error' });

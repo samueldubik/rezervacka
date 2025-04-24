@@ -1,29 +1,28 @@
-import type { Config } from "tailwindcss";
+import type { Config } from 'tailwindcss';
 
 const config: Config = {
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
       backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
 
       colors: {
-        form: "#1C5464",
-        dark: "#272D2D",
-        success: "#6FD08C",
+        form: '#1C5464',
+        dark: '#272D2D',
+        success: '#6FD08C',
       },
 
       fontFamily: {
-        "nav-name": ["Alfa Slab One"],
-        "fira-sans": ["Fira Code"],
-        tektur: ["Tektur"],
+        'nav-name': ['Alfa Slab One'],
+        'fira-sans': ['Fira Code'],
+        tektur: ['Tektur'],
       },
     },
   },

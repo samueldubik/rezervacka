@@ -1,54 +1,52 @@
-'use client'
+'use client';
 
-import { useState } from "react"
-import FloorLayout, { IRoomData } from "./FloorLayout"
-import { GENDER } from "../../Const"
-import GlobalContext from "../../GlobalContext"
-import NavBar from "./NavBar"
-import RoomDetails from "./RoomDetails"
-import StudentForm from "./StudentForm"
-import ReservationWindow from "./ReservationWindow"
-
-
+import { useState } from 'react';
+import FloorLayout, { IRoomData } from './FloorLayout';
+import { GENDER } from '../../Const';
+import GlobalContext from '../../GlobalContext';
+import NavBar from './NavBar';
+import RoomDetails from './RoomDetails';
+import StudentForm from './StudentForm';
+import ReservationWindow from './ReservationWindow';
 
 const Main = () => {
+  const [students, setStudents] = useState<Array<any>>([]);
+  const [selectedRoom, setSelectedRoom] = useState<IRoomData>();
+  const [gender, setGender] = useState<GENDER>(GENDER.NONE);
+  const [floorData, setFloorData] = useState<IRoomData[] | null>([]);
+  const [correctForm, setCorrectForm] = useState<boolean>(true);
+  const [formsVisible, setFormsVisible] = useState<boolean>(true);
 
-    const [students, setStudents] = useState<Array<any>>([])
-    const [selectedRoom, setSelectedRoom] = useState<IRoomData>()
-    const [gender, setGender] = useState<GENDER>(GENDER.NONE)
-    const [floorData, setFloorData] =  useState<IRoomData[] | null>([])
-    const [correctForm, setCorrectForm] = useState<boolean>(true)
-    const [formsVisible, setFormsVisible] = useState<boolean>(true)
+  const contextValue = {
+    students: students,
+    setStudents: setStudents,
+    selectedRoom: selectedRoom,
+    setSelectedRoom: setSelectedRoom,
+    gender: gender,
+    setGender: setGender,
+    correctForm: correctForm,
+    setCorrectForm: setCorrectForm,
+    floorData: floorData,
+    setFloorData: setFloorData,
+    formsVisible: formsVisible,
+    setFormsVisible: setFormsVisible,
+  };
 
-    const contextValue = {
-      students: students,
-      setStudents: setStudents,
-      selectedRoom: selectedRoom,
-      setSelectedRoom: setSelectedRoom,
-      gender: gender,
-      setGender: setGender,
-      correctForm: correctForm,
-      setCorrectForm: setCorrectForm,
-      floorData: floorData,
-      setFloorData: setFloorData,
-      formsVisible: formsVisible,
-      setFormsVisible: setFormsVisible,
-    }
-    
-    return (
-      <main className=' select-none bg-stone-200 h-screen w-screen flex flex-col justify-between'>
-        <GlobalContext.Provider value={contextValue}>
-        <NavBar/>
-        <ReservationWindow/>
-  
-        <footer className=" bg-[#272D2D] h-[10%] flex flex-row justify-between px-10 items-center">
-          <h6 className=" font-fira-sans font-medium text-stone-200">Samuel Dubík 2023</h6>
-          <h6 className=" font-fira-sans font-medium text-stone-200">V prípade problémov s rezerváciou nás kontaktujte na rada.jedlikova9@gmail.com</h6>
+  return (
+    <main className="flex h-screen w-screen select-none flex-col justify-between bg-stone-200">
+      <GlobalContext.Provider value={contextValue}>
+        <NavBar />
+        <ReservationWindow />
+
+        <footer className="flex h-[10%] flex-row items-center justify-between bg-[#272D2D] px-10">
+          <h6 className="font-fira-sans font-medium text-stone-200">Samuel Dubík 2023</h6>
+          <h6 className="font-fira-sans font-medium text-stone-200">
+            V prípade problémov s rezerváciou nás kontaktujte na rada.jedlikova9@gmail.com
+          </h6>
         </footer>
-        </GlobalContext.Provider>
-      </main>
-    )
-  }
+      </GlobalContext.Provider>
+    </main>
+  );
+};
 
-  export default Main
-  
+export default Main;

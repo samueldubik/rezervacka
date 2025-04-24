@@ -5,7 +5,9 @@ type ToggleReservationButtonProps = {
 };
 
 const ToggleReservationButton = ({ reservationEnabled }: ToggleReservationButtonProps) => {
-  const [status, setStatus] = useState<'Enabled' | 'Disabled'>(reservationEnabled ? 'Enabled' : 'Disabled');
+  const [status, setStatus] = useState<'Enabled' | 'Disabled'>(
+    reservationEnabled ? 'Enabled' : 'Disabled',
+  );
   const [isLoading, setIsLoading] = useState(false);
 
   const toggleReservations = async () => {

@@ -1,6 +1,6 @@
-"use client";
-import Main from "../components/Main";
-import { useEffect, useState } from "react";
+'use client';
+import Main from '../components/Main';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
@@ -13,19 +13,19 @@ export default function Home() {
     handleResize();
 
     // Add a resize event listener to update the state
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
 
     // Clean up the event listener on component unmount
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
   if (!isSmallScreen) return <Main />;
   else {
     return (
-      <div className=" w-screen h-screen px-10 flex flex-col justify-center">
-        <h1 className=" font-fira-sans text-center">
+      <div className="flex h-screen w-screen flex-col justify-center px-10">
+        <h1 className="text-center font-fira-sans">
           Na registráciu je nutné použiť počítač. Ďakujem za pochopenie
         </h1>
       </div>

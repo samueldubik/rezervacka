@@ -1,13 +1,5 @@
+import pool from '@/lib/db';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { Pool } from 'pg';
-
-const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_DATABASE,
-  password: process.env.DB_PASSWORD,
-  port: Number(process.env.DB_PORT),
-});
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -32,11 +24,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // Release the database connection
     client.release();
     res.status(200).json(rows);
-  } catch (error : unknown) {
+  } catch (error: unknown) {
     console.log('Error fetching data:', error);
 
-    if(error instanceof Error && (error as any).code === '42P01') {
-      res.status(404).json({error: 'Reservation is not available yet.'});
+    if (error instanceof Error && (error as any).code === '42P01') {
+      res.status(404).json({ error: 'Reservation is not available yet.' });
     } else {
       res.status(500).json({ error: 'Internal Server Error' });
     }

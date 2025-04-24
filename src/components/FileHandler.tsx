@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 const FileHandler = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -18,7 +18,10 @@ const FileHandler = () => {
   const handleTextInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTextInput(e.target.value);
     setFile(null); // Clear file input when text input is used
-    const emails = e.target.value.split('\n').map(email => email.trim()).filter(email => email.length > 0);
+    const emails = e.target.value
+      .split('\n')
+      .map((email) => email.trim())
+      .filter((email) => email.length > 0);
     setEmailList(emails);
   };
 
@@ -26,7 +29,10 @@ const FileHandler = () => {
     const reader = new FileReader();
     reader.onload = (e) => {
       const content = e.target?.result as string;
-      const emails = content.split('\n').map(email => email.trim()).filter(email => email.length > 0);
+      const emails = content
+        .split('\n')
+        .map((email) => email.trim())
+        .filter((email) => email.length > 0);
       setEmailList(emails);
     };
     reader.readAsText(file);
@@ -34,13 +40,13 @@ const FileHandler = () => {
 
   const handleUpload = async () => {
     if (emailList.length === 0) {
-      setError("Please select a file or enter emails manually.");
+      setError('Please select a file or enter emails manually.');
       return;
     }
 
     try {
-      const response = await fetch("/api/admin/upload-whitelist", {
-        method: "POST",
+      const response = await fetch('/api/admin/upload-whitelist', {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -48,41 +54,41 @@ const FileHandler = () => {
       });
 
       if (response.ok) {
-        setSuccess("Whitelist updated successfully.");
+        setSuccess('Whitelist updated successfully.');
         setError(null);
         setEmailList([]);
         setTextInput('');
         setFile(null);
       } else {
         const errorData = await response.json();
-        setError(errorData.message || "Failed to update whitelist.");
+        setError(errorData.message || 'Failed to update whitelist.');
         setSuccess(null);
       }
     } catch (error) {
-      setError("An error occurred while uploading the whitelist.");
+      setError('An error occurred while uploading the whitelist.');
       setSuccess(null);
     }
   };
 
   const handleClearWhitelist = async () => {
     try {
-      const response = await fetch("/api/admin/upload-whitelist", {
-        method: "DELETE",
+      const response = await fetch('/api/admin/upload-whitelist', {
+        method: 'DELETE',
       });
 
       if (response.ok) {
-        setSuccess("Whitelist cleared successfully.");
+        setSuccess('Whitelist cleared successfully.');
         setError(null);
         setEmailList([]);
         setTextInput('');
         setFile(null);
       } else {
         const errorData = await response.json();
-        setError(errorData.message || "Failed to clear whitelist.");
+        setError(errorData.message || 'Failed to clear whitelist.');
         setSuccess(null);
       }
     } catch (error) {
-      setError("An error occurred while clearing the whitelist.");
+      setError('An error occurred while clearing the whitelist.');
       setSuccess(null);
     }
   };
@@ -94,19 +100,22 @@ const FileHandler = () => {
         value={textInput}
         onChange={handleTextInputChange}
         rows={10}
-        className="w-full p-2 border rounded mb-4"
+        className="mb-4 w-full rounded border p-2"
       ></textarea>
       <div>
         <input type="file" accept=".txt" onChange={handleFileChange} />
       </div>
-      <button onClick={handleUpload} className="mt-4 p-2 bg-blue-500 text-white rounded">
+      <button onClick={handleUpload} className="mt-4 rounded bg-blue-500 p-2 text-white">
         Upload
       </button>
-      <button onClick={handleClearWhitelist} className="mt-4 p-2 bg-red-500 text-white rounded ml-2">
+      <button
+        onClick={handleClearWhitelist}
+        className="ml-2 mt-4 rounded bg-red-500 p-2 text-white"
+      >
         Clear Whitelist
       </button>
-      {error && <p className="text-red-500 mt-2">{error}</p>}
-      {success && <p className="text-green-500 mt-2">{success}</p>}
+      {error && <p className="mt-2 text-red-500">{error}</p>}
+      {success && <p className="mt-2 text-green-500">{success}</p>}
     </div>
   );
 };
