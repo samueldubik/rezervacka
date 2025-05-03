@@ -13,10 +13,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum GENDER {
+  NONE
+  MALE
+  FEMALE
+}
+
 model Room {
   id     Int      @id @default(autoincrement())
   name   String   @unique
-  gender Boolean?
+  gender GENDER
   students Student[]
 }
 

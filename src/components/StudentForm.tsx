@@ -3,7 +3,7 @@ import Student from './Student';
 import Button from './Button';
 import { faBan, faCheck, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import GlobalContext, { IStudent } from '../../GlobalContext';
-import { BUTTONBORDER, BUTTONTYPE, GENDER, VALIDATION } from '../../Const';
+import { BUTTONBORDER, BUTTONTYPE, GENDER, VALIDATION } from '../../Types';
 import GenderSelector from './GenderSelector';
 
 export interface IValidation {

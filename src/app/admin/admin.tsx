@@ -9,7 +9,7 @@ import FileHandler from '@/components/FileHandler';
 import ReservationWindow from '@/components/ReservationWindow';
 import ToggleReservationButton from '@/components/ToogleReservationButton';
 import GlobalContext from '../../../GlobalContext';
-import { GENDER } from '../../../Const';
+import { GENDER } from '../../../Types';
 
 const Admin = () => {
   const { data: session, status } = useSession();

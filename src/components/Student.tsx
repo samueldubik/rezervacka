@@ -2,7 +2,7 @@ import { faCircleXmark, faRectangleXmark, faUser } from '@fortawesome/free-solid
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IStudent } from '../../GlobalContext';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { VALIDATION } from '../../Const';
+import { VALIDATION } from '../../Types';
 import { IValidation } from './StudentForm';
 
 type Props = {

@@ -1,5 +1,5 @@
 import { EnumDeclaration } from 'typescript';
-import { GENDER, ROOMTYPE } from '../../Const';
+import { GENDER, ROOMTYPE } from '../../Types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { IRoomData } from './FloorLayout';

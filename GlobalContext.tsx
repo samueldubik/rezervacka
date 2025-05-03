@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, createContext } from 'react';
-import { GENDER, IRoomData } from './Const';
+import { GENDER, IRoomData } from './Types';
 
 export interface IStudent {
   name: string;

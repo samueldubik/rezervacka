@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import FloorLayout, { IRoomData } from './FloorLayout';
-import { GENDER } from '../../Const';
+import { GENDER } from '../../Types';
 import GlobalContext from '../../GlobalContext';
 import NavBar from './NavBar';
 import RoomDetails from './RoomDetails';

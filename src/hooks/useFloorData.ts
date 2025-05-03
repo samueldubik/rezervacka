@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { GENDER } from '../../Const';
+import { GENDER } from '../../Types';
 import { IRoomData } from '@/components/FloorLayout';
 
 const blockNames = ['A', 'C', 'D'];

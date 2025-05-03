@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import GlobalContext from '../../GlobalContext';
 import Button from './Button';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
-import { BUTTONBORDER, DATABASERESPONSE, GENDER, IRoomData } from '../../Const';
+import { BUTTONBORDER, DATABASERESPONSE, GENDER, IRoomData } from '../../Types';
 
 type Props = {
   data: IRoomData | undefined;

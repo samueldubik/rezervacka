@@ -28,11 +28,8 @@ const NavBar = () => {
           <h4 className="h4-small lg:h4-normal">Registrovaní študenti</h4>
         </div>
 
-        {formsVisible ? (
-          <FontAwesomeIcon icon={faChevronUp} className="icon-form-button-normal" />
-        ) : (
-          <FontAwesomeIcon icon={faChevronDown} className="icon-form-button-normal" />
-        )}
+        <FontAwesomeIcon icon={formsVisible ? faChevronUp : faChevronDown} className="icon-form-button-normal" />
+
       </div>
 
       <h3 className="my-auto w-[60%] text-center font-nav-name text-4xl text-stone-200">

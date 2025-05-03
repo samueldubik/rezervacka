@@ -1,6 +1,6 @@
 import { IconDefinition, faCheck, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { BUTTONBORDER, BUTTONTYPE } from '../../Const';
+import { BUTTONBORDER, BUTTONTYPE } from '../../Types';
 
 type Props = {
   label: string;

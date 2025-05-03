@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { GENDER, ROOMTYPE } from '../../Const';
+import { GENDER, ROOMTYPE } from '../../Types';
 import Room from './Room';
 import GlobalContext from '../../GlobalContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,11 +7,7 @@ import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons
 import { useFloorData } from '@/hooks/useFloorData';
 import ActivityIndicator from './ActivityIndicator';
 
-export interface IRoomData {
-  room: string;
-  gender: GENDER;
-  students: number;
-}
+
 
 const blockNames = ['A', 'C', 'D'];
 
