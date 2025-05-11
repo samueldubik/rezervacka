@@ -1,5 +1,6 @@
+import { GENDER } from '@prisma/client';
 import { Dispatch, SetStateAction, createContext } from 'react';
-import { GENDER, IRoomData } from './Types';
+import { RoomData } from './Types';
 
 export interface IStudent {
   name: string;
@@ -9,14 +10,14 @@ export interface IStudent {
 interface GlobalContextValue {
   students: IStudent[];
   setStudents: Dispatch<SetStateAction<IStudent[]>>;
-  selectedRoom: IRoomData | undefined;
-  setSelectedRoom: Dispatch<SetStateAction<IRoomData | undefined>>;
+  selectedRoom: RoomData | undefined;
+  setSelectedRoom: Dispatch<SetStateAction<RoomData | undefined>>;
   gender: GENDER;
   setGender: Dispatch<SetStateAction<GENDER>>;
   correctForm: boolean;
   setCorrectForm: Dispatch<SetStateAction<boolean>>;
-  floorData: IRoomData[] | null;
-  setFloorData: Dispatch<SetStateAction<IRoomData[] | null>>;
+  floorData: RoomData[] | null;
+  setFloorData: Dispatch<SetStateAction<RoomData[] | null>>;
   formsVisible: boolean;
   setFormsVisible: Dispatch<SetStateAction<boolean>>;
 }

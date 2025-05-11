@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
-import { GENDER } from '../../Types';
-import { IRoomData } from '@/components/FloorLayout';
+import { RoomData } from '../../Types';
+import { GENDER } from '@prisma/client';
 
 const blockNames = ['A', 'C', 'D'];
 
 export const useFloorData = (selectedFloor: number, block: number) => {
-  const [floorData, setFloorData] = useState<IRoomData[] | null>([]);
+  const [floorData, setFloorData] = useState<RoomData[] | null>([]);
 
   useEffect(() => {
     console.log('FIRE');
-    fetch(`/api/fetch-floor-data?floorNumber=${selectedFloor}&blockName=${blockNames[block]}`)
+    fetch(`/api/fetchFloorData?floorNumber=${selectedFloor}&blockName=${blockNames[block]}`)
       .then((response) => response.json())
       .then((data) => {
         setFloorData(

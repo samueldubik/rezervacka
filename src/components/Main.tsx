@@ -1,19 +1,17 @@
 'use client';
 
 import { useState } from 'react';
-import FloorLayout, { IRoomData } from './FloorLayout';
-import { GENDER } from '../../Types';
 import GlobalContext from '../../GlobalContext';
 import NavBar from './NavBar';
-import RoomDetails from './RoomDetails';
-import StudentForm from './StudentForm';
 import ReservationWindow from './ReservationWindow';
+import { RoomData } from '../../Types';
+import { GENDER } from '@prisma/client';
 
 const Main = () => {
   const [students, setStudents] = useState<Array<any>>([]);
-  const [selectedRoom, setSelectedRoom] = useState<IRoomData>();
+  const [selectedRoom, setSelectedRoom] = useState<RoomData>();
   const [gender, setGender] = useState<GENDER>(GENDER.NONE);
-  const [floorData, setFloorData] = useState<IRoomData[] | null>([]);
+  const [floorData, setFloorData] = useState<RoomData[] | null>([]);
   const [correctForm, setCorrectForm] = useState<boolean>(true);
   const [formsVisible, setFormsVisible] = useState<boolean>(true);
 

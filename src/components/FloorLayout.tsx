@@ -1,13 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
-import { GENDER, ROOMTYPE } from '../../Types';
+import { ROOMTYPE } from '../../Types';
 import Room from './Room';
 import GlobalContext from '../../GlobalContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { useFloorData } from '@/hooks/useFloorData';
 import ActivityIndicator from './ActivityIndicator';
-
-
 
 const blockNames = ['A', 'C', 'D'];
 
@@ -32,7 +30,7 @@ const FloorLayout = ({ isAdmin = false }) => {
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        const response = await fetch('/api/fetch-settings');
+        const response = await fetch('/api/fetchSettings');
         const settings = await response.json();
         const reservationsSetting = settings.find((s: any) => s.key === 'reservations_enabled');
         setReservationsEnabled(reservationsSetting?.value || false);

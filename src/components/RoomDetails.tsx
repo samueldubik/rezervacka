@@ -2,10 +2,11 @@ import { useContext, useEffect, useState } from 'react';
 import GlobalContext from '../../GlobalContext';
 import Button from './Button';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
-import { BUTTONBORDER, DATABASERESPONSE, GENDER, IRoomData } from '../../Types';
+import { BUTTONBORDER, RoomData } from '../../Types';
+import { GENDER } from '@prisma/client';
 
 type Props = {
-  data: IRoomData | undefined;
+  data: RoomData | undefined;
 };
 
 const RoomDetails = ({ data }: Props) => {
@@ -18,7 +19,7 @@ const RoomDetails = ({ data }: Props) => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [available, setAvailable] = useState<boolean>(false);
-  const [feedBack, setFeedBack] = useState<DATABASERESPONSE>(DATABASERESPONSE.NONE);
+  const [feedBack, setFeedBack] = useState<string | null>(null);
   const [whitelist, setWhitelist] = useState<string[]>([]);
 
   // Fetch whitelist data

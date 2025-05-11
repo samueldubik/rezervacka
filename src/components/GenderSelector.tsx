@@ -2,7 +2,8 @@ import { faMars, faVenus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext } from 'react';
 import GlobalContext from '../../GlobalContext';
-import { BUTTONBORDER, GENDER } from '../../Types';
+import { BUTTONBORDER } from '../../Types';
+import { GENDER } from '@prisma/client';
 
 type Props = {
   border: BUTTONBORDER;
