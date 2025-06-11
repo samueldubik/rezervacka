@@ -1,21 +1,18 @@
-import { NextResponse } from "next/server";
-import {prisma} from "@/lib/prisma"; // Adjust the import based on your project structure
-import { RoomData } from "../../../../Types";
-
-
-
+import { NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma'; // Adjust the import based on your project structure
+import { Room } from '@prisma/client';
+import { RoomData } from '../../../../Types';
 
 export async function GET(req: Request) {
   try {
-
     const url = new URL(req.url);
     const floorNumber = url.searchParams.get('floorNumber') as string;
     const blockName = url.searchParams.get('blockName') as string;
 
-    if (!floorNumber || !blockName){
+    if (!floorNumber || !blockName) {
       return NextResponse.json(
         { error: 'Missing required parameters: floorNumber and blockName' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -40,24 +37,18 @@ export async function GET(req: Request) {
     });
 
     if (rooms.length === 0) {
-      return NextResponse.json(
-        { error: 'Reservation is not available yet.'},
-        { status: 404}
-      );
+      return NextResponse.json({ error: 'Reservation is not available yet.' }, { status: 404 });
     }
 
     const transformedRooms: RoomData[] = rooms.map((room) => ({
       name: room.name,
       studentsCount: room._count.students,
-      gender: room.gender
-    }))
+      gender: room.gender,
+    }));
 
     return NextResponse.json(transformedRooms, { status: 200 });
-  } catch (error: unknown) { 
+  } catch (error: unknown) {
     console.error('Error fetching floor data:', error);
-    return NextResponse.json(
-      { error: 'Internal Server Error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }

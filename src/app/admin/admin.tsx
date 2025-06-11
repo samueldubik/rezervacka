@@ -1,15 +1,13 @@
-import ActivityIndicator from '@/components/ActivityIndicator';
-import FloorLayout, { IRoomData } from '@/components/FloorLayout';
 import NavBar from '@/components/NavBar';
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { SetStateAction, useEffect, useState } from 'react';
-import StudentForm from '@/components/StudentForm';
+import { useEffect, useState } from 'react';
 import FileHandler from '@/components/FileHandler';
 import ReservationWindow from '@/components/ReservationWindow';
 import ToggleReservationButton from '@/components/ToogleReservationButton';
-import GlobalContext from '../../../GlobalContext';
-import { GENDER } from '../../../Types';
+import GlobalContext, { GlobalContextValue } from '../../../GlobalContext';
+import { GENDER, Room } from '@prisma/client';
+import { RoomData } from '../../../Types';
 
 const Admin = () => {
   const { data: session, status } = useSession();
@@ -20,13 +18,13 @@ const Admin = () => {
   const [settings, setSettings] = useState<{ key: string; value: boolean }[]>([]);
 
   const [students, setStudents] = useState<Array<any>>([]);
-  const [selectedRoom, setSelectedRoom] = useState<IRoomData>();
+  const [selectedRoom, setSelectedRoom] = useState<RoomData>();
   const [gender, setGender] = useState<GENDER>(GENDER.NONE);
-  const [floorData, setFloorData] = useState<IRoomData[] | null>([]);
+  const [floorData, setFloorData] = useState<RoomData[] | null>([]);
   const [correctForm, setCorrectForm] = useState<boolean>(true);
   const [formsVisible, setFormsVisible] = useState<boolean>(true);
 
-  const contextValue = {
+  const contextValue: GlobalContextValue = {
     students: students,
     setStudents: setStudents,
     selectedRoom: selectedRoom,

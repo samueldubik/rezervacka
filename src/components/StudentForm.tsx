@@ -1,9 +1,9 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Student from './Student';
 import Button from './Button';
 import { faBan, faCheck, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import GlobalContext, { IStudent } from '../../GlobalContext';
-import { BUTTONBORDER, BUTTONTYPE, GENDER, VALIDATION } from '../../Types';
+import { BUTTONBORDER, BUTTONTYPE, VALIDATION } from '../../Types';
 import GenderSelector from './GenderSelector';
 
 export interface IValidation {
@@ -17,7 +17,6 @@ const StudentForm = () => {
   const [studentsForm, setStudentsForm] = useState<IStudent[]>([]);
   const [noGenderError, setNoGenderError] = useState<boolean>(false);
   const [lessThan2Error, setLessThan2Error] = useState<boolean>(false);
-  const [success, setSuccess] = useState<boolean>(true);
   const [validation, setValidation] = useState<IValidation[][]>([]);
 
   const { gender, correctForm, setCorrectForm } = context;

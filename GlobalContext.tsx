@@ -1,5 +1,5 @@
-import { GENDER } from '@prisma/client';
 import { Dispatch, SetStateAction, createContext } from 'react';
+import { GENDER, Room } from '@prisma/client';
 import { RoomData } from './Types';
 
 export interface IStudent {
@@ -7,7 +7,7 @@ export interface IStudent {
   email: string;
 }
 
-interface GlobalContextValue {
+export interface GlobalContextValue {
   students: IStudent[];
   setStudents: Dispatch<SetStateAction<IStudent[]>>;
   selectedRoom: RoomData | undefined;

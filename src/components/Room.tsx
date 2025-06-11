@@ -1,10 +1,9 @@
-import { EnumDeclaration } from 'typescript';
-import { GENDER, ROOMTYPE } from '../../Types';
+import { ROOMTYPE } from '../../Types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
-import { IRoomData } from './FloorLayout';
 import { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react';
 import GlobalContext from '../../GlobalContext';
+import { GENDER } from '@prisma/client';
 
 type Props = {
   roomType: ROOMTYPE;
@@ -37,7 +36,7 @@ const Room = ({
   const isAvailable = () => {
     if (!data) return false;
 
-    if (data?.students + students.length > 4) return false;
+    if (data.studentsCount > 4) return false;
     if (gender && data?.gender && data?.gender !== gender) return false;
 
     return true;
@@ -46,9 +45,9 @@ const Room = ({
   const countPeople = () => {
     const arr = [];
 
-    if (!data?.students) return [];
+    if (!data?.studentsCount) return [];
 
-    for (let i = 0; i < data.students; i++)
+    for (let i = 0; i < data.studentsCount; i++)
       arr.push(
         <div
           key={i}
@@ -93,12 +92,12 @@ const Room = ({
         <div
           onClick={selectRoom}
           className={
-            data?.room === selectedRoom?.room
+            data?.name === selectedRoom?.name
               ? `brightness-150 ${available ? roomColorTrue : roomColorFalse} relative flex h-[100%] w-[13%] border-collapse items-center justify-center border-r-8 border-stone-800`
               : `cursor-pointer ${available ? roomColorTrue : roomColorFalse} relative flex h-[100%] w-[13%] border-collapse items-center justify-center border-r-8 border-stone-800 hover:brightness-150`
           }
         >
-          <h5 className="z-30 font-tektur text-2xl font-bold">{data?.room}</h5>
+          <h5 className="z-30 font-tektur text-2xl font-bold">{data?.name}</h5>
 
           {balcony && (
             <h6 className="font-tekur absolute top-3 text-sm font-semibold opacity-80">BALKÓN</h6>

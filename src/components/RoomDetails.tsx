@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import GlobalContext from '../../GlobalContext';
 import Button from './Button';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
-import { BUTTONBORDER, RoomData } from '../../Types';
+import { BUTTONBORDER, RESERVATIONRESPONSE, RoomData } from '../../Types';
 import { GENDER } from '@prisma/client';
 
 type Props = {
@@ -19,7 +19,7 @@ const RoomDetails = ({ data }: Props) => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [available, setAvailable] = useState<boolean>(false);
-  const [feedBack, setFeedBack] = useState<string | null>(null);
+  const [feedBack, setFeedBack] = useState<{ message: string; status: number }>();
   const [whitelist, setWhitelist] = useState<string[]>([]);
 
   // Fetch whitelist data
@@ -46,7 +46,7 @@ const RoomDetails = ({ data }: Props) => {
     if (!data) return false;
 
     // Check student count
-    if (data?.students + students.length > 4) return false;
+    if (data?.studentsCount > 4) return false;
 
     // Check gender
     if (gender && data?.gender && data?.gender !== gender) return false;
@@ -67,9 +67,9 @@ const RoomDetails = ({ data }: Props) => {
 
   // Determine if the selected room has a balcony
   const hasBalcony = () => {
-    if (!selectedRoom?.room) return false;
+    if (!selectedRoom?.name) return false;
     const balconyRooms = ['2', '5', '9', '12'];
-    return balconyRooms.includes(selectedRoom.room.charAt(3));
+    return balconyRooms.includes(selectedRoom.name.charAt(3));
   };
 
   // Get gender caption
@@ -93,7 +93,7 @@ const RoomDetails = ({ data }: Props) => {
 
       const requestData = {
         gender: gender === GENDER.MALE ? true : false,
-        roomName: selectedRoom?.room,
+        roomName: selectedRoom?.name,
         students: [...students],
       };
 
@@ -107,13 +107,13 @@ const RoomDetails = ({ data }: Props) => {
 
       if (response.ok) {
         console.log('Reservation and gender update successful.');
-        setFeedBack(DATABASERESPONSE.SUCCESS);
+        setFeedBack(RESERVATIONRESPONSE.SUCCESS);
       } else {
         const errorData = await response.json();
-        if (errorData.error === DATABASERESPONSE.ALREADYUSED) {
-          setFeedBack(DATABASERESPONSE.ALREADYUSED);
+        if (errorData.error === RESERVATIONRESPONSE.ALREADYUSED) {
+          setFeedBack(RESERVATIONRESPONSE.ALREADYUSED);
         } else {
-          setFeedBack(DATABASERESPONSE.ERROR);
+          setFeedBack(RESERVATIONRESPONSE.ERROR);
         }
       }
       setIsLoading(false);
@@ -138,7 +138,7 @@ const RoomDetails = ({ data }: Props) => {
     return (
       <div className="mt-[10vh] h-[50vh] w-[20vw] border-8 border-stone-800 shadow-lg">
         <h2 className="mb-5 mt-5 text-center font-tektur text-3xl font-bold">
-          IZBA {selectedRoom?.room}
+          IZBA {selectedRoom?.name}
         </h2>
 
         <div className={line}>
@@ -153,7 +153,7 @@ const RoomDetails = ({ data }: Props) => {
 
         <div className={line}>
           <h3 className={label}>MIESTA:</h3>
-          <h3 className={value}>{4 - selectedRoom?.students}</h3>
+          <h3 className={value}>{4 - selectedRoom?.studentsCount}</h3>
         </div>
 
         <div className="mb-10 w-full">
@@ -165,17 +165,17 @@ const RoomDetails = ({ data }: Props) => {
             border={correctForm && available ? BUTTONBORDER.BLACK : BUTTONBORDER.ERROR}
             black
           />
-          {feedBack === DATABASERESPONSE.SUCCESS && (
+          {feedBack === RESERVATIONRESPONSE.SUCCESS && (
             <h2 className="mt-2 text-center font-fira-sans text-sm font-semibold text-green-500">
               REZERVÁCIA ÚSPEŠNÁ
             </h2>
           )}
-          {feedBack === DATABASERESPONSE.ERROR && (
+          {feedBack === RESERVATIONRESPONSE.ERROR && (
             <h2 className="mt-2 text-center font-fira-sans text-sm font-semibold text-red-500">
               REZERVÁCIA NEÚSPEŠNÁ
             </h2>
           )}
-          {feedBack === DATABASERESPONSE.ALREADYUSED && (
+          {feedBack === RESERVATIONRESPONSE.ALREADYUSED && (
             <h2 className="mt-2 text-center font-fira-sans text-sm font-semibold text-red-500">
               ŠTUDENT UŽ JE REGISTROVANÝ
             </h2>

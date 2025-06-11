@@ -1,11 +1,4 @@
-import { GENDER } from "@prisma/client";
-
-export interface RoomData {
-  name: string;
-  gender: GENDER;
-  studentsCount: number;
-  students?: {name: string; email: string}
-}
+import { $Enums } from '@prisma/client';
 
 export enum ROOMTYPE {
   ROOM,
@@ -49,4 +42,10 @@ export const RESERVATIONRESPONSE = {
   NOTFOUND: { message: 'Room not found.', status: 404 },
   MORETHAN4: { message: 'Room capacity exceeded. Maximum 4 students allowed.', status: 400 },
   GENDERMISSMATCH: { message: 'Room gender mismatch.', status: 400 },
-}
+};
+
+export type RoomData = {
+  name: string;
+  studentsCount: number;
+  gender: $Enums.GENDER;
+};
