@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma'; // Adjust the import based on your project structure
-import { Room } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 import { RoomData } from '../../../../Types';
 
 export async function GET(req: Request) {

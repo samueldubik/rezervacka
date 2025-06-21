@@ -8,6 +8,7 @@ import ToggleReservationButton from '@/components/ToogleReservationButton';
 import GlobalContext, { GlobalContextValue } from '../../../GlobalContext';
 import { GENDER, Room } from '@prisma/client';
 import { RoomData } from '../../../Types';
+import { useSettings } from '@/hooks/useSettings';
 
 const Admin = () => {
   const { data: session, status } = useSession();
@@ -15,14 +16,14 @@ const Admin = () => {
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
-  const [settings, setSettings] = useState<{ key: string; value: boolean }[]>([]);
-
   const [students, setStudents] = useState<Array<any>>([]);
   const [selectedRoom, setSelectedRoom] = useState<RoomData>();
   const [gender, setGender] = useState<GENDER>(GENDER.NONE);
   const [floorData, setFloorData] = useState<RoomData[] | null>([]);
   const [correctForm, setCorrectForm] = useState<boolean>(true);
   const [formsVisible, setFormsVisible] = useState<boolean>(true);
+
+  const { settings } = useSettings();
 
   const contextValue: GlobalContextValue = {
     students: students,
@@ -45,24 +46,6 @@ const Admin = () => {
       router.push('/login');
     }
   }, [status, session, router]);
-
-  useEffect(() => {
-    const fetchSettings = async () => {
-      try {
-        const res = await fetch('/api/fetch-settings');
-        const data = await res.json();
-        if (res.ok) {
-          setSettings(data);
-        } else {
-          console.error('Failed to fetch settings');
-        }
-      } catch (error) {
-        console.error('Error fetching settings:', error);
-      }
-    };
-
-    fetchSettings();
-  }, []);
 
   if (status === 'loading') {
     return <p>Loading...</p>;

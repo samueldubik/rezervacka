@@ -4,6 +4,7 @@ import Button from './Button';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
 import { BUTTONBORDER, RESERVATIONRESPONSE, RoomData } from '../../Types';
 import { GENDER } from '@prisma/client';
+import { useWhitelist } from '@/hooks/useWhitelist';
 
 type Props = {
   data: RoomData | undefined;
@@ -20,26 +21,9 @@ const RoomDetails = ({ data }: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [available, setAvailable] = useState<boolean>(false);
   const [feedBack, setFeedBack] = useState<{ message: string; status: number }>();
-  const [whitelist, setWhitelist] = useState<string[]>([]);
 
   // Fetch whitelist data
-  useEffect(() => {
-    const fetchWhitelist = async () => {
-      try {
-        const response = await fetch('/api/fetch-whitelist');
-        if (response.ok) {
-          const data = await response.json();
-          setWhitelist(data.map((item: { email: string }) => item.email));
-        } else {
-          console.error('Failed to fetch whitelist');
-        }
-      } catch (error) {
-        console.error('Error fetching whitelist:', error);
-      }
-    };
-
-    fetchWhitelist();
-  }, []);
+  const { whitelist } = useWhitelist();
 
   // Check if reservation is available
   const isAvailable = () => {

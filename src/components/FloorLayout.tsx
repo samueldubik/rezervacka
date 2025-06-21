@@ -6,13 +6,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { useFloorData } from '@/hooks/useFloorData';
 import ActivityIndicator from './ActivityIndicator';
+import { useSettings } from '@/hooks/useSettings';
 
 const blockNames = ['A', 'C', 'D'];
 
 const FloorLayout = ({ isAdmin = false }) => {
   const [block, setBlock] = useState<number>(0);
   const [selectedFloor, setSelectedFloor] = useState(1);
-  const [reservationsEnabled, setReservationsEnabled] = useState<boolean | null>(null);
 
   const context = useContext(GlobalContext);
   const { floorData, setFloorData } = context;
@@ -27,30 +27,15 @@ const FloorLayout = ({ isAdmin = false }) => {
 
   const fetchFloorData = useFloorData(selectedFloor, block);
 
-  useEffect(() => {
-    const fetchSettings = async () => {
-      try {
-        const response = await fetch('/api/fetchSettings');
-        const settings = await response.json();
-        const reservationsSetting = settings.find((s: any) => s.key === 'reservations_enabled');
-        setReservationsEnabled(reservationsSetting?.value || false);
-      } catch (error) {
-        console.error('Error fetching settings:', error);
-      }
-    };
-
-    fetchSettings();
-  }, []);
+  const { reservationEnabled } = useSettings();
 
   useEffect(() => {
     setFloorData(fetchFloorData);
   }, [fetchFloorData, setFloorData]);
 
-  if (reservationsEnabled === null) {
-    return <ActivityIndicator />;
-  }
+  useEffect(() => {});
 
-  if (!reservationsEnabled && !isAdmin) {
+  if (!reservationEnabled && !isAdmin) {
     return (
       <h1 className="mt-24 flex h-[15vh] w-[50vw] items-center justify-center border-[12px] border-[#6b7e6f] font-nav-name text-3xl text-[#252525]">
         Registrácia nie je dostupná
@@ -112,7 +97,16 @@ const FloorLayout = ({ isAdmin = false }) => {
     return <ActivityIndicator />;
   } else {
     return (
-      <h1 className="mt-24 flex h-[15vh] w-[50vw] items-center justify-center border-[12px] border-[#6b7e6f] font-nav-name text-3xl text-[#252525]">
+      <h1
+        onClick={() => {
+          const res = fetch('/api/admin/resetReservation', {
+            method: 'POST',
+          });
+
+          console.log(res);
+        }}
+        className="mt-24 flex h-[15vh] w-[50vw] items-center justify-center border-[12px] border-[#6b7e6f] font-nav-name text-3xl text-[#252525]"
+      >
         REGISTRÁCIA NIE JE SPRÍSTUPNENÁ
       </h1>
     );

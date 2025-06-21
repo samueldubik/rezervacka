@@ -1,8 +1,8 @@
-import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma'; // Adjust the import based on your project structure
+import { prisma } from '@/lib/prisma';
 import { GENDER } from '@prisma/client';
+import { NextApiResponse } from 'next';
 
-export async function POST(req: Request) {
+export async function POST(res: NextApiResponse) {
   try {
     // Drop existing tables
     await prisma.student.deleteMany({});
@@ -25,14 +25,11 @@ export async function POST(req: Request) {
       }
     }
 
-    return NextResponse.json(
-      { message: 'Tables created and populated successfully' },
-      { status: 200 },
-    );
+    res.status(200).json({ message: 'Reservation status updated successfully.' });
 
     // Create new tables and populate the rooms table
   } catch (error) {
     console.error('Error resetting reservations:', error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    return res.status(500).json({ error: 'Internal Server Error' });
   }
 }
