@@ -19,7 +19,7 @@ function validateRequest(body: RequestData) {
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json() as RequestData;
+    const body = (await req.json()) as RequestData;
     validateRequest(body);
     const { gender, roomName, students } = body;
 
@@ -67,8 +67,10 @@ export async function POST(req: Request) {
 
     // Use the success key to send the response
     const successResponse = RESERVATIONRESPONSE[result.key];
-    return NextResponse.json({ message: successResponse.message }, { status: successResponse.status });
-
+    return NextResponse.json(
+      { message: successResponse.message },
+      { status: successResponse.status },
+    );
   } catch (error: any) {
     console.error('Error processing reservation:', error);
 

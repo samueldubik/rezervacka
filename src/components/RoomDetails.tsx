@@ -33,8 +33,9 @@ const RoomDetails = ({ data }: Props) => {
     if (data?.studentsCount > 4) return false;
 
     // Check gender
-    if (gender && data?.gender && data?.gender !== gender) return false;
-
+    if (gender !== data?.gender && data?.gender !== GENDER.NONE) {
+      return false;
+    }
     // Check whitelist
     if (whitelist.length > 0) {
       const studentEmails = students.map((student) => student.email);
@@ -76,12 +77,12 @@ const RoomDetails = ({ data }: Props) => {
       setIsLoading(true);
 
       const requestData = {
-        gender: gender === GENDER.MALE ? true : false,
+        gender: gender,
         roomName: selectedRoom?.name,
         students: [...students],
       };
 
-      const response = await fetch('/api/reserve-rooms', {
+      const response = await fetch('/api/reserveRoom', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

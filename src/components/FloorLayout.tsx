@@ -1,21 +1,18 @@
-import { useContext, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { ROOMTYPE } from '../../Types';
 import Room from './Room';
-import GlobalContext from '../../GlobalContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { useFloorData } from '@/hooks/useFloorData';
 import ActivityIndicator from './ActivityIndicator';
 import { useSettings } from '@/hooks/useSettings';
+import Elevator from './Elevator';
 
 const blockNames = ['A', 'C', 'D'];
 
 const FloorLayout = ({ isAdmin = false }) => {
   const [block, setBlock] = useState<number>(0);
   const [selectedFloor, setSelectedFloor] = useState(1);
-
-  const context = useContext(GlobalContext);
-  const { floorData, setFloorData } = context;
 
   const blockLeft = () => {
     if (block) setBlock((prev) => prev - 1);
@@ -25,15 +22,8 @@ const FloorLayout = ({ isAdmin = false }) => {
     if (block < 2) setBlock((prev) => prev + 1);
   };
 
-  const fetchFloorData = useFloorData(selectedFloor, block);
-
+  const floorData = useFloorData(selectedFloor, blockNames[block]);
   const { reservationEnabled } = useSettings();
-
-  useEffect(() => {
-    setFloorData(fetchFloorData);
-  }, [fetchFloorData, setFloorData]);
-
-  useEffect(() => {});
 
   if (!reservationEnabled && !isAdmin) {
     return (
@@ -43,7 +33,7 @@ const FloorLayout = ({ isAdmin = false }) => {
     );
   }
 
-  if (fetchFloorData) {
+  if (floorData && floorData.length > 0) {
     return (
       <section className="mx-auto mt-5 flex h-[55%] w-[90%] flex-col justify-between">
         <header className="mx-auto mt-5 flex h-[10%] w-[50%] flex-row items-center justify-center">
@@ -65,35 +55,31 @@ const FloorLayout = ({ isAdmin = false }) => {
           />
         </header>
         <div className="mt-10 flex h-[40%] w-full flex-row border-8 border-r-0 border-stone-800">
-          <Room roomType={ROOMTYPE.ROOM} index={9} />
-          <Room roomType={ROOMTYPE.ROOM} index={8} balcony={true} />
-          <Room roomType={ROOMTYPE.ROOM} index={7} />
+          <Room data={floorData[9]} />
+          <Room data={floorData[8]} balcony={true} />
+          <Room data={floorData[7]} />
 
           <Room roomType={ROOMTYPE.KITCHEN} />
 
-          <Room roomType={ROOMTYPE.ROOM} index={5} />
-          <Room roomType={ROOMTYPE.ROOM} index={4} balcony={true} />
-          <Room roomType={ROOMTYPE.ROOM} index={3} />
+          <Room data={floorData[5]} />
+          <Room data={floorData[4]} balcony={true} />
+          <Room data={floorData[3]} />
         </div>
 
         <div className="mt-2 flex h-[40%] w-full flex-row border-8 border-r-0 border-stone-800">
-          <Room roomType={ROOMTYPE.ROOM} index={10} />
-          <Room roomType={ROOMTYPE.ROOM} index={11} balcony={true} />
-          <Room roomType={ROOMTYPE.ROOM} index={12} />
+          <Room data={floorData[10]} />
+          <Room data={floorData[11]} balcony={true} />
+          <Room data={floorData[12]} />
 
-          <Room
-            roomType={ROOMTYPE.ELEVATOR}
-            selectedFloor={selectedFloor}
-            setSelectedFloor={setSelectedFloor}
-          />
+          <Elevator selectedFloor={selectedFloor} setSelectedFloor={setSelectedFloor} />
 
-          <Room roomType={ROOMTYPE.ROOM} index={0} />
-          <Room roomType={ROOMTYPE.ROOM} index={1} balcony={true} />
-          <Room roomType={ROOMTYPE.ROOM} index={2} />
+          <Room data={floorData[0]} />
+          <Room data={floorData[1]} balcony={true} />
+          <Room data={floorData[2]} />
         </div>
       </section>
     );
-  } else if (floorData && floorData.length === 0) {
+  } else if (floorData === null) {
     return <ActivityIndicator />;
   } else {
     return (

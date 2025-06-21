@@ -1,33 +1,19 @@
 import { useEffect, useState } from 'react';
 import { RoomData } from '../../Types';
-import { GENDER } from '@prisma/client';
+import { GENDER, Student } from '@prisma/client';
 
-const blockNames = ['A', 'C', 'D'];
-
-export const useFloorData = (selectedFloor: number, block: number) => {
+export const useFloorData = (selectedFloor: number, block: string) => {
   const [floorData, setFloorData] = useState<RoomData[] | null>([]);
-
   useEffect(() => {
-    console.log('FIRE');
-    fetch(`/api/fetchFloorData?floorNumber=${selectedFloor}&blockName=${blockNames[block]}`)
+    fetch(`/api/fetchFloorData?floorNumber=${selectedFloor}&blockName=${block}`)
       .then((response) => response.json())
       .then((data) => {
         setFloorData(
-          data.map((item: { room_name: any; gender: boolean; number_of_students: string }) => {
-            let tmp: GENDER;
-
-            if (item.gender === null) {
-              tmp = GENDER.NONE;
-            } else if (item.gender === true) {
-              tmp = GENDER.MALE;
-            } else {
-              tmp = GENDER.FEMALE;
-            }
-
+          data.map((item: { name: string; gender: GENDER; studentsCount: number }) => {
             return {
-              room: item.room_name,
-              gender: tmp,
-              students: parseInt(item.number_of_students),
+              name: item.name,
+              gender: item.gender,
+              studentsCount: item.studentsCount,
             };
           }),
         );
@@ -37,6 +23,5 @@ export const useFloorData = (selectedFloor: number, block: number) => {
         setFloorData(null);
       });
   }, [selectedFloor, block]);
-  console.log(floorData);
   return floorData;
 };
