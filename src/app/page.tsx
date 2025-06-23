@@ -1,34 +1,38 @@
 'use client';
-import Main from '../components/Main';
-import { useEffect, useState } from 'react';
+import NavBar from '@/components/NavBar';
+import { GlobalContextProvider } from '../../GlobalContext';
+import { useState } from 'react';
+import { RoomData } from '../../Types';
+import { GENDER } from '@prisma/client';
+import StudentForm from '@/components/StudentForm';
+import FloorLayout from '@/components/FloorLayout';
+import RoomDetails from '@/components/RoomDetails';
 
 export default function Home() {
-  const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const formsVisible = true; // This will be removed with the design refactor
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsSmallScreen(window.innerWidth < 768);
-    };
+  return (
+    <main className="flex h-screen w-screen select-none flex-col justify-between bg-stone-200">
+      <GlobalContextProvider>
+        <NavBar />
+        <article className="flex h-[80vh] w-full flex-row bg-stone-200">
+          {formsVisible && <StudentForm />}
 
-    handleResize();
+          <section className={`w-[60vw] ${!formsVisible && 'ml-[20vw]'} `}>
+            <div className="flex h-[90%] w-full flex-row justify-start">
+              <FloorLayout />
+            </div>
+          </section>
 
-    // Add a resize event listener to update the state
-    window.addEventListener('resize', handleResize);
-
-    // Clean up the event listener on component unmount
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-  if (!isSmallScreen) return <Main />;
-  else {
-    return (
-      <div className="flex h-screen w-screen flex-col justify-center px-10">
-        <h1 className="text-center font-fira-sans">
-          Na registráciu je nutné použiť počítač. Ďakujem za pochopenie
-        </h1>
-      </div>
-    );
-  }
+          <RoomDetails />
+        </article>
+        <footer className="flex h-[10%] flex-row items-center justify-between bg-[#272D2D] px-10">
+          <h6 className="font-fira-sans font-medium text-stone-200">Samuel Dubík 2023</h6>
+          <h6 className="font-fira-sans font-medium text-stone-200">
+            V prípade problémov s rezerváciou nás kontaktujte na rada.jedlikova9@gmail.com
+          </h6>
+        </footer>
+      </GlobalContextProvider>
+    </main>
+  );
 }

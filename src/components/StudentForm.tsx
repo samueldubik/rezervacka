@@ -1,20 +1,20 @@
-import { GENDER } from '@prisma/client';
-import GlobalContext, { IStudent } from '../../GlobalContext';
-import { Controller, set, useFieldArray, useForm } from 'react-hook-form';
-import { useContext } from 'react';
+import { GENDER, Student } from '@prisma/client';
+import { useGlobalContext } from '../../GlobalContext';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
+
 import { BUTTONBORDER, BUTTONTYPE } from '../../Types';
 import { faBan, faCheck, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import Button from './Button';
 import GenderSelector from './GenderSelector';
-import Student from './Student';
+import StudentField from './StudentField';
 
 type StudentFormValues = {
-  students: { name: string; email: string }[];
+  students: Student[];
   gender: GENDER;
 };
 
 const StudentForm = () => {
-  const { setStudents } = useContext(GlobalContext);
+  const { setStudents, setGender } = useGlobalContext();
 
   const {
     control,
@@ -27,7 +27,7 @@ const StudentForm = () => {
       students: [{ name: '', email: '' }],
       gender: GENDER.NONE,
     },
-    mode: 'onBlur',
+    mode: 'onChange',
   });
 
   const { fields, append, remove } = useFieldArray({
@@ -38,13 +38,18 @@ const StudentForm = () => {
   const onSubmit = (data: StudentFormValues) => {
     console.log('Form Submitted: ', data);
     setStudents(data.students);
+    setGender(data.gender);
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="mt-[1vh] h-[79vh] w-[20vw] bg-[#1C5464]">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      onMouseLeave={handleSubmit(onSubmit)}
+      className="mt-[1vh] h-[79vh] w-[20vw] bg-[#1C5464]"
+    >
       <section className="h-[35vh] snap-y snap-proximity overflow-y-auto overflow-x-hidden">
         {fields.map((field, index) => (
-          <Student
+          <StudentField
             key={field.id}
             index={index}
             control={control}
@@ -58,7 +63,9 @@ const StudentForm = () => {
         <Controller
           control={control}
           name="gender"
-          rules={{ required: 'Vyberte pohlavie' }}
+          rules={{
+            validate: (value) => value !== GENDER.NONE || 'Vyberte pohlavie',
+          }}
           render={({ field }) => (
             <GenderSelector
               {...field}
@@ -76,7 +83,7 @@ const StudentForm = () => {
           type={BUTTONTYPE.ADD}
           label="Pridať"
           icon={faUserPlus}
-          action={() => append({ name: '', email: '' })}
+          action={() => append({ id: Date.now(), name: '', email: '', roomName: '' })}
           border={BUTTONBORDER.WHITE}
         />
 

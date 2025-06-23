@@ -1,15 +1,10 @@
-import { Dispatch, SetStateAction, createContext } from 'react';
-import { GENDER, Room } from '@prisma/client';
+import { GENDER, Student } from '@prisma/client';
+import { createContext, Dispatch, SetStateAction, useContext, useState } from 'react';
 import { RoomData } from './Types';
 
-export interface IStudent {
-  name: string;
-  email: string;
-}
-
-export interface GlobalContextValue {
-  students: IStudent[];
-  setStudents: Dispatch<SetStateAction<IStudent[]>>;
+interface GlobalState {
+  students: Student[];
+  setStudents: Dispatch<SetStateAction<Student[]>>;
   selectedRoom: RoomData | undefined;
   setSelectedRoom: Dispatch<SetStateAction<RoomData | undefined>>;
   gender: GENDER;
@@ -22,19 +17,42 @@ export interface GlobalContextValue {
   setFormsVisible: Dispatch<SetStateAction<boolean>>;
 }
 
-const GlobalContext = createContext<GlobalContextValue>({
-  students: [],
-  setStudents: () => {},
-  selectedRoom: undefined,
-  setSelectedRoom: () => {},
-  gender: GENDER.NONE,
-  setGender: () => {},
-  correctForm: false,
-  setCorrectForm: () => {},
-  floorData: [],
-  setFloorData: () => {},
-  formsVisible: false,
-  setFormsVisible: () => {},
-});
+const GlobalContext = createContext<GlobalState | undefined>(undefined);
 
-export default GlobalContext;
+export const GlobalContextProvider = ({ children }: { children: React.ReactNode }) => {
+  const [students, setStudents] = useState<Array<any>>([]);
+  const [selectedRoom, setSelectedRoom] = useState<RoomData>();
+  const [gender, setGender] = useState<GENDER>(GENDER.NONE);
+  const [floorData, setFloorData] = useState<RoomData[] | null>([]);
+  const [correctForm, setCorrectForm] = useState<boolean>(true);
+  const [formsVisible, setFormsVisible] = useState<boolean>(true);
+
+  return (
+    <GlobalContext.Provider
+      value={{
+        students,
+        setStudents,
+        selectedRoom,
+        setSelectedRoom,
+        gender,
+        setGender,
+        floorData,
+        setFloorData,
+        correctForm,
+        setCorrectForm,
+        formsVisible,
+        setFormsVisible,
+      }}
+    >
+      {children}
+    </GlobalContext.Provider>
+  );
+};
+
+export const useGlobalContext = () => {
+  const context = useContext(GlobalContext);
+  if (context === undefined) {
+    throw new Error('useGlobalContext must be used within a GlobalContextProvider');
+  }
+  return context;
+};

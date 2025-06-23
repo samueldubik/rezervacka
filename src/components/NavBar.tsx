@@ -2,8 +2,7 @@
 
 import { faChevronDown, faChevronUp, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Dispatch, SetStateAction, useContext, useState } from 'react';
-import GlobalContext from '../../GlobalContext';
+import { useGlobalContext } from '../../GlobalContext';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 
@@ -13,11 +12,10 @@ const headers: { [key: string]: string } = {
 };
 
 const NavBar = () => {
-  const context = useContext(GlobalContext);
   const pathname = usePathname() || ' ';
   const headerLabel: string = headers[pathname] || 'Default Header';
 
-  const { formsVisible, setFormsVisible } = context;
+  const { formsVisible, setFormsVisible } = useGlobalContext();
 
   return (
     <nav className="nav-normal">
@@ -28,8 +26,10 @@ const NavBar = () => {
           <h4 className="h4-small lg:h4-normal">Registrovaní študenti</h4>
         </div>
 
-        <FontAwesomeIcon icon={formsVisible ? faChevronUp : faChevronDown} className="icon-form-button-normal" />
-
+        <FontAwesomeIcon
+          icon={formsVisible ? faChevronUp : faChevronDown}
+          className="icon-form-button-normal"
+        />
       </div>
 
       <h3 className="my-auto w-[60%] text-center font-nav-name text-4xl text-stone-200">

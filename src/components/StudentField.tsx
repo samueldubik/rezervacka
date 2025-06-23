@@ -10,7 +10,7 @@ type StudentProps = {
   };
 };
 
-const Student = ({ index, control, remove, errors }: StudentProps) => (
+const StudentField = ({ index, control, remove, errors }: StudentProps) => (
   <div className="relative flex h-[35vh] w-full snap-center flex-col border-b-8 border-stone-200">
     <header className="flex h-[6vh] w-full flex-row items-center justify-between bg-[#174450]">
       <section
@@ -36,7 +36,19 @@ const Student = ({ index, control, remove, errors }: StudentProps) => (
         name={`students.${index}.name`}
         rules={{
           required: 'Zadajte meno',
-          validate: (value) => value.includes(' ') || 'Nesprávny formát',
+          validate: (value: string) => {
+            const words = value.trim().split(/\s+/);
+
+            if (words.length < 2) {
+              return 'Zadajte celé meno a priezvisko';
+            }
+
+            if (/\d/.test(value)) {
+              return 'Meno nesmie obsahovať čísla';
+            }
+
+            return true;
+          },
         }}
         render={({ field }) => (
           <input
@@ -89,4 +101,4 @@ const Student = ({ index, control, remove, errors }: StudentProps) => (
   </div>
 );
 
-export default Student;
+export default StudentField;

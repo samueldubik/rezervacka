@@ -1,9 +1,7 @@
 import { RoomData, ROOMTYPE } from '../../Types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
-import { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react';
-import GlobalContext from '../../GlobalContext';
+import { useGlobalContext } from '../../GlobalContext';
 import { GENDER } from '@prisma/client';
+import { useEffect, useState } from 'react';
 
 type Props = {
   data?: RoomData;
@@ -12,8 +10,7 @@ type Props = {
 };
 
 const Room = ({ data, roomType = ROOMTYPE.ROOM, balcony = false }: Props) => {
-  const context = useContext(GlobalContext);
-  const { selectedRoom, setSelectedRoom, gender, students } = context;
+  const { selectedRoom, setSelectedRoom, gender, students } = useGlobalContext();
 
   const [available, setAvailable] = useState<boolean>(false);
 
@@ -25,10 +22,6 @@ const Room = ({ data, roomType = ROOMTYPE.ROOM, balcony = false }: Props) => {
   });
 
   const isAvailable = () => {
-    console.log('gender: ', gender);
-    console.log('data?.gender: ', data?.gender);
-    console.log('data: ', data);
-
     if (!data) {
       return false;
     }

@@ -1,22 +1,18 @@
 import { useContext, useEffect, useState } from 'react';
-import GlobalContext from '../../GlobalContext';
 import Button from './Button';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
 import { BUTTONBORDER, RESERVATIONRESPONSE, RoomData } from '../../Types';
 import { GENDER } from '@prisma/client';
 import { useWhitelist } from '@/hooks/useWhitelist';
+import { useGlobalContext } from '../../GlobalContext';
 
-type Props = {
-  data: RoomData | undefined;
-};
-
-const RoomDetails = ({ data }: Props) => {
+const RoomDetails = () => {
   const line = 'flex flex-row mx-auto w-[85%] shadow-lg border-4 border-stone-800 h-[6vh] mt-2';
   const label = 'font-fira-sans font-semibold text-form w-1/2 text-center pt-[1vh]';
   const value = 'font-fira-sans font-semibold text-form w-1/2 text-center pt-[1vh]';
 
-  const context = useContext(GlobalContext);
-  const { gender, selectedRoom, students, correctForm } = context;
+  const { gender, selectedRoom, students, correctForm } = useGlobalContext();
+  console.log('GENDER', gender);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [available, setAvailable] = useState<boolean>(false);
@@ -27,15 +23,27 @@ const RoomDetails = ({ data }: Props) => {
 
   // Check if reservation is available
   const isAvailable = () => {
-    if (!data) return false;
-
-    // Check student count
-    if (data?.studentsCount > 4) return false;
-
-    // Check gender
-    if (gender !== data?.gender && data?.gender !== GENDER.NONE) {
+    if (!selectedRoom) {
       return false;
     }
+
+    // Check student count
+    if (selectedRoom.studentsCount + students.length > 4) {
+      return false;
+    }
+
+    // Check gender
+    console.log('gender: ', gender);
+    console.log('selectedRoom?.gender: ', selectedRoom?.gender);
+    if (gender !== selectedRoom?.gender && selectedRoom?.gender !== GENDER.NONE) {
+      return false;
+    }
+
+    // Maybe this will be more complex in the future
+    if (students.length < 2) {
+      return false;
+    }
+
     // Check whitelist
     if (whitelist.length > 0) {
       const studentEmails = students.map((student) => student.email);
@@ -48,7 +56,7 @@ const RoomDetails = ({ data }: Props) => {
 
   useEffect(() => {
     setAvailable(isAvailable());
-  }, [students, data, gender, whitelist]);
+  }, [students, selectedRoom, gender, whitelist]);
 
   // Determine if the selected room has a balcony
   const hasBalcony = () => {
@@ -59,7 +67,7 @@ const RoomDetails = ({ data }: Props) => {
 
   // Get gender caption
   const getGenderCaption = () => {
-    switch (data?.gender) {
+    switch (selectedRoom?.gender) {
       case GENDER.MALE:
         return 'MUŽSKÁ';
       case GENDER.FEMALE:
@@ -119,7 +127,7 @@ const RoomDetails = ({ data }: Props) => {
     return 'Rezervovať';
   };
 
-  if (selectedRoom && students.length > 0) {
+  if (selectedRoom) {
     return (
       <div className="mt-[10vh] h-[50vh] w-[20vw] border-8 border-stone-800 shadow-lg">
         <h2 className="mb-5 mt-5 text-center font-tektur text-3xl font-bold">
