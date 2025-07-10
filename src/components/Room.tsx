@@ -1,7 +1,8 @@
 import { RoomData, ROOMTYPE } from '../../Types';
 import { useGlobalContext } from '../../GlobalContext';
 import { GENDER } from '@prisma/client';
-import { useEffect, useState } from 'react';
+import { use, useEffect, useState } from 'react';
+import { useRoomAvail } from '@/hooks/useRoomAvail';
 
 type Props = {
   data?: RoomData;
@@ -10,39 +11,20 @@ type Props = {
 };
 
 const Room = ({ data, roomType = ROOMTYPE.ROOM, balcony = false }: Props) => {
-  const { selectedRoom, setSelectedRoom, gender, students } = useGlobalContext();
-
-  const [available, setAvailable] = useState<boolean>(false);
+  const { selectedRoom, setSelectedRoom } = useGlobalContext();
+  const available = useRoomAvail(data);
 
   const roomColorFalse = 'bg-[#ce4341]';
   const roomColorTrue = 'bg-[#37ba5e]';
 
-  useEffect(() => {
-    setAvailable(isAvailable());
-  });
-
-  const isAvailable = () => {
-    if (!data) {
-      return false;
-    }
-
-    if (data.studentsCount + students.length > 4) {
-      return false;
-    }
-
-    if (gender !== data?.gender && data?.gender !== GENDER.NONE) {
-      return false;
-    }
-
-    return true;
-  };
-
-  const countPeople = () => {
+  const renderPeopleIndicators = () => {
     const arr = [];
 
-    if (!data?.studentsCount) return [];
+    if (!data?.studentsCount) {
+      return [];
+    }
 
-    for (let i = 0; i < data.studentsCount; i++)
+    for (let i = 0; i < data.studentsCount; i++) {
       arr.push(
         <div
           key={i}
@@ -53,16 +35,19 @@ const Room = ({ data, roomType = ROOMTYPE.ROOM, balcony = false }: Props) => {
           }
         ></div>,
       );
+    }
 
     return arr;
   };
 
-  const people = countPeople();
+  const people = renderPeopleIndicators();
 
   const selectRoom = () => {
     console.log(data);
 
-    if (data) setSelectedRoom(data);
+    if (data) {
+      setSelectedRoom(data);
+    }
   };
 
   switch (roomType) {
@@ -72,22 +57,20 @@ const Room = ({ data, roomType = ROOMTYPE.ROOM, balcony = false }: Props) => {
           onClick={selectRoom}
           className={
             data?.name === selectedRoom?.name
-              ? `brightness-150 ${available ? roomColorTrue : roomColorFalse} relative flex h-[100%] w-[13%] border-collapse items-center justify-center border-r-8 border-stone-800`
-              : `cursor-pointer ${available ? roomColorTrue : roomColorFalse} relative flex h-[100%] w-[13%] border-collapse items-center justify-center border-r-8 border-stone-800 hover:brightness-150`
+              ? `brightness-150 ${available ? roomColorTrue : roomColorFalse} relative flex h-[10vh] min-h-[100px] w-full border-collapse flex-col items-center justify-center border-b-8 border-r-8 border-stone-800`
+              : `cursor-pointer ${available ? roomColorTrue : roomColorFalse} relative flex h-[10vh] min-h-[100px] w-full border-collapse flex-col items-center justify-center border-b-8 border-r-8 border-stone-800 hover:brightness-150`
           }
         >
           <h5 className="z-30 font-tektur text-2xl font-bold">{data?.name}</h5>
 
-          {balcony && (
-            <h6 className="font-tekur absolute top-3 text-sm font-semibold opacity-80">BALKÓN</h6>
-          )}
-          <div className="absolute bottom-4 flex w-full flex-row justify-center">{people}</div>
+          {balcony && <h6 className="font-tekur text-sm font-semibold opacity-80">BALKÓN</h6>}
+          <div className="flex w-full flex-row justify-center">{people}</div>
         </div>
       );
 
     case ROOMTYPE.KITCHEN:
       return (
-        <div className="flex h-[100%] w-[22%] border-collapse cursor-pointer items-center justify-center border-r-8 border-stone-800 bg-stone-400">
+        <div className="flex h-[10vh] min-h-[100px] w-full border-collapse cursor-pointer items-center justify-center border-b-8 border-r-8 border-stone-800 bg-stone-400">
           <h1 className="font-tektur text-xl font-semibold">KUCHYNKA</h1>
         </div>
       );

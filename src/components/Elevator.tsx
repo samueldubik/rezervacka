@@ -25,7 +25,7 @@ const Elevator = ({ selectedFloor, setSelectedFloor }: Props) => {
   };
 
   return (
-    <div className="relative flex h-[100%] w-[22%] border-collapse flex-col border-r-8 border-stone-800">
+    <div className="relative flex h-[10vh] min-h-[100px] w-full border-collapse flex-col border-b-8 border-r-8 border-stone-800">
       <div
         onClick={floorUp}
         className="flex h-1/2 w-full cursor-pointer flex-col items-center justify-center border-stone-800 bg-[#A2C3A4] hover:brightness-125"

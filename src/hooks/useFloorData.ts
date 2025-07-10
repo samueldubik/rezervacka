@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
 import { RoomData } from '../../Types';
 import { GENDER, Student } from '@prisma/client';
+import { set } from 'react-hook-form';
 
 export const useFloorData = (selectedFloor: number, block: string) => {
   const [floorData, setFloorData] = useState<RoomData[] | null>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+
   useEffect(() => {
     fetch(`/api/fetchFloorData?floorNumber=${selectedFloor}&blockName=${block}`)
       .then((response) => response.json())
@@ -21,7 +25,13 @@ export const useFloorData = (selectedFloor: number, block: string) => {
       .catch(() => {
         console.log('data not received');
         setFloorData(null);
+        setError('Failed to fetch floor data');
+        setLoading(false);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, [selectedFloor, block]);
-  return floorData;
+
+  return { floorData, error, loading };
 };
