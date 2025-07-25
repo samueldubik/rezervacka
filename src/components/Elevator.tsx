@@ -25,22 +25,19 @@ const Elevator = ({ selectedFloor, setSelectedFloor }: Props) => {
   };
 
   return (
-    <div className="relative flex h-[10vh] min-h-[100px] w-full border-collapse flex-col border-b-8 border-r-8 border-stone-800">
-      <div
+    <div className="relative flex h-[10vh] min-h-[100px] w-full border-collapse flex-col items-center justify-center border-b-4 border-r-4 border-stone-800">
+      <button
+        className="flex h-1/2 w-full cursor-pointer items-center justify-center border-b-4 border-stone-800 bg-slate-200 text-stone-800"
         onClick={floorUp}
-        className="flex h-1/2 w-full cursor-pointer flex-col items-center justify-center border-stone-800 bg-[#A2C3A4] hover:brightness-125"
       >
         <FontAwesomeIcon icon={faCaretUp} size={'2xl'} />
-      </div>
-
-      <div className="absolute top-[48%] z-20 h-[8px] w-full bg-stone-800"></div>
-
-      <div
+      </button>
+      <button
+        className="flex h-1/2 w-full cursor-pointer items-center justify-center border-stone-800 bg-slate-200 text-stone-800"
         onClick={floorDown}
-        className="flex h-1/2 w-full cursor-pointer flex-col items-center justify-center border-stone-800 bg-[#A2C3A4] hover:brightness-125"
       >
         <FontAwesomeIcon icon={faCaretDown} size={'2xl'} />
-      </div>
+      </button>
     </div>
   );
 };

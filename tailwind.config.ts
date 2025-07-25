@@ -23,6 +23,8 @@ const config: Config = {
         'nav-name': ['Alfa Slab One'],
         'fira-sans': ['Fira Code'],
         tektur: ['Tektur'],
+        quicksand: ['Quicksand'],
+        bebas: ['Bebas Neue'],
       },
     },
   },
