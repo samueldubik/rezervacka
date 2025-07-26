@@ -21,19 +21,11 @@ const FloorLayout = ({ isAdmin = false }) => {
   const [selectedFloor, setSelectedFloor] = useState(1);
 
   const { floorData, loading, error } = useFloorData(selectedFloor, blockNames[block]);
-  const { reservationEnabled } = useSettings();
-
-  const blockLeft = () => {
-    if (block) setBlock((prev) => prev - 1);
-  };
-
-  const blockRight = () => {
-    if (block < 2) setBlock((prev) => prev + 1);
-  };
+  const { reservationsEnabled } = useSettings();
 
   if (loading) {
     return <ActivityIndicator />;
-  } else if (error || !reservationEnabled) {
+  } else if (error || !reservationsEnabled) {
     return (
       <h1 className="mx-auto mt-24 flex h-[15vh] w-[70vw] items-center justify-center border-[12px] border-[#a33737] px-8 text-center font-nav-name text-xl text-dark lg:w-[40vw] lg:text-2xl">
         REGISTRÁCIA NIE JE SPRÍSTUPNENÁ

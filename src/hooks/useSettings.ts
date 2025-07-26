@@ -1,8 +1,11 @@
+import { Settings } from '@prisma/client';
 import { useEffect, useState } from 'react';
 
 export const useSettings = () => {
-  const [settings, setSettings] = useState<{ key: string; value: boolean }[]>([]);
-  const [reservationEnabled, setReservationsEnabled] = useState(false);
+  const [settings, setSettings] = useState<Settings>({
+    id: -1,
+    reservationsEnabled: false,
+  });
 
   useEffect(() => {
     const fetchSettings = async () => {
@@ -10,8 +13,6 @@ export const useSettings = () => {
         const res = await fetch('/api/fetchSettings');
         const data = await res.json();
         if (res.ok) {
-          const reservationsSetting = data.find((s: any) => s.key === 'reservations_enabled');
-          setReservationsEnabled(reservationsSetting?.value || false);
           setSettings(data);
         } else {
           console.error('Failed to fetch settings');
@@ -24,5 +25,5 @@ export const useSettings = () => {
     fetchSettings();
   }, []);
 
-  return { settings, reservationEnabled };
+  return settings;
 };

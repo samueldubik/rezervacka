@@ -1,42 +1,35 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { Pool } from 'pg';
+import { prisma } from '@/lib/prisma';
 
-const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_DATABASE,
-  password: process.env.DB_PASSWORD,
-  port: Number(process.env.DB_PORT),
-});
-
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method Not Allowed' });
-  }
-
-  let client;
-
+export async function POST(request: Request) {
   try {
-    client = await pool.connect();
+    const { enabled } = await request.json();
 
-    // Use SQL's NOT operator to toggle the boolean value
-    const updateQuery = `
-      UPDATE settings
-      SET value = NOT value
-      WHERE key = 'reservations_enabled'
-      RETURNING value;
-    `;
+    const settings = await prisma.settings.findUnique({ where: { id: 1 } });
 
-    const { rows } = await client.query(updateQuery);
-    const newStatus = rows[0]?.value;
+    if (!settings) {
+      return new Response(JSON.stringify({ message: 'Settings row not found.' }), {
+        status: 404,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
 
-    res.status(200).json({ message: 'Reservation status updated successfully.', newStatus });
+    await prisma.settings.update({
+      where: { id: 1 },
+      data: { reservationsEnabled: enabled },
+    });
+
+    return new Response(
+      JSON.stringify({
+        message: 'Reservation status updated successfully.',
+        newStatus: enabled,
+      }),
+      { status: 200, headers: { 'Content-Type': 'application/json' } },
+    );
   } catch (error) {
     console.error('Error toggling reservation status:', error);
-    res.status(500).json({ message: 'Internal Server Error' });
-  } finally {
-    if (client) {
-      client.release();
-    }
+    return new Response(JSON.stringify({ message: 'Internal Server Error' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 }

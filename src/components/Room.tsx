@@ -61,7 +61,7 @@ const Room = ({ data, roomType = ROOMTYPE.ROOM, balcony = false }: Props) => {
               : `cursor-pointer ${available ? 'bg-emerald-500' : 'bg-rose-500'} relative flex h-[10vh] min-h-[100px] w-full border-collapse flex-col items-center justify-center border-b-4 border-r-4 border-slate-700 hover:brightness-110`
           }
         >
-          <h5 className="z-30 font-tektur text-2xl font-bold text-slate-50">{data?.name}</h5>
+          <h5 className="font-tektur text-2xl font-bold text-slate-50">{data?.name}</h5>
           {balcony && (
             <h6 className="font-tektur text-xs font-semibold text-blue-200 opacity-80">BALKÓN</h6>
           )}

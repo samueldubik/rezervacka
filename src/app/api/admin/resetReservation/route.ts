@@ -1,14 +1,10 @@
 import { prisma } from '@/lib/prisma';
 import { GENDER } from '@prisma/client';
-import { NextApiResponse } from 'next';
 
-export async function POST(res: NextApiResponse) {
+export async function POST(request: Request) {
   try {
-    // Drop existing tables
     await prisma.student.deleteMany({});
     await prisma.room.deleteMany({});
-    await prisma.whitelist.deleteMany({});
-    await prisma.settings.deleteMany({});
 
     const blocks = ['A', 'B', 'C', 'D'];
     for (const block of blocks) {
@@ -25,11 +21,15 @@ export async function POST(res: NextApiResponse) {
       }
     }
 
-    res.status(200).json({ message: 'Reservation status updated successfully.' });
-
-    // Create new tables and populate the rooms table
+    return new Response(JSON.stringify({ message: 'Reservation status updated successfully.' }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
   } catch (error) {
     console.error('Error resetting reservations:', error);
-    return res.status(500).json({ error: 'Internal Server Error' });
+    return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 }
