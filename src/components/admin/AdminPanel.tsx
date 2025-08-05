@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { DatabaseCleanup } from './DatabaseCleanup';
 import { ReservationsToggle } from './ReservationsToggle';
 import { ExportButton } from './ExportButton';
+import { BlocksRadioButtons } from './BlocksRadioButtons';
 
 export const AdminPanel = () => {
   const [isPanelVisible, setIsPanelVisible] = useState(true);
@@ -27,8 +28,15 @@ export const AdminPanel = () => {
             <DatabaseCleanup />
           </div>
           <div className="flex flex-row justify-center gap-64">
-            <h2></h2>
+            <div>
+              <h3>Bloky</h3>
+              <BlocksRadioButtons />
+            </div>
             <ExportButton />
+          </div>
+
+          <div className="flex flex-row justify-center gap-64">
+            <h3></h3>
           </div>
         </section>
       )}

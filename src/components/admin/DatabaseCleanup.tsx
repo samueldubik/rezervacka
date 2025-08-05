@@ -2,6 +2,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import { Modal } from '../Modal';
+import { DatabaseCleanupModal } from '../modals/DatabaseCleanupModal';
 
 export const DatabaseCleanup = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -33,21 +34,16 @@ export const DatabaseCleanup = () => {
       <button
         className="flex flex-row items-center justify-center gap-2 rounded-md border-2 border-stone-900 bg-rose-600 px-4 py-2 font-fira-sans text-xl font-bold text-slate-200 shadow-md hover:bg-rose-500 active:bg-rose-800"
         onClick={() => setIsModalOpen(true)}
+        type="button"
       >
         <FontAwesomeIcon icon={faXmark} />
         <h2>Vyčistiť databázu</h2>
       </button>
-      <Modal
+      <DatabaseCleanupModal
         isOpen={isModalOpen}
-        onConfirm={handleCleanup}
-        onCancel={() => setIsModalOpen(false)}
         isLoading={isLoading}
-        children={
-          <section className="mb-5 flex flex-col items-start gap-4">
-            <h1 className="font-quicksand text-2xl font-semibold">Vyčistiť databázu</h1>
-            <p>Tento krok vymaže všetky dáta o rezerváciach. Chcete pokračovať?</p>
-          </section>
-        }
+        onCancel={() => setIsModalOpen(false)}
+        onConfirm={handleCleanup}
       />
     </>
   );
