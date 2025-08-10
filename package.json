@@ -40,7 +40,8 @@
     "prisma": "^6.5.0",
     "react": "^18",
     "react-dom": "^18",
-    "react-hook-form": "^7.58.1"
+    "react-hook-form": "^7.58.1",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/cli-progress": "^3.11.6",

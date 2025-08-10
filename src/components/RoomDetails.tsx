@@ -5,6 +5,7 @@ import { BUTTONBORDER, RESERVATIONRESPONSE } from '../../Types';
 import { GENDER } from '@prisma/client';
 import { useWhitelist } from '@/hooks/useWhitelist';
 import { useGlobalContext } from '../../GlobalContext';
+import { hasBalcony } from '@/utils/Utils';
 
 const RoomDetails = () => {
   const { gender, selectedRoom, students, correctForm } = useGlobalContext();
@@ -31,12 +32,6 @@ const RoomDetails = () => {
     setAvailable(isAvailable());
   }, [students, selectedRoom, gender, whitelist]);
 
-  const hasBalcony = () => {
-    if (!selectedRoom?.name) return false;
-    const balconyRooms = ['2', '5', '9', '12'];
-    return balconyRooms.includes(selectedRoom.name.charAt(3));
-  };
-
   const getGenderCaption = () => {
     switch (selectedRoom?.gender) {
       case GENDER.MALE:
@@ -48,7 +43,7 @@ const RoomDetails = () => {
     }
   };
 
-  const balcony = hasBalcony();
+  const balcony = hasBalcony(selectedRoom?.name);
 
   const reserveRoom = async () => {
     try {

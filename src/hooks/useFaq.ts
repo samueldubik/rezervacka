@@ -1,34 +1,35 @@
 import { Faq } from '@prisma/client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 export const useFaq = () => {
   const [faq, setFaq] = useState<Faq[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetch('/api/faq/fetchQuestions')
-      .then((response) => response.json())
-      .then((data) => {
-        setFaq(
-          data.map((item: { id: number; question: string; answer: string }) => {
-            return {
-              id: item.id,
-              question: item.question,
-              answer: item.answer,
-            };
-          }),
-        );
-      })
-      .catch(() => {
-        console.log('data not received');
-        setError('Failed to fetch FAQ data');
-        setLoading(false);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+  const fetchFaq = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch('/api/faq/fetchQuestions');
+      const data = await response.json();
+      setFaq(
+        data.map((item: { id: number; question: string; answer: string }) => ({
+          id: item.id,
+          question: item.question,
+          answer: item.answer,
+        })),
+      );
+    } catch {
+      setError('Failed to fetch FAQ data');
+      setFaq([]);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  return { faq, loading, error };
+  useEffect(() => {
+    fetchFaq();
+  }, [fetchFaq]);
+
+  return { faq, loading, error, fetchFaq };
 };

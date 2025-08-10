@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const FileHandler = () => {
+export const FileHandler = () => {
   const [file, setFile] = useState<File | null>(null);
   const [textInput, setTextInput] = useState<string>('');
   const [emailList, setEmailList] = useState<string[]>([]);
@@ -119,5 +119,3 @@ const FileHandler = () => {
     </div>
   );
 };
-
-export default FileHandler;
