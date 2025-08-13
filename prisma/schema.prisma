@@ -24,6 +24,7 @@ model Room {
   name   String   @unique
   gender GENDER
   students Student[]
+  isBlocked Boolean @default(false)
 }
 
 model Student {
@@ -32,6 +33,15 @@ model Student {
   email    String @unique
   roomName String
   room     Room   @relation(fields: [roomName], references: [name])
+  arrivalId Int?
+  arrival  Arrival? @relation(fields: [arrivalId], references: [id])
+}
+
+model Arrival {
+  id Int @id @default(autoincrement())
+  students Student[]
+  createdAt DateTime @default(now())
+  arrivalTime DateTime
 }
 
 // For future extensions based on your other API routes
@@ -50,3 +60,4 @@ model Faq {
   question String
   answer String
 } 
+

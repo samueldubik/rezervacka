@@ -12,7 +12,7 @@ export default function Admin() {
         <NavBar />
         <AdminPanel />
         <FloorLayout />
-        <ReservationPanel />
+        <ReservationPanel isAdmin />
       </GlobalContextProvider>
     </main>
   );

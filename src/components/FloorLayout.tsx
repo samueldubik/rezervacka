@@ -13,13 +13,12 @@ import ActivityIndicator from './ActivityIndicator';
 import { useSettings } from '@/hooks/useSettings';
 import Elevator from './Elevator';
 import { LayoutSelector } from './LayoutSelector';
+import { useGlobalContext } from '../../GlobalContext';
 
 const blockNames = ['A', 'C', 'D'];
 
 const FloorLayout = ({ isAdmin = false }) => {
-  const [block, setBlock] = useState<number>(0);
-  const [selectedFloor, setSelectedFloor] = useState(1);
-
+  const { block, selectedFloor } = useGlobalContext();
   const { floorData, loading, error } = useFloorData(selectedFloor, blockNames[block]);
   const { reservationsEnabled } = useSettings();
 
@@ -35,12 +34,7 @@ const FloorLayout = ({ isAdmin = false }) => {
   } else if (floorData && floorData.length > 0) {
     return (
       <section className="relative mx-auto mt-5 flex w-[90%] flex-col justify-between overflow-auto">
-        <LayoutSelector
-          selectedFloor={selectedFloor}
-          setSelectedFloor={setSelectedFloor}
-          block={block}
-          setBLock={setBlock}
-        />
+        <LayoutSelector />
 
         <div className="mt-5 flex flex-row items-center justify-center gap-6 lg:flex-col">
           <div className="flex w-[40%] flex-col border-4 border-b-0 border-r-0 border-stone-800 lg:w-full lg:flex-row">
@@ -56,7 +50,7 @@ const FloorLayout = ({ isAdmin = false }) => {
             <Room data={floorData[10]} />
             <Room data={floorData[11]} balcony={true} />
             <Room data={floorData[12]} />
-            <Elevator selectedFloor={selectedFloor} setSelectedFloor={setSelectedFloor} />
+            <Elevator />
             <Room data={floorData[0]} />
             <Room data={floorData[1]} balcony={true} />
             <Room data={floorData[2]} />

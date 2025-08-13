@@ -1,7 +1,6 @@
 import { RoomData, ROOMTYPE } from '../../Types';
 import { useGlobalContext } from '../../GlobalContext';
 import { GENDER } from '@prisma/client';
-import { use, useEffect, useState } from 'react';
 import { useRoomAvail } from '@/hooks/useRoomAvail';
 
 type Props = {
@@ -11,11 +10,8 @@ type Props = {
 };
 
 const Room = ({ data, roomType = ROOMTYPE.ROOM, balcony = false }: Props) => {
-  const { selectedRoom, setSelectedRoom } = useGlobalContext();
+  const { selectedRoomName, setSelectedRoomName } = useGlobalContext();
   const available = useRoomAvail(data);
-
-  const roomColorFalse = 'bg-[#ce4341]';
-  const roomColorTrue = 'bg-form';
 
   const renderPeopleIndicators = () => {
     const arr = [];
@@ -46,7 +42,7 @@ const Room = ({ data, roomType = ROOMTYPE.ROOM, balcony = false }: Props) => {
     console.log(data);
 
     if (data) {
-      setSelectedRoom(data);
+      setSelectedRoomName(data.name);
     }
   };
 
@@ -56,9 +52,11 @@ const Room = ({ data, roomType = ROOMTYPE.ROOM, balcony = false }: Props) => {
         <div
           onClick={selectRoom}
           className={
-            data?.name === selectedRoom?.name
-              ? `brightness-110 ${available ? 'bg-emerald-800' : 'bg-rose-800'} relative flex h-[10vh] min-h-[100px] w-full border-collapse flex-col items-center justify-center border-b-4 border-r-4 border-slate-700`
-              : `cursor-pointer ${available ? 'bg-emerald-500' : 'bg-rose-500'} relative flex h-[10vh] min-h-[100px] w-full border-collapse flex-col items-center justify-center border-b-4 border-r-4 border-slate-700 hover:brightness-110`
+            data?.isBlocked
+              ? 'relative flex h-[10vh] min-h-[100px] w-full border-collapse cursor-not-allowed flex-col items-center justify-center border-b-4 border-r-4 border-slate-700 bg-gray-700'
+              : data?.name === selectedRoomName
+                ? `brightness-110 ${available ? 'bg-emerald-800' : 'bg-rose-800'} relative flex h-[10vh] min-h-[100px] w-full border-collapse flex-col items-center justify-center border-b-4 border-r-4 border-slate-700`
+                : `cursor-pointer ${available ? 'bg-emerald-500' : 'bg-rose-500'} relative flex h-[10vh] min-h-[100px] w-full border-collapse flex-col items-center justify-center border-b-4 border-r-4 border-slate-700 hover:brightness-110`
           }
         >
           <h5 className="font-tektur text-2xl font-bold text-slate-50">{data?.name}</h5>
@@ -66,6 +64,9 @@ const Room = ({ data, roomType = ROOMTYPE.ROOM, balcony = false }: Props) => {
             <h6 className="font-tektur text-xs font-semibold text-blue-200 opacity-80">BALKÓN</h6>
           )}
           <div className="flex w-full flex-row justify-center">{people}</div>
+          {data?.isBlocked && (
+            <h6 className="font-tektur text-xs font-semibold text-gray-200">Zablokované</h6>
+          )}
         </div>
       );
 

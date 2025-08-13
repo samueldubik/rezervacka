@@ -7,9 +7,10 @@ type Props = {
   border: BUTTONBORDER;
   value: GENDER;
   onChange: (value: GENDER) => void;
+  onSubmit: () => void;
 };
 
-const GenderSelector = ({ border, value, onChange }: Props) => {
+const GenderSelector = ({ border, value, onChange, onSubmit }: Props) => {
   const borderColor = ['border-stone-800', 'border-stone-200', 'border-red-600'];
   console.log('value', value);
 
@@ -17,7 +18,10 @@ const GenderSelector = ({ border, value, onChange }: Props) => {
   return (
     <div className="mx-5 flex h-14 w-[30%] flex-row items-center justify-start gap-4">
       <div
-        onClick={() => onChange(GENDER.MALE)}
+        onClick={() => {
+          onChange(GENDER.MALE);
+          onSubmit();
+        }}
         className={
           value === GENDER.MALE
             ? `h-full w-[50%] bg-[#3055e7] ${borderColor[border]} flex items-center justify-center`
@@ -31,7 +35,10 @@ const GenderSelector = ({ border, value, onChange }: Props) => {
       </div>
 
       <div
-        onClick={() => onChange(GENDER.FEMALE)}
+        onClick={() => {
+          onChange(GENDER.FEMALE);
+          onSubmit();
+        }}
         className={
           value === GENDER.FEMALE
             ? `flex h-full w-[50%] items-center justify-center bg-red-900`

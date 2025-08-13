@@ -1,31 +1,61 @@
 import { useContext, useEffect, useState } from 'react';
 import Button from './Button';
-import { faBook } from '@fortawesome/free-solid-svg-icons';
+import { faBook, faLock, faUnlock } from '@fortawesome/free-solid-svg-icons';
 import { BUTTONBORDER, RESERVATIONRESPONSE } from '../../Types';
 import { GENDER } from '@prisma/client';
 import { useWhitelist } from '@/hooks/useWhitelist';
 import { useGlobalContext } from '../../GlobalContext';
 import { hasBalcony } from '@/utils/Utils';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useFloorData } from '@/hooks/useFloorData';
+import { eventBus } from '@/eventBus';
 
-const RoomDetails = () => {
-  const { gender, selectedRoom, students, correctForm } = useGlobalContext();
+const blockNames = ['A', 'C', 'D'];
+
+const RoomDetails = ({ isAdmin = false }: { isAdmin?: boolean }) => {
+  const { gender, selectedRoomName, students, correctForm, selectedFloor, block } =
+    useGlobalContext();
   const [isLoading, setIsLoading] = useState(false);
   const [available, setAvailable] = useState(false);
   const [feedBack, setFeedBack] = useState<{ message: string; status: number } | null>(null);
 
   const { whitelist } = useWhitelist();
+  const { floorData } = useFloorData(selectedFloor, blockNames[block]);
+  const selectedRoom = floorData?.find((r) => r.name === selectedRoomName);
 
   const isAvailable = () => {
-    if (!selectedRoom) return false;
-    if (selectedRoom.studentsCount + students.length > 4) return false;
-    if (gender !== selectedRoom?.gender && selectedRoom?.gender !== GENDER.NONE) return false;
-    if (students.length < 2) return false;
+    if (!selectedRoom) {
+      return false;
+    }
+
+    if (selectedRoom.studentsCount + students.length > 4) {
+      return false;
+    }
+    if (gender !== selectedRoom?.gender && selectedRoom?.gender !== GENDER.NONE) {
+      return false;
+    }
+    if (students.length < 2) {
+      return false;
+    }
     if (whitelist.length > 0) {
       const studentEmails = students.map((student) => student.email);
       const hasWhitelistedStudent = studentEmails.some((email) => whitelist.includes(email));
       return hasWhitelistedStudent;
     }
     return true;
+  };
+
+  const toggleRoomBlock = async () => {
+    try {
+      await fetch('/api/admin/blockRoom', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ roomName: selectedRoom?.name }),
+      });
+      eventBus.emit('floorDataUpdated');
+    } catch (error) {
+      console.error('Error blocking/unblocking room:', error);
+    }
   };
 
   useEffect(() => {
@@ -76,9 +106,17 @@ const RoomDetails = () => {
   };
 
   const getButtonLabel = () => {
-    if (!correctForm) return 'Chyba';
+    if (selectedRoom?.isBlocked) {
+      return 'Zablokované';
+    }
+
+    if (!correctForm || students.length < 2 || gender === GENDER.NONE) {
+      return 'Vyplňte formulár';
+    }
     if (!available) {
-      if (whitelist.length > 0) return 'Nepovolené';
+      if (whitelist.length > 0) {
+        return 'Nepovolené';
+      }
       return 'Obsadené';
     }
     return 'Rezervovať';
@@ -89,10 +127,13 @@ const RoomDetails = () => {
   return (
     <section className="relative flex h-[35vh] w-full flex-col bg-slate-200">
       {/* Tab-like header */}
-      <header className="flex flex-row">
-        <div className="flex h-[5vh] w-full items-center justify-center bg-form text-slate-200">
-          <h2 className="font-tektur text-2xl font-bold tracking-wide">IZBA {selectedRoom.name}</h2>
-        </div>
+      <header className="flex h-[5vh] w-full flex-row items-center justify-center bg-form text-slate-200">
+        <h2 className="font-tektur text-2xl font-bold tracking-wide">IZBA {selectedRoom.name}</h2>
+        {isAdmin && (
+          <button onClick={toggleRoomBlock} className="absolute right-5 cursor-pointer text-xl">
+            <FontAwesomeIcon icon={selectedRoom?.isBlocked ? faLock : faUnlock} />
+          </button>
+        )}
       </header>
 
       {/* Room details grid */}
@@ -123,8 +164,16 @@ const RoomDetails = () => {
           label={getButtonLabel()}
           icon={faBook}
           loading={isLoading}
-          action={correctForm && available ? reserveRoom : () => console.log('Form Error')}
-          border={correctForm && available ? BUTTONBORDER.BLACK : BUTTONBORDER.ERROR}
+          action={
+            correctForm && available && !selectedRoom?.isBlocked
+              ? reserveRoom
+              : () => console.log('Form Error')
+          }
+          border={
+            correctForm && available && !selectedRoom?.isBlocked
+              ? BUTTONBORDER.BLACK
+              : BUTTONBORDER.ERROR
+          }
           black
         />
         {feedBack === RESERVATIONRESPONSE.SUCCESS && (

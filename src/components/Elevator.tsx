@@ -1,13 +1,11 @@
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dispatch, SetStateAction } from 'react';
+import { useGlobalContext } from '../../GlobalContext';
 
-type Props = {
-  selectedFloor?: number;
-  setSelectedFloor?: Dispatch<SetStateAction<number>>;
-};
+const Elevator = () => {
+  const { selectedFloor, setSelectedFloor } = useGlobalContext();
 
-const Elevator = ({ selectedFloor, setSelectedFloor }: Props) => {
   const floorUp = () => {
     if (selectedFloor && setSelectedFloor)
       if (selectedFloor < 7)

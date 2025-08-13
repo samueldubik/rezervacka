@@ -48,4 +48,5 @@ export type RoomData = {
   name: string;
   studentsCount: number;
   gender: $Enums.GENDER;
+  isBlocked: boolean;
 };

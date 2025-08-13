@@ -5,8 +5,8 @@ import { RoomData } from './Types';
 interface GlobalState {
   students: Student[];
   setStudents: Dispatch<SetStateAction<Student[]>>;
-  selectedRoom: RoomData | undefined;
-  setSelectedRoom: Dispatch<SetStateAction<RoomData | undefined>>;
+  selectedRoomName: string | undefined;
+  setSelectedRoomName: Dispatch<SetStateAction<string | undefined>>;
   gender: GENDER;
   setGender: Dispatch<SetStateAction<GENDER>>;
   correctForm: boolean;
@@ -15,25 +15,31 @@ interface GlobalState {
   setFloorData: Dispatch<SetStateAction<RoomData[] | null>>;
   formsVisible: boolean;
   setFormsVisible: Dispatch<SetStateAction<boolean>>;
+  block: number;
+  setBlock: Dispatch<SetStateAction<number>>;
+  selectedFloor: number;
+  setSelectedFloor: Dispatch<SetStateAction<number>>;
 }
 
 const GlobalContext = createContext<GlobalState | undefined>(undefined);
 
 export const GlobalContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [students, setStudents] = useState<Array<any>>([]);
-  const [selectedRoom, setSelectedRoom] = useState<RoomData>();
+  const [selectedRoomName, setSelectedRoomName] = useState<string | undefined>();
   const [gender, setGender] = useState<GENDER>(GENDER.NONE);
   const [floorData, setFloorData] = useState<RoomData[] | null>([]);
-  const [correctForm, setCorrectForm] = useState<boolean>(true);
+  const [correctForm, setCorrectForm] = useState<boolean>(false);
   const [formsVisible, setFormsVisible] = useState<boolean>(true);
+  const [block, setBlock] = useState<number>(0);
+  const [selectedFloor, setSelectedFloor] = useState(1);
 
   return (
     <GlobalContext.Provider
       value={{
         students,
         setStudents,
-        selectedRoom,
-        setSelectedRoom,
+        selectedRoomName,
+        setSelectedRoomName,
         gender,
         setGender,
         floorData,
@@ -42,6 +48,10 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
         setCorrectForm,
         formsVisible,
         setFormsVisible,
+        block,
+        setBlock,
+        selectedFloor,
+        setSelectedFloor,
       }}
     >
       {children}

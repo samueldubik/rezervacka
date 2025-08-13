@@ -29,6 +29,7 @@ export async function GET(req: Request) {
             students: true,
           },
         },
+        isBlocked: true,
       },
       orderBy: {
         name: 'asc',
@@ -43,6 +44,7 @@ export async function GET(req: Request) {
       name: room.name,
       studentsCount: room._count.students,
       gender: room.gender,
+      isBlocked: room.isBlocked,
     }));
 
     return NextResponse.json(transformedRooms, { status: 200 });

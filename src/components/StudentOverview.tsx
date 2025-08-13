@@ -13,17 +13,17 @@ export type StudentOverviewProps = {
   border: BUTTONBORDER;
   value: GENDER;
   onChange: (value: GENDER) => void;
-  control: Control<StudentFormValues, any, StudentFormValues> | undefined; // Assuming control is passed from a parent component
+  onSubmit: () => void; // <-- Add this line
+  control: Control<StudentFormValues, any, StudentFormValues> | undefined;
   errors: FieldErrors<StudentFormValues>;
-  handleAddStudent: () => void; // Function to handle adding a student
+  handleAddStudent: () => void;
 };
 
 export const StudentOverview: React.FC<StudentOverviewProps> = ({
   students,
   border,
-  value,
-  onChange,
   control,
+  onSubmit,
   errors,
   handleAddStudent,
 }) => {
@@ -41,6 +41,7 @@ export const StudentOverview: React.FC<StudentOverviewProps> = ({
             <GenderSelector
               {...field}
               border={errors.gender ? BUTTONBORDER.ERROR : BUTTONBORDER.WHITE}
+              onSubmit={onSubmit} // <-- Pass here
             />
           )}
         />
