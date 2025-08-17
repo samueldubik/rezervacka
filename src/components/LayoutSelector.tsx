@@ -1,3 +1,4 @@
+import { useGlobalContext } from '@/app/contexts/GlobalContext';
 import {
   faChevronDown,
   faChevronLeft,
@@ -5,8 +6,6 @@ import {
   faChevronUp,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Dispatch, SetStateAction } from 'react';
-import { useGlobalContext } from '../../GlobalContext';
 
 const blockNames = ['A', 'C', 'D'];
 

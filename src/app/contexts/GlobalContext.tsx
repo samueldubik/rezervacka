@@ -1,6 +1,6 @@
 import { GENDER, Student } from '@prisma/client';
 import { createContext, Dispatch, SetStateAction, useContext, useState } from 'react';
-import { RoomData } from './Types';
+import { RoomData } from '../../../Types';
 
 interface GlobalState {
   students: Student[];

@@ -1,7 +1,7 @@
 import { RoomData, ROOMTYPE } from '../../Types';
-import { useGlobalContext } from '../../GlobalContext';
 import { GENDER } from '@prisma/client';
 import { useRoomAvail } from '@/hooks/useRoomAvail';
+import { useGlobalContext } from '@/app/contexts/GlobalContext';
 
 type Props = {
   data?: RoomData;

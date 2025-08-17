@@ -1,5 +1,4 @@
 import { use, useEffect, useState } from 'react';
-import { useGlobalContext } from '../../../GlobalContext';
 import { useSettings } from '@/hooks/useSettings';
 
 export const ReservationsToggle = () => {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { RoomData } from '../../Types';
-import { useGlobalContext } from '../../GlobalContext';
 import { GENDER } from '@prisma/client';
+import { useGlobalContext } from '@/app/contexts/GlobalContext';
 
 export const useRoomAvail = (room: RoomData | undefined) => {
   const [isAvailable, setIsAvailable] = useState<boolean>(false);

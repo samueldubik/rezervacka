@@ -1,15 +1,14 @@
 import { useEffect, useState, useCallback } from 'react';
 import { RoomData } from '../../Types';
 import { GENDER } from '@prisma/client';
-import { useGlobalContext } from '../../GlobalContext';
+import { useGlobalContext } from '@/app/contexts/GlobalContext';
 
 export const useFloorData = (selectedFloor: number, block: string) => {
   const [floorData, setFloorData] = useState<RoomData[] | null>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const { selectedRoomName } = useGlobalContext();
 
-  const fetchFloorData = useCallback(async () => {
+  const refetch = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -36,8 +35,8 @@ export const useFloorData = (selectedFloor: number, block: string) => {
   }, [selectedFloor, block]);
 
   useEffect(() => {
-    fetchFloorData();
-  }, [fetchFloorData]);
+    refetch();
+  }, [refetch]);
 
-  return { floorData, error, loading };
+  return { floorData, error, loading, refetch };
 };

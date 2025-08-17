@@ -2,17 +2,20 @@
 import NavBar from '@/components/NavBar';
 import FloorLayout from '@/components/FloorLayout';
 import { ReservationPanel } from '@/components/ReservationPanel';
-import { GlobalContextProvider } from '../../../GlobalContext';
 import { AdminPanel } from '@/components/admin/AdminPanel';
+import { GlobalContextProvider } from '../contexts/GlobalContext';
+import { FloorDataProvider } from '../contexts/FloorDataContext';
 
 export default function Admin() {
   return (
     <main>
       <GlobalContextProvider>
-        <NavBar />
-        <AdminPanel />
-        <FloorLayout />
-        <ReservationPanel isAdmin />
+        <FloorDataProvider>
+          <NavBar />
+          <AdminPanel />
+          <FloorLayout />
+          <ReservationPanel isAdmin />
+        </FloorDataProvider>
       </GlobalContextProvider>
     </main>
   );

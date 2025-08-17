@@ -1,25 +1,13 @@
-import { useState } from 'react';
 import { ROOMTYPE } from '../../Types';
 import Room from './Room';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faChevronDown,
-  faChevronLeft,
-  faChevronRight,
-  faChevronUp,
-} from '@fortawesome/free-solid-svg-icons';
-import { useFloorData } from '@/hooks/useFloorData';
 import ActivityIndicator from './ActivityIndicator';
 import { useSettings } from '@/hooks/useSettings';
 import Elevator from './Elevator';
 import { LayoutSelector } from './LayoutSelector';
-import { useGlobalContext } from '../../GlobalContext';
-
-const blockNames = ['A', 'C', 'D'];
+import { useFloorDataContext } from '@/app/contexts/FloorDataContext';
 
 const FloorLayout = ({ isAdmin = false }) => {
-  const { block, selectedFloor } = useGlobalContext();
-  const { floorData, loading, error } = useFloorData(selectedFloor, blockNames[block]);
+  const { floorData, loading, error } = useFloorDataContext();
   const { reservationsEnabled } = useSettings();
 
   if (loading) {

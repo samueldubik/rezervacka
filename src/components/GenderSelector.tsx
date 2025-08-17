@@ -16,7 +16,7 @@ const GenderSelector = ({ border, value, onChange, onSubmit }: Props) => {
 
   console.log(value === GENDER.FEMALE);
   return (
-    <div className="mx-5 flex h-14 w-[30%] flex-row items-center justify-start gap-4">
+    <div className="mx-5 flex h-14 flex-row items-center justify-start gap-4">
       <div
         onClick={() => {
           onChange(GENDER.MALE);
@@ -24,8 +24,8 @@ const GenderSelector = ({ border, value, onChange, onSubmit }: Props) => {
         }}
         className={
           value === GENDER.MALE
-            ? `h-full w-[50%] bg-[#3055e7] ${borderColor[border]} flex items-center justify-center`
-            : `h-full w-[50%] bg-blue-200 ${borderColor[border]} flex items-center justify-center hover:cursor-pointer hover:bg-blue-400 ${GENDER.MALE ? 'hover bg-blue-300' : ''}`
+            ? `h-full bg-[#3055e7] px-2 ${borderColor[border]} flex items-center justify-center`
+            : `h-full bg-blue-200 px-2 ${borderColor[border]} flex items-center justify-center hover:cursor-pointer hover:bg-blue-400 ${GENDER.MALE ? 'hover bg-blue-300' : ''}`
         }
       >
         <FontAwesomeIcon
@@ -41,8 +41,8 @@ const GenderSelector = ({ border, value, onChange, onSubmit }: Props) => {
         }}
         className={
           value === GENDER.FEMALE
-            ? `flex h-full w-[50%] items-center justify-center bg-red-900`
-            : `flex h-full w-[50%] items-center justify-center bg-red-200 hover:cursor-pointer hover:bg-red-400`
+            ? `flex h-full items-center justify-center bg-red-900 px-2`
+            : `flex h-full items-center justify-center bg-red-200 px-2 hover:cursor-pointer hover:bg-red-400`
         }
       >
         <FontAwesomeIcon

@@ -1,26 +1,22 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from './Button';
 import { faBook, faLock, faUnlock } from '@fortawesome/free-solid-svg-icons';
 import { BUTTONBORDER, RESERVATIONRESPONSE } from '../../Types';
 import { GENDER } from '@prisma/client';
 import { useWhitelist } from '@/hooks/useWhitelist';
-import { useGlobalContext } from '../../GlobalContext';
 import { hasBalcony } from '@/utils/Utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useFloorData } from '@/hooks/useFloorData';
-import { eventBus } from '@/eventBus';
-
-const blockNames = ['A', 'C', 'D'];
+import { useGlobalContext } from '@/app/contexts/GlobalContext';
+import { useFloorDataContext } from '@/app/contexts/FloorDataContext';
 
 const RoomDetails = ({ isAdmin = false }: { isAdmin?: boolean }) => {
-  const { gender, selectedRoomName, students, correctForm, selectedFloor, block } =
-    useGlobalContext();
+  const { gender, selectedRoomName, students, correctForm } = useGlobalContext();
   const [isLoading, setIsLoading] = useState(false);
   const [available, setAvailable] = useState(false);
   const [feedBack, setFeedBack] = useState<{ message: string; status: number } | null>(null);
 
   const { whitelist } = useWhitelist();
-  const { floorData } = useFloorData(selectedFloor, blockNames[block]);
+  const { floorData, refetch } = useFloorDataContext();
   const selectedRoom = floorData?.find((r) => r.name === selectedRoomName);
 
   const isAvailable = () => {
@@ -52,9 +48,10 @@ const RoomDetails = ({ isAdmin = false }: { isAdmin?: boolean }) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ roomName: selectedRoom?.name }),
       });
-      eventBus.emit('floorDataUpdated');
     } catch (error) {
       console.error('Error blocking/unblocking room:', error);
+    } finally {
+      refetch(); // Refresh floor data after blocking/unblocking
     }
   };
 
@@ -102,6 +99,8 @@ const RoomDetails = ({ isAdmin = false }: { isAdmin?: boolean }) => {
     } catch (error) {
       setFeedBack(RESERVATIONRESPONSE.ERROR);
       setIsLoading(false);
+    } finally {
+      refetch();
     }
   };
 

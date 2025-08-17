@@ -2,10 +2,10 @@
 
 import { faEnvelope, faQuestion } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useGlobalContext } from '../../GlobalContext';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { FaqModal } from './modals/FaqModal';
+import { useGlobalContext } from '@/app/contexts/GlobalContext';
 
 const headers: { [key: string]: string } = {
   '/': 'REZERVÁCIE IZIEB J9',

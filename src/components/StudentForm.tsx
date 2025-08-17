@@ -1,12 +1,12 @@
 import { faUser, faUserPlus, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { GENDER, Student } from '@prisma/client';
-import { useGlobalContext } from '../../GlobalContext';
 import { set, useFieldArray, useForm } from 'react-hook-form';
 import { useState } from 'react';
 import StudentField from './StudentField';
 import { StudentOverview } from './StudentOverview';
 import { BUTTONBORDER } from '../../Types';
+import { useGlobalContext } from '@/app/contexts/GlobalContext';
 
 export type StudentFormValues = {
   students: Student[];

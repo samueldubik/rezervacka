@@ -1,16 +1,19 @@
 'use client';
 import NavBar from '@/components/NavBar';
-import { GlobalContextProvider } from '../../GlobalContext';
 import FloorLayout from '@/components/FloorLayout';
 import { ReservationPanel } from '@/components/ReservationPanel';
+import { GlobalContextProvider } from './contexts/GlobalContext';
+import { FloorDataProvider } from './contexts/FloorDataContext';
 
 export default function Home() {
   return (
     <main>
       <GlobalContextProvider>
-        <NavBar />
-        <FloorLayout />
-        <ReservationPanel />
+        <FloorDataProvider>
+          <NavBar />
+          <FloorLayout />
+          <ReservationPanel />
+        </FloorDataProvider>
       </GlobalContextProvider>
     </main>
   );

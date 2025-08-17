@@ -1,7 +1,7 @@
+import { useGlobalContext } from '@/app/contexts/GlobalContext';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dispatch, SetStateAction } from 'react';
-import { useGlobalContext } from '../../GlobalContext';
 
 const Elevator = () => {
   const { selectedFloor, setSelectedFloor } = useGlobalContext();
