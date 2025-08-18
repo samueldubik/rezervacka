@@ -9,12 +9,12 @@ import { FloorDataProvider } from '../contexts/FloorDataContext';
 export default function Admin() {
   return (
     <main>
-      <GlobalContextProvider>
+      <GlobalContextProvider isAdmin>
         <FloorDataProvider>
           <NavBar />
           <AdminPanel />
           <FloorLayout />
-          <ReservationPanel isAdmin />
+          <ReservationPanel />
         </FloorDataProvider>
       </GlobalContextProvider>
     </main>

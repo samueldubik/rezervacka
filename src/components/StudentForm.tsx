@@ -2,11 +2,12 @@ import { faUser, faUserPlus, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { GENDER, Student } from '@prisma/client';
 import { set, useFieldArray, useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import StudentField from './StudentField';
 import { StudentOverview } from './StudentOverview';
 import { BUTTONBORDER } from '../../Types';
 import { useGlobalContext } from '@/app/contexts/GlobalContext';
+import { useFloorDataContext } from '@/app/contexts/FloorDataContext';
 
 export type StudentFormValues = {
   students: Student[];
@@ -14,7 +15,8 @@ export type StudentFormValues = {
 };
 
 export const StudentForm = () => {
-  const { setStudents, setGender, setCorrectForm } = useGlobalContext();
+  const { setStudents, setGender, setCorrectForm, isAdmin, selectedRoomName } = useGlobalContext();
+  const { floorData } = useFloorDataContext();
   const [selectedField, setSelectedField] = useState(-1);
 
   const {
@@ -35,6 +37,38 @@ export const StudentForm = () => {
     control,
     name: 'students',
   });
+
+  useEffect(() => {
+    console.log('EFFECT TRIGGERED');
+    console.log('isAdmin:', isAdmin);
+    console.log('floorData:', floorData);
+
+    if (!isAdmin || !floorData) {
+      return;
+    }
+
+    console.log('Admin & data ok');
+
+    const room = floorData.find((r) => r.name === selectedRoomName);
+
+    console.log('Selected Room:', room);
+
+    if (!room || !room.students || room.students.length === 0) {
+      return;
+    }
+    console.log('Setting students from room:', room);
+
+    setValue(
+      'students',
+      room.students.map((student) => ({
+        id: student.id,
+        name: student.name,
+        email: student.email,
+        roomName: student.roomName,
+        arrivalId: student.arrivalId ?? null,
+      })),
+    );
+  }, [isAdmin, selectedRoomName, floorData]);
 
   const onSubmit = (data: StudentFormValues) => {
     console.log('Form Submitted: ', data);

@@ -1,4 +1,4 @@
-import { $Enums } from '@prisma/client';
+import { $Enums, Room, Student } from '@prisma/client';
 
 export enum ROOMTYPE {
   ROOM,
@@ -49,4 +49,5 @@ export type RoomData = {
   studentsCount: number;
   gender: $Enums.GENDER;
   isBlocked: boolean;
+  students?: Student[]; //Admin only
 };

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Button from './Button';
-import { faBook, faLock, faUnlock } from '@fortawesome/free-solid-svg-icons';
+import { faBook, faLock, faTrash, faUnlock } from '@fortawesome/free-solid-svg-icons';
 import { BUTTONBORDER, RESERVATIONRESPONSE } from '../../Types';
 import { GENDER } from '@prisma/client';
 import { useWhitelist } from '@/hooks/useWhitelist';
@@ -9,8 +9,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useGlobalContext } from '@/app/contexts/GlobalContext';
 import { useFloorDataContext } from '@/app/contexts/FloorDataContext';
 
-const RoomDetails = ({ isAdmin = false }: { isAdmin?: boolean }) => {
-  const { gender, selectedRoomName, students, correctForm } = useGlobalContext();
+const RoomDetails = () => {
+  const { gender, selectedRoomName, students, correctForm, isAdmin } = useGlobalContext();
   const [isLoading, setIsLoading] = useState(false);
   const [available, setAvailable] = useState(false);
   const [feedBack, setFeedBack] = useState<{ message: string; status: number } | null>(null);
@@ -80,7 +80,7 @@ const RoomDetails = ({ isAdmin = false }: { isAdmin?: boolean }) => {
         roomName: selectedRoom?.name,
         students: [...students],
       };
-      const response = await fetch('/api/reserveRoom', {
+      const response = await fetch(isAdmin ? '/api/admin/reserveRoom' : '/api/reserveRoom', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(requestData),
@@ -109,10 +109,10 @@ const RoomDetails = ({ isAdmin = false }: { isAdmin?: boolean }) => {
       return 'Zablokované';
     }
 
-    if (!correctForm || students.length < 2 || gender === GENDER.NONE) {
+    if (!correctForm || students.length < 2 || (gender === GENDER.NONE && !isAdmin)) {
       return 'Vyplňte formulár';
     }
-    if (!available) {
+    if (!available && !isAdmin) {
       if (whitelist.length > 0) {
         return 'Nepovolené';
       }
@@ -122,6 +122,32 @@ const RoomDetails = ({ isAdmin = false }: { isAdmin?: boolean }) => {
   };
 
   if (!selectedRoom) return null;
+
+  const handleDeleteReservation = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch('/api/admin/reserveRoom', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          roomName: selectedRoom.name,
+          students: [],
+          gender: GENDER.NONE,
+        }),
+      });
+      if (response.ok) {
+        setFeedBack(RESERVATIONRESPONSE.SUCCESS);
+      } else {
+        setFeedBack(RESERVATIONRESPONSE.ERROR);
+      }
+    } catch (error) {
+      console.error('Error deleting reservation:', error);
+      setFeedBack(RESERVATIONRESPONSE.ERROR);
+    } finally {
+      setIsLoading(false);
+      refetch();
+    }
+  };
 
   return (
     <section className="relative flex h-[35vh] w-full flex-col bg-slate-200">
@@ -159,17 +185,26 @@ const RoomDetails = ({ isAdmin = false }: { isAdmin?: boolean }) => {
 
       {/* Action button and feedback */}
       <div className="mb-6 flex w-full flex-col items-center">
+        {isAdmin && (
+          <button
+            className="flex flex-row items-center justify-center gap-2 border-4 border-red-800 p-2 font-tektur font-bold text-red-800"
+            onClick={handleDeleteReservation}
+          >
+            <h4>Odstrániť rezerváciu</h4>
+            <FontAwesomeIcon icon={faTrash} className="text-red-800" />
+          </button>
+        )}
         <Button
           label={getButtonLabel()}
           icon={faBook}
           loading={isLoading}
           action={
-            correctForm && available && !selectedRoom?.isBlocked
+            (correctForm && available && !selectedRoom?.isBlocked) || isAdmin
               ? reserveRoom
               : () => console.log('Form Error')
           }
           border={
-            correctForm && available && !selectedRoom?.isBlocked
+            (correctForm && available && !selectedRoom?.isBlocked) || isAdmin
               ? BUTTONBORDER.BLACK
               : BUTTONBORDER.ERROR
           }

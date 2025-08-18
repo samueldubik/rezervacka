@@ -55,7 +55,7 @@ const Room = ({ data, roomType = ROOMTYPE.ROOM, balcony = false }: Props) => {
             data?.isBlocked
               ? 'relative flex h-[10vh] min-h-[100px] w-full border-collapse cursor-not-allowed flex-col items-center justify-center border-b-4 border-r-4 border-slate-700 bg-gray-700'
               : data?.name === selectedRoomName
-                ? `brightness-110 ${available ? 'bg-emerald-800' : 'bg-rose-800'} relative flex h-[10vh] min-h-[100px] w-full border-collapse flex-col items-center justify-center border-b-4 border-r-4 border-slate-700`
+                ? `cursor-pointer brightness-110 ${available ? 'bg-emerald-800' : 'bg-rose-800'} relative flex h-[10vh] min-h-[100px] w-full border-collapse flex-col items-center justify-center border-b-4 border-r-4 border-slate-700`
                 : `cursor-pointer ${available ? 'bg-emerald-500' : 'bg-rose-500'} relative flex h-[10vh] min-h-[100px] w-full border-collapse flex-col items-center justify-center border-b-4 border-r-4 border-slate-700 hover:brightness-110`
           }
         >

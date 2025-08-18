@@ -1,8 +1,8 @@
 import { GENDER, Student } from '@prisma/client';
 import { createContext, Dispatch, SetStateAction, useContext, useState } from 'react';
-import { RoomData } from '../../../Types';
 
 interface GlobalState {
+  isAdmin: boolean;
   students: Student[];
   setStudents: Dispatch<SetStateAction<Student[]>>;
   selectedRoomName: string | undefined;
@@ -11,8 +11,6 @@ interface GlobalState {
   setGender: Dispatch<SetStateAction<GENDER>>;
   correctForm: boolean;
   setCorrectForm: Dispatch<SetStateAction<boolean>>;
-  floorData: RoomData[] | null;
-  setFloorData: Dispatch<SetStateAction<RoomData[] | null>>;
   formsVisible: boolean;
   setFormsVisible: Dispatch<SetStateAction<boolean>>;
   block: number;
@@ -23,11 +21,16 @@ interface GlobalState {
 
 const GlobalContext = createContext<GlobalState | undefined>(undefined);
 
-export const GlobalContextProvider = ({ children }: { children: React.ReactNode }) => {
+export const GlobalContextProvider = ({
+  isAdmin = false,
+  children,
+}: {
+  isAdmin?: boolean;
+  children: React.ReactNode;
+}) => {
   const [students, setStudents] = useState<Array<any>>([]);
   const [selectedRoomName, setSelectedRoomName] = useState<string | undefined>();
   const [gender, setGender] = useState<GENDER>(GENDER.NONE);
-  const [floorData, setFloorData] = useState<RoomData[] | null>([]);
   const [correctForm, setCorrectForm] = useState<boolean>(false);
   const [formsVisible, setFormsVisible] = useState<boolean>(true);
   const [block, setBlock] = useState<number>(0);
@@ -36,14 +39,13 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
   return (
     <GlobalContext.Provider
       value={{
+        isAdmin,
         students,
         setStudents,
         selectedRoomName,
         setSelectedRoomName,
         gender,
         setGender,
-        floorData,
-        setFloorData,
         correctForm,
         setCorrectForm,
         formsVisible,
