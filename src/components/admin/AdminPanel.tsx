@@ -5,6 +5,8 @@ import { DatabaseCleanup } from './DatabaseCleanup';
 import { ReservationsToggle } from './ReservationsToggle';
 import { ExportButton } from './ExportButton';
 import { BlocksRadioButtons } from './BlocksRadioButtons';
+import { useFloorData } from '@/hooks/useFloorData';
+import { useFloorDataContext } from '@/app/contexts/FloorDataContext';
 
 export const AdminPanel = () => {
   const [isPanelVisible, setIsPanelVisible] = useState(true);

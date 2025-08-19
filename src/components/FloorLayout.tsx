@@ -5,10 +5,11 @@ import { useSettings } from '@/hooks/useSettings';
 import Elevator from './Elevator';
 import { LayoutSelector } from './LayoutSelector';
 import { useFloorDataContext } from '@/app/contexts/FloorDataContext';
+import { useGlobalContext } from '@/app/contexts/GlobalContext';
 
 const FloorLayout = ({ isAdmin = false }) => {
+  const { reservationsEnabled } = useGlobalContext();
   const { floorData, loading, error } = useFloorDataContext();
-  const { reservationsEnabled } = useSettings();
 
   if (loading) {
     return <ActivityIndicator />;

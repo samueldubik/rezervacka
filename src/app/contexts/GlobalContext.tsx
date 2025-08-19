@@ -1,5 +1,6 @@
+import { useSettings } from '@/hooks/useSettings';
 import { GENDER, Student } from '@prisma/client';
-import { createContext, Dispatch, SetStateAction, useContext, useState } from 'react';
+import { createContext, Dispatch, SetStateAction, use, useContext, useState } from 'react';
 
 interface GlobalState {
   isAdmin: boolean;
@@ -17,6 +18,8 @@ interface GlobalState {
   setBlock: Dispatch<SetStateAction<number>>;
   selectedFloor: number;
   setSelectedFloor: Dispatch<SetStateAction<number>>;
+  reservationsEnabled: boolean;
+  refetchSettings: () => Promise<void>;
 }
 
 const GlobalContext = createContext<GlobalState | undefined>(undefined);
@@ -36,6 +39,8 @@ export const GlobalContextProvider = ({
   const [block, setBlock] = useState<number>(0);
   const [selectedFloor, setSelectedFloor] = useState(1);
 
+  const { reservationsEnabled, refetch: refetchSettings } = useSettings();
+
   return (
     <GlobalContext.Provider
       value={{
@@ -54,6 +59,8 @@ export const GlobalContextProvider = ({
         setBlock,
         selectedFloor,
         setSelectedFloor,
+        reservationsEnabled,
+        refetchSettings,
       }}
     >
       {children}
