@@ -9,6 +9,7 @@
     "docker:build": "cross-env NODE_ENV=production docker compose up --build -d",
     "docker:up": "cross-env NODE_ENV=production docker compose up -d",
     "docker:down": "docker-compose down",
+    "prisma:generate:prod": "npx dotenv -e .env.production -- npx prisma generate",
     "prisma:generate": "npx dotenv -e .env.development -- npx prisma generate",
     "prisma:migrate:dev": "npx dotenv -e .env.development -- npx prisma migrate dev",
     "prisma:migrate:prod": "npx dotenv -e .env.production -- npx prisma migrate deploy",
