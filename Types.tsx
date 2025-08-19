@@ -1,4 +1,4 @@
-import { $Enums, Room, Student } from '@prisma/client';
+import { GENDER, Student } from '@prisma/client';
 
 export enum ROOMTYPE {
   ROOM,
@@ -47,7 +47,7 @@ export const RESERVATIONRESPONSE = {
 export type RoomData = {
   name: string;
   studentsCount: number;
-  gender: $Enums.GENDER;
+  gender: GENDER;
   isBlocked: boolean;
   students?: Student[]; //Admin only
 };
