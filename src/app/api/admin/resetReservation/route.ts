@@ -5,6 +5,7 @@ export async function POST(request: Request) {
   try {
     await prisma.student.deleteMany({});
     await prisma.room.deleteMany({});
+    await prisma.settings.deleteMany({}); // Clear settings
 
     const blocks = ['A', 'B', 'C', 'D'];
     for (const block of blocks) {
@@ -20,6 +21,13 @@ export async function POST(request: Request) {
         }
       }
     }
+
+    // Create default settings row
+    await prisma.settings.create({
+      data: {
+        reservationsEnabled: false,
+      },
+    });
 
     return new Response(JSON.stringify({ message: 'Reservation status updated successfully.' }), {
       status: 200,
