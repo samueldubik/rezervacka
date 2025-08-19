@@ -19,6 +19,7 @@ COPY . .
 
 
 RUN yarn prisma:generate:prod
+RUN yarn prisma:migrate:prod
 RUN yarn build
 
 # Production image, copy all the files and run next
