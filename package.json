@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "cross-env NODE_ENV=development docker compose up -d db_dev && next dev",
+    "build": "next build",
     "docker:build": "cross-env NODE_ENV=production docker compose up --build -d",
     "docker:up": "cross-env NODE_ENV=production docker compose up -d",
     "docker:down": "docker-compose down",
