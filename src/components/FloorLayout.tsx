@@ -7,13 +7,13 @@ import { LayoutSelector } from './LayoutSelector';
 import { useFloorDataContext } from '@/app/contexts/FloorDataContext';
 import { useGlobalContext } from '@/app/contexts/GlobalContext';
 
-const FloorLayout = ({ isAdmin = false }) => {
-  const { reservationsEnabled } = useGlobalContext();
+const FloorLayout = () => {
+  const { reservationsEnabled, isAdmin } = useGlobalContext();
   const { floorData, loading, error } = useFloorDataContext();
 
   if (loading) {
     return <ActivityIndicator />;
-  } else if (error || !reservationsEnabled) {
+  } else if (error || (!reservationsEnabled && !isAdmin)) {
     return (
       <h1 className="mx-auto mt-24 flex h-[15vh] w-[70vw] items-center justify-center border-[12px] border-[#a33737] px-8 text-center font-nav-name text-xl text-dark lg:w-[40vw] lg:text-2xl">
         REGISTRÁCIA NIE JE SPRÍSTUPNENÁ

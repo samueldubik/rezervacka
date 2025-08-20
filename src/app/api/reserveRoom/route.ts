@@ -15,6 +15,13 @@ function validateRequest(body: RequestData) {
   if (!gender || !roomName || !students || students.length === 0) {
     throw new Error('NONE'); // Use the key from DATABASERESPONSE
   }
+
+  if (
+    (students.length < 2 && gender === GENDER.MALE) ||
+    (students.length < 3 && gender === GENDER.FEMALE)
+  ) {
+    throw new Error('TOOFEWSTUDENTS');
+  }
 }
 
 export async function POST(req: Request) {
