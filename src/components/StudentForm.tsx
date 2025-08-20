@@ -85,11 +85,11 @@ export const StudentForm = () => {
   };
 
   return (
-    <section className="relative flex h-[35vh] w-full flex-col bg-slate-200 pb-10">
-      <header className="flex flex-row">
+    <section className="relative flex h-[35vh] min-h-[350px] w-full flex-col bg-slate-200">
+      <header className="flex h-[15%] max-h-[150px] w-full flex-row">
         {/* Overview */}
         <div
-          className={`flex h-[5vh] w-1/5 items-center justify-center ${selectedField === -1 ? 'bg-form text-slate-200' : 'bg-slate-200 text-form'}`}
+          className={`flex h-full w-1/5 items-center justify-center ${selectedField === -1 ? 'bg-form text-slate-200' : 'bg-slate-200 text-form'}`}
           onClick={() => setSelectedField(-1)}
         >
           <FontAwesomeIcon icon={faUsers} />
@@ -98,7 +98,7 @@ export const StudentForm = () => {
         {watch('students').map((item, index) => (
           <div
             key={item.id}
-            className={`flex h-[5vh] w-1/5 items-center justify-center ${selectedField === index ? 'bg-form text-slate-200' : 'bg-slate-200 text-form'}`}
+            className={`flex h-full w-1/5 items-center justify-center ${selectedField === index ? 'bg-form text-slate-200' : 'bg-slate-200 text-form'}`}
             onClick={() => setSelectedField(index)}
           >
             <FontAwesomeIcon icon={faUser} />
@@ -108,37 +108,39 @@ export const StudentForm = () => {
         {watch('students').length < 4 && (
           <div
             onClick={handleAddStudent}
-            className="flex h-[5vh] w-1/5 cursor-pointer items-center justify-center bg-slate-300 text-form hover:bg-slate-400"
+            className="flex h-full w-1/5 cursor-pointer items-center justify-center bg-slate-300 text-form hover:bg-slate-400"
           >
             <FontAwesomeIcon icon={faUserPlus} />
           </div>
         )}
       </header>
-      {selectedField === -1 ? (
-        <StudentOverview
-          students={watch('students')}
-          border={BUTTONBORDER.BLACK}
-          value={watch('gender')}
-          onChange={(val) => setValue('gender', val)}
-          control={control}
-          errors={errors}
-          handleAddStudent={handleAddStudent}
-          onSubmit={handleSubmit(onSubmit)}
-        />
-      ) : (
-        <StudentField
-          setSelectedField={setSelectedField}
-          key={fields[selectedField].id}
-          index={selectedField}
-          control={control}
-          remove={() => {
-            setSelectedField((prev) => prev - 1);
-            remove(selectedField); // <-- Pass the correct index!
-          }}
-          errors={errors.students?.[selectedField] || {}}
-          onSubmit={handleSubmit(onSubmit)}
-        />
-      )}
+      <div className="relative flex h-[85%] w-full">
+        {selectedField === -1 ? (
+          <StudentOverview
+            students={watch('students')}
+            border={BUTTONBORDER.BLACK}
+            value={watch('gender')}
+            onChange={(val) => setValue('gender', val)}
+            control={control}
+            errors={errors}
+            handleAddStudent={handleAddStudent}
+            onSubmit={handleSubmit(onSubmit)}
+          />
+        ) : (
+          <StudentField
+            setSelectedField={setSelectedField}
+            key={fields[selectedField].id}
+            index={selectedField}
+            control={control}
+            remove={() => {
+              setSelectedField((prev) => prev - 1);
+              remove(selectedField); // <-- Pass the correct index!
+            }}
+            errors={errors.students?.[selectedField] || {}}
+            onSubmit={handleSubmit(onSubmit)}
+          />
+        )}
+      </div>
     </section>
   );
 };

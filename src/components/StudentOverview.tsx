@@ -36,20 +36,22 @@ export const StudentOverview: React.FC<StudentOverviewProps> = ({
   };
 
   return (
-    <section className="mt-2 flex w-full flex-col items-center">
+    <section className="flex h-full w-full flex-col items-center">
       <h1 className="text-2xl font-bold text-form">Prehľad študentov</h1>
-      <div className="mt-5 flex w-[90%] flex-col justify-start">
+      <div className="mt-5 flex w-[90%] flex-col justify-start overflow-x-auto">
         {students.map((student, index) =>
           student.name && student.email ? (
-            <div key={index} className="flex w-full items-center gap-4 rounded px-4">
+            <div key={index} className="flex w-full items-center gap-2 rounded px-2">
               <FontAwesomeIcon
                 icon={faUser}
                 className={` ${border === BUTTONBORDER.ERROR ? 'text-red-600' : 'text-dark'}`}
               />
-              <p className="w-[50%] text-left font-fira-sans font-semibold text-dark">
+              <p className="w-[40%] text-left font-fira-sans font-semibold text-dark">
                 {student.name}
               </p>
-              <p className="text-start font-fira-sans font-medium text-dark">{student.email}</p>
+              <p className="w-[40%] text-start font-fira-sans font-medium text-dark">
+                {student.email}
+              </p>
             </div>
           ) : null,
         )}
@@ -74,27 +76,30 @@ export const StudentOverview: React.FC<StudentOverviewProps> = ({
           }}
           render={({ field }) => (
             <section className="flex w-full flex-row justify-center gap-2">
-              <button
-                onClick={handleEtaPress}
-                className="flex flex-1 cursor-pointer flex-col items-center justify-start gap-2 border border-gray-300 p-2 shadow-xl"
-              >
-                <h3 className="text-center font-quicksand font-bold text-dark">
-                  Predpokladaný termín ubytovania
-                </h3>
-                <div className="flex flex-row items-center gap-2">
-                  <FontAwesomeIcon icon={faCalendar} />
-                  <h4>
-                    {new Date().toLocaleString('sk-SK', {
-                      day: '2-digit',
-                      month: '2-digit',
-                      year: 'numeric',
-                      hour: '2-digit',
-                      minute: '2-digit',
-                    })}
-                  </h4>
-                </div>
-              </button>
-              <div className="flex flex-1 flex-col items-center justify-start gap-2 border border-gray-300 p-2 shadow-xl">
+              {/* TODO: FINISH ETA */}
+              {false && (
+                <button
+                  onClick={handleEtaPress}
+                  className="flex flex-1 cursor-pointer flex-col items-center justify-start gap-2 border border-gray-300 p-2 shadow-xl"
+                >
+                  <h3 className="text-center font-quicksand font-bold text-dark">
+                    Predpokladaný termín ubytovania
+                  </h3>
+                  <div className="flex flex-row items-center gap-2">
+                    <FontAwesomeIcon icon={faCalendar} />
+                    <h4>
+                      {new Date().toLocaleString('sk-SK', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}
+                    </h4>
+                  </div>
+                </button>
+              )}
+              <div className="mb-5 flex flex-1 flex-col items-center justify-start gap-2 border border-gray-300 p-2 shadow-xl">
                 <h3 className="text-center font-quicksand font-bold text-dark">Vyberte pohlavie</h3>
                 <GenderSelector
                   {...field}

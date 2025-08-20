@@ -22,7 +22,7 @@ const StudentField = ({
   onSubmit,
   setSelectedField,
 }: StudentProps) => (
-  <div className="relative flex h-full w-full flex-col bg-slate-200">
+  <div className="relative mt-2 flex w-full flex-col bg-slate-200">
     <article className="flex flex-1 flex-col justify-center">
       <label
         className={`font-fira-sans font-medium ${errors?.name ? 'text-red-600' : 'text-form'} mx-[5%] w-[90%] text-lg`}

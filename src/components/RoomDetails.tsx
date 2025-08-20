@@ -104,12 +104,14 @@ const RoomDetails = () => {
     }
   };
 
+  const isFormInvalid = !correctForm || students.length < 2 || (gender === GENDER.NONE && !isAdmin);
+
   const getButtonLabel = () => {
     if (selectedRoom?.isBlocked) {
       return 'Zablokované';
     }
 
-    if (!correctForm || students.length < 2 || (gender === GENDER.NONE && !isAdmin)) {
+    if (isFormInvalid) {
       return 'Vyplňte formulár';
     }
     if (!available && !isAdmin) {
@@ -150,10 +152,10 @@ const RoomDetails = () => {
   };
 
   return (
-    <section className="relative flex h-[35vh] w-full flex-col bg-slate-200">
+    <section className="relative flex h-[35vh] min-h-[350px] w-full flex-col bg-slate-200">
       {/* Tab-like header */}
-      <header className="flex h-[5vh] w-full flex-row items-center justify-center bg-form text-slate-200">
-        <h2 className="font-tektur text-2xl font-bold tracking-wide">IZBA {selectedRoom.name}</h2>
+      <header className="flex h-[15%] max-h-[150px] w-full flex-row items-center justify-center bg-form text-slate-200">
+        <h2 className="font-tektur text-2xl font-bold">IZBA {selectedRoom.name}</h2>
         {isAdmin && (
           <button onClick={toggleRoomBlock} className="absolute right-5 cursor-pointer text-xl">
             <FontAwesomeIcon icon={selectedRoom?.isBlocked ? faLock : faUnlock} />
@@ -199,7 +201,7 @@ const RoomDetails = () => {
           icon={faBook}
           loading={isLoading}
           action={
-            (correctForm && available && !selectedRoom?.isBlocked) || isAdmin
+            (correctForm && available && !selectedRoom?.isBlocked && !isFormInvalid) || isAdmin
               ? reserveRoom
               : () => console.log('Form Error')
           }

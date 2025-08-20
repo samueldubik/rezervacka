@@ -29,20 +29,15 @@ const Button = ({
   return (
     <div
       onClick={!loading ? action : () => console.log('LOADING...')}
-      className={`mx-auto mt-2 flex h-[7vh] w-[50%] cursor-pointer flex-row items-center justify-start border-4 shadow-lg lg:mx-5 lg:mt-5 lg:h-[7vh] lg:border-8 ${borderColor[border]} hover:brightness-150`}
+      className={`mt-2 flex h-[7vh] w-[50%] cursor-pointer flex-row items-center justify-center gap-2 border-4 px-2 shadow-lg lg:mx-5 lg:mt-5 lg:h-[7vh] lg:border-8 ${borderColor[border]} hover:brightness-150`}
     >
-      {!loading && (
-        <FontAwesomeIcon
-          icon={icon}
-          className={black ? `h-[60%] w-[20%] text-green-900 lg:h-4/5` : `h-[60%] w-[20%] lg:h-4/5`}
-        />
-      )}
+      {!loading && <FontAwesomeIcon icon={icon} size="xl" />}
       {!loading ? (
         <h2
           className={
             black
-              ? `w-[60%] text-center font-fira-sans text-lg font-extrabold lg:text-xl`
-              : `w-[60%] text-center font-fira-sans text-lg font-extrabold lg:text-xl`
+              ? `text-center font-fira-sans text-lg font-extrabold lg:text-xl`
+              : `text-center font-fira-sans text-lg font-extrabold lg:text-xl`
           }
         >
           {label}

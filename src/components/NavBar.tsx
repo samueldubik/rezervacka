@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { FaqModal } from './modals/FaqModal';
 import { useGlobalContext } from '@/app/contexts/GlobalContext';
+import { ContactModal } from './modals/ContactModal';
 
 const headers: { [key: string]: string } = {
   '/': 'REZERVÁCIE IZIEB J9',
@@ -16,25 +17,22 @@ const NavBar = () => {
   const pathname = usePathname() || ' ';
   const headerLabel: string = headers[pathname] || 'Default Header';
   const [isFaqModalOpen, setIsFaqModalOpen] = useState(false);
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
-  const { formsVisible, setFormsVisible } = useGlobalContext();
   const isAdmin = pathname === '/admin';
 
   return (
     <nav className="relative flex h-[10vh] min-h-[70px] flex-row items-center justify-items-start bg-slate-400 lg:h-[7vh]">
       <div className="flex h-full w-[40%] flex-row items-center gap-5 px-5">
-        <div
-          onClick={() => setFormsVisible((prev) => !prev)}
+        <button
+          onClick={() => setIsContactModalOpen((prev) => !prev)}
           className="flex cursor-pointer flex-row items-center"
         >
-          <FontAwesomeIcon
-            icon={faEnvelope}
-            className={`my-auto h-12 px-2 ${formsVisible ? 'text-dark' : 'text-stone-200'}`}
-          />
+          <FontAwesomeIcon icon={faEnvelope} className={`my-auto h-12 px-2 text-dark`} />
           <h4 className="hidden font-quicksand text-xl font-bold lg:flex">Napíšte nám</h4>
-        </div>
+        </button>
 
-        <div
+        <button
           onClick={() => setIsFaqModalOpen(true)}
           className="flex cursor-pointer flex-row items-center"
         >
@@ -43,7 +41,7 @@ const NavBar = () => {
             className={`my-auto h-12 cursor-pointer px-2 text-dark`}
           />
           <h4 className="hidden font-quicksand text-xl font-bold lg:flex">Otázky</h4>
-        </div>
+        </button>
       </div>
 
       <h3 className="my-auto w-[40%] px-5 py-2 font-bebas text-3xl text-dark sm:text-3xl lg:text-4xl">
@@ -62,6 +60,10 @@ const NavBar = () => {
         isAdmin={isAdmin}
         isOpen={isFaqModalOpen}
         onClose={() => setIsFaqModalOpen(false)}
+      />
+      <ContactModal
+        isContactModalOpen={isContactModalOpen}
+        setIsContactModalOpen={setIsContactModalOpen}
       />
     </nav>
   );

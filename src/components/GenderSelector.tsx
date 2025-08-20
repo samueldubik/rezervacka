@@ -16,7 +16,7 @@ const GenderSelector = ({ border, value, onChange, onSubmit }: Props) => {
 
   console.log(value === GENDER.FEMALE);
   return (
-    <div className="mx-5 flex h-14 flex-row items-center justify-start gap-4">
+    <div className="mx-5 flex h-12 flex-row items-center justify-start gap-4">
       <div
         onClick={() => {
           onChange(GENDER.MALE);

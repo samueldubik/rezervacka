@@ -115,7 +115,7 @@ export const FaqItem: React.FC<FaqItemProps> = ({
       ) : (
         <div className="flex flex-col">
           <h3 className="font-quicksand text-lg font-bold">{question}</h3>
-          <div className="relative mt-2 rounded-lg bg-amber-300 p-2 font-quicksand text-gray-700 shadow-md">
+          <div className="relative mt-2 rounded-lg bg-slate-50 p-2 font-quicksand text-gray-900 shadow-md">
             <p>{answer}</p>
             {isAdmin && !editing && (
               <div className="absolute right-2 top-2 flex gap-2">
