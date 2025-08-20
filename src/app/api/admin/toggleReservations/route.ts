@@ -4,7 +4,8 @@ export async function POST(request: Request) {
   try {
     const { enabled } = await request.json();
 
-    const settings = await prisma.settings.findUnique({ where: { id: 1 } });
+    // Find the first settings row
+    const settings = await prisma.settings.findFirst();
 
     if (!settings) {
       return new Response(JSON.stringify({ message: 'Settings row not found.' }), {
@@ -14,7 +15,7 @@ export async function POST(request: Request) {
     }
 
     await prisma.settings.update({
-      where: { id: 1 },
+      where: { id: settings.id },
       data: { reservationsEnabled: enabled },
     });
 
