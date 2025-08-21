@@ -72,7 +72,7 @@ export const FaqItem: React.FC<FaqItemProps> = ({
   };
 
   return (
-    <div className="relative my-4 mr-32 rounded-lg bg-slate-300 p-4 shadow-xl">
+    <div className="w-[90%] rounded-lg bg-slate-300 p-4 shadow-xl">
       {isAdmin && (editing || isEditing) ? (
         <form
           onSubmit={handleSubmit(id === -1 ? handleAddSubmit : onEditSubmit)}

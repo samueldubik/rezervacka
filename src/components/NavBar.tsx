@@ -44,7 +44,7 @@ const NavBar = () => {
         </button>
       </div>
 
-      <h3 className="my-auto w-[40%] px-5 py-2 font-bebas text-3xl text-dark sm:text-3xl lg:text-4xl">
+      <h3 className="my-auto w-[40%] px-2 py-2 font-bebas text-dark sm:text-xl md:text-3xl lg:text-4xl">
         {headerLabel}
       </h3>
 

@@ -32,41 +32,43 @@ export const FaqModal: React.FC<FaqModalProps> = ({ isOpen, isAdmin, onClose }) 
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="h-[60vh] w-[80vw] overflow-y-auto p-4">
+      <div className="relative h-[60vh] w-[80vw] overflow-y-auto overflow-x-hidden p-4">
         <h2 className="font-quicksand text-xl font-bold">Často kladené otázky</h2>
         <p className="mt-2 font-quicksand text-gray-700">
           To môžete nájsť odpovede na niektoré otázky o rezervačnom portály
         </p>
-        {faq.map((item) => (
-          <FaqItem
-            key={item.id}
-            id={item.id}
-            question={item.question}
-            answer={item.answer}
-            isAdmin={isAdmin}
-            fetchFaq={fetchFaq}
-          />
-        ))}
-        {isAdmin && !adding && (
-          <button
-            onClick={() => setAdding(true)}
-            className="mt-4 flex flex-row items-center justify-center gap-2 rounded bg-green-500 p-2 font-quicksand font-semibold text-white hover:bg-green-700"
-          >
-            <FontAwesomeIcon icon={faPlus} />
-            <h3>Pridať otázku</h3>
-          </button>
-        )}
-        {isAdmin && adding && (
-          <FaqItem
-            id={-1}
-            question=""
-            answer=""
-            isAdmin={true}
-            isEditing={true}
-            onAddSubmit={handleAddSubmit}
-            onCancelAdd={() => setAdding(false)}
-          />
-        )}
+        <section className="relative mt-4 flex flex-col items-start gap-6">
+          {faq.map((item) => (
+            <FaqItem
+              key={item.id}
+              id={item.id}
+              question={item.question}
+              answer={item.answer}
+              isAdmin={isAdmin}
+              fetchFaq={fetchFaq}
+            />
+          ))}
+          {isAdmin && !adding && (
+            <button
+              onClick={() => setAdding(true)}
+              className="mt-4 flex flex-row items-center justify-center gap-2 rounded bg-green-500 p-2 font-quicksand font-semibold text-white hover:bg-green-700"
+            >
+              <FontAwesomeIcon icon={faPlus} />
+              <h3>Pridať otázku</h3>
+            </button>
+          )}
+          {isAdmin && adding && (
+            <FaqItem
+              id={-1}
+              question=""
+              answer=""
+              isAdmin={true}
+              isEditing={true}
+              onAddSubmit={handleAddSubmit}
+              onCancelAdd={() => setAdding(false)}
+            />
+          )}
+        </section>
       </div>
     </Modal>
   );

@@ -8,12 +8,15 @@ import { hasBalcony } from '@/utils/Utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useGlobalContext } from '@/app/contexts/GlobalContext';
 import { useFloorDataContext } from '@/app/contexts/FloorDataContext';
+import { ReservationSuccessModal } from './modals/ReservationSuccessModal';
+import { set } from 'react-hook-form';
 
 const RoomDetails = () => {
   const { gender, selectedRoomName, students, correctForm, isAdmin } = useGlobalContext();
   const [isLoading, setIsLoading] = useState(false);
   const [available, setAvailable] = useState(false);
   const [feedBack, setFeedBack] = useState<{ message: string; status: number } | null>(null);
+  const [isReservationModalVisible, setIsReservationModalVisible] = useState(false);
 
   const { whitelist } = useWhitelist();
   const { floorData, refetch } = useFloorDataContext();
@@ -87,6 +90,7 @@ const RoomDetails = () => {
       });
       if (response.ok) {
         setFeedBack(RESERVATIONRESPONSE.SUCCESS);
+        setIsReservationModalVisible(true);
       } else {
         const errorData = await response.json();
         if (errorData.error === RESERVATIONRESPONSE.ALREADYUSED) {
@@ -152,83 +156,91 @@ const RoomDetails = () => {
   };
 
   return (
-    <section className="relative flex h-[35vh] min-h-[350px] w-full flex-col bg-slate-200">
-      {/* Tab-like header */}
-      <header className="flex h-[15%] max-h-[150px] w-full flex-row items-center justify-center bg-form text-slate-200">
-        <h2 className="font-tektur text-2xl font-bold">IZBA {selectedRoom.name}</h2>
-        {isAdmin && (
-          <button onClick={toggleRoomBlock} className="absolute right-5 cursor-pointer text-xl">
-            <FontAwesomeIcon icon={selectedRoom?.isBlocked ? faLock : faUnlock} />
-          </button>
-        )}
-      </header>
+    <>
+      <section className="relative flex h-[35vh] min-h-[350px] w-full flex-col bg-slate-200">
+        {/* Tab-like header */}
+        <header className="flex h-[15%] max-h-[150px] w-full flex-row items-center justify-center bg-form text-slate-200">
+          <h2 className="font-tektur text-2xl font-bold">IZBA {selectedRoom.name}</h2>
+          {isAdmin && (
+            <button onClick={toggleRoomBlock} className="absolute right-5 cursor-pointer text-xl">
+              <FontAwesomeIcon icon={selectedRoom?.isBlocked ? faLock : faUnlock} />
+            </button>
+          )}
+        </header>
 
-      {/* Room details grid */}
-      <div className="flex flex-1 flex-col justify-center gap-4 px-6 py-4">
-        <div className="grid grid-cols-2 gap-2">
-          <div className="pr-4 text-right font-fira-sans text-lg font-semibold text-form">
-            BALKÓN:
-          </div>
-          <div className="font-fira-sans text-lg font-semibold text-form">
-            {balcony ? 'ÁNO' : 'NIE'}
-          </div>
-          <div className="pr-4 text-right font-fira-sans text-lg font-semibold text-form">
-            IZBA:
-          </div>
-          <div className="font-fira-sans text-lg font-semibold text-form">{getGenderCaption()}</div>
-          <div className="pr-4 text-right font-fira-sans text-lg font-semibold text-form">
-            MIESTA:
-          </div>
-          <div className="font-fira-sans text-lg font-semibold text-form">
-            {4 - selectedRoom.studentsCount}
+        {/* Room details grid */}
+        <div className="flex flex-1 flex-col justify-center gap-4 px-6 py-4">
+          <div className="grid grid-cols-2 gap-2">
+            <div className="pr-4 text-right font-fira-sans text-lg font-semibold text-form">
+              BALKÓN:
+            </div>
+            <div className="font-fira-sans text-lg font-semibold text-form">
+              {balcony ? 'ÁNO' : 'NIE'}
+            </div>
+            <div className="pr-4 text-right font-fira-sans text-lg font-semibold text-form">
+              IZBA:
+            </div>
+            <div className="font-fira-sans text-lg font-semibold text-form">
+              {getGenderCaption()}
+            </div>
+            <div className="pr-4 text-right font-fira-sans text-lg font-semibold text-form">
+              MIESTA:
+            </div>
+            <div className="font-fira-sans text-lg font-semibold text-form">
+              {4 - selectedRoom.studentsCount}
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Action button and feedback */}
-      <div className="mb-6 flex w-full flex-col items-center">
-        {isAdmin && (
-          <button
-            className="flex flex-row items-center justify-center gap-2 border-4 border-red-800 p-2 font-tektur font-bold text-red-800"
-            onClick={handleDeleteReservation}
-          >
-            <h4>Odstrániť rezerváciu</h4>
-            <FontAwesomeIcon icon={faTrash} className="text-red-800" />
-          </button>
-        )}
-        <Button
-          label={getButtonLabel()}
-          icon={faBook}
-          loading={isLoading}
-          action={
-            (correctForm && available && !selectedRoom?.isBlocked && !isFormInvalid) || isAdmin
-              ? reserveRoom
-              : () => console.log('Form Error')
-          }
-          border={
-            (correctForm && available && !selectedRoom?.isBlocked) || isAdmin
-              ? BUTTONBORDER.BLACK
-              : BUTTONBORDER.ERROR
-          }
-          black
-        />
-        {feedBack === RESERVATIONRESPONSE.SUCCESS && (
-          <h2 className="mt-2 text-center font-fira-sans text-sm font-semibold text-green-500">
-            REZERVÁCIA ÚSPEŠNÁ
-          </h2>
-        )}
-        {feedBack === RESERVATIONRESPONSE.ERROR && (
-          <h2 className="mt-2 text-center font-fira-sans text-sm font-semibold text-red-500">
-            REZERVÁCIA NEÚSPEŠNÁ
-          </h2>
-        )}
-        {feedBack === RESERVATIONRESPONSE.ALREADYUSED && (
-          <h2 className="mt-2 text-center font-fira-sans text-sm font-semibold text-red-500">
-            ŠTUDENT UŽ JE REGISTROVANÝ
-          </h2>
-        )}
-      </div>
-    </section>
+        {/* Action button and feedback */}
+        <div className="mb-6 flex w-full flex-col items-center">
+          {isAdmin && (
+            <button
+              className="flex flex-row items-center justify-center gap-2 border-4 border-red-800 p-2 font-tektur font-bold text-red-800"
+              onClick={handleDeleteReservation}
+            >
+              <h4>Odstrániť rezerváciu</h4>
+              <FontAwesomeIcon icon={faTrash} className="text-red-800" />
+            </button>
+          )}
+          <Button
+            label={getButtonLabel()}
+            icon={faBook}
+            loading={isLoading}
+            action={
+              (correctForm && available && !selectedRoom?.isBlocked && !isFormInvalid) || isAdmin
+                ? reserveRoom
+                : () => console.log('Form Error')
+            }
+            border={
+              (correctForm && available && !selectedRoom?.isBlocked) || isAdmin
+                ? BUTTONBORDER.BLACK
+                : BUTTONBORDER.ERROR
+            }
+            black
+          />
+          {feedBack === RESERVATIONRESPONSE.SUCCESS && (
+            <h2 className="mt-2 text-center font-fira-sans text-sm font-semibold text-green-500">
+              REZERVÁCIA ÚSPEŠNÁ
+            </h2>
+          )}
+          {feedBack === RESERVATIONRESPONSE.ERROR && (
+            <h2 className="mt-2 text-center font-fira-sans text-sm font-semibold text-red-500">
+              REZERVÁCIA NEÚSPEŠNÁ
+            </h2>
+          )}
+          {feedBack === RESERVATIONRESPONSE.ALREADYUSED && (
+            <h2 className="mt-2 text-center font-fira-sans text-sm font-semibold text-red-500">
+              ŠTUDENT UŽ JE REGISTROVANÝ
+            </h2>
+          )}
+        </div>
+      </section>
+      <ReservationSuccessModal
+        isOpen={isReservationModalVisible}
+        onClose={() => setIsReservationModalVisible(false)}
+      />
+    </>
   );
 };
 

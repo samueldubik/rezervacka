@@ -46,10 +46,10 @@ export const StudentOverview: React.FC<StudentOverviewProps> = ({
                 icon={faUser}
                 className={` ${border === BUTTONBORDER.ERROR ? 'text-red-600' : 'text-dark'}`}
               />
-              <p className="w-[40%] text-left font-fira-sans font-semibold text-dark">
+              <p className="min-w-[50%] text-left font-fira-sans text-sm font-semibold text-dark">
                 {student.name}
               </p>
-              <p className="w-[40%] text-start font-fira-sans font-medium text-dark">
+              <p className="text-start font-fira-sans text-sm font-medium text-dark">
                 {student.email}
               </p>
             </div>
